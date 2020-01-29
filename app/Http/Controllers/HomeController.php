@@ -23,7 +23,7 @@ class HomeController extends Controller {
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
     	
     	$data['services'] = serialize($data['services']);
@@ -39,7 +39,7 @@ class HomeController extends Controller {
 		    print_r($errorInfo);
 		    die();
 		}
-        die();
+        //die();
         return redirect('/register')->with('status', 'Registered successfully.');
     }
 }

@@ -153,12 +153,12 @@
                                     <input type="text" name="security_code" class="form-control" />
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Billing Zip Code*</label>
                                     <input type="text" name="zip" class="form-control" />
                                 </div>  
-                            </div>
+                            </div> -->
                         </div>
                         <div class="row">
                             <div class="col-md-6">
