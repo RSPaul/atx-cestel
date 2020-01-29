@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Support\Facades\Auth;
+use Mail;
+use App\User;
 
 class VerificationController extends Controller
 {
@@ -42,5 +45,15 @@ class VerificationController extends Controller
 
     public function verify() {
         return view('auth.verify');
+    }
+
+    public function resend() {
+        $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+        $remember_token = substr(str_shuffle($permitted_chars), 0, 16);
+        User::where(['id' => Auth()::user()->id])
+        ->update([
+            'remember_token' => $remember_token
+        ]);
+
     }
 }
