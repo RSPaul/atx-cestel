@@ -11,10 +11,10 @@ use DB;
 use Mail;
 use App\User;
 use App\UserCards;
+use App\Mail\VerificationEmail;
 
 class HomeController extends Controller {
     
-
     public function register(Request $request) {
 
     	$data = $request->all();
@@ -31,15 +31,36 @@ class HomeController extends Controller {
     	$data['status'] = 0;
     	try {
         	$user = User::create($data);
-        	
-	    } catch (\Illuminate\Database\QueryException $exception) {
-		    // You can check get the details of the error using `errorInfo`:
-		    $errorInfo = $exception->errorInfo;
+            $remember_token = $this->generate_token();
+            User::where(['id' => $user->id])
+                        ->update([
+                            'remember_token' => $remember_token
+                        ]);
+            $link = $this->get_server_url() . '/verify/email/' .$remember_token;
 
-		    print_r($errorInfo);
-		    die();
-		}
-        //die();
-        return redirect('/register')->with('status', 'Registered successfully.');
+            //save card, if card details are not empty
+            if($data['card_name'] !='' && $data['card_number'] !='' && $data['expiry_month'] !='' && $data['expiry_year'] !='' && $data['security_code'] !='' && $data['zip_card'] !='' && $data['b_address'] !='' && $data['b_city_state'] !='') {
+                $data['user_id'] = $user->id;
+                $data['zip'] = $data['zip_card'];
+                UserCards::create($data);
+            }
+
+
+            Mail::to($user->email])->send(new VerificationEmail($user, $link));
+            return redirect('/verify')->with('status', 'Registered successfully.');
+        } catch (\Illuminate\Database\QueryException $exception) {
+            // You can check get the details of the error using `errorInfo`:
+            $errorInfo = $exception->errorInfo;
+            return redirect('/register')->with('status',$errorInfo);
+        }
+    }
+
+    public function generate_token() {
+        $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+        return substr(str_shuffle($permitted_chars), 0, 16);
+    }
+
+    public function get_server_url() {
+        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
     }
 }

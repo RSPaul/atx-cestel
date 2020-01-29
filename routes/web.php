@@ -15,6 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify' => true]);
-
+Route::get('/verify', 'Auth\VerificationController@verify');
 Route::post('/register/user', 'HomeController@register')->name('register_user');
+Auth::routes(['verify' => true]);

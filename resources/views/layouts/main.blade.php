@@ -29,8 +29,8 @@
               </li>
               <li><a href="#" title="Reviews">Reviews</a>
               </li>
-			  @if(Auth::user())
-              <li><a href="{{ url(Auth::user()->user_type) }}" class="">{{ Auth::user()->first_name }}</a></li>
+		         @auth
+              <li><a href="/profile" class="">Home</a></li>
               @else
               <li><a href="{{ route('login') }}" title="Login">Login</a>
               </li>
@@ -46,7 +46,11 @@
           </div>
         </div>
       </nav>
-
+      @if(Session::has('message'))
+        <p class="alert {{ Session::get('alert-class', 'alert-info') }}">
+          {{ Session::get('message') }}
+      </p>
+      @endif
       	@yield('content')
 
       <!-- Start Footer section-->

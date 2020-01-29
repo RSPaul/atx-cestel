@@ -61,7 +61,7 @@
 					</div>
 
 					<p class="text-center dont-do">Don't have an account?
-						<a href="#" data-toggle="modal" data-target="#login-modal2" class="font-weight-bold">
+						<a href="/register" class="font-weight-bold">
 							Register Now</a>
 					</p>
 				</form>
