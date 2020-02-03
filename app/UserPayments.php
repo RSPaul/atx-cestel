@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 
-class UserCards extends Authenticatable
+class UserPayments extends Authenticatable
 {
     use Notifiable;
 
@@ -14,6 +14,6 @@ class UserCards extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'user_id', 'card_name', 'card_number', 'expiry_month', 'expiry_year', 'security_code', 'zip', 'b_address', 'b_city_state'
+        'user_id', 'transaction_id', 'service_payment_type', 'user_name', 'user_email', 'user_address', 'user_city', 'user_state', 'user_zip'
     ];
 }

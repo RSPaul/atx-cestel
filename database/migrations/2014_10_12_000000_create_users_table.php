@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('services');
             $table->string('heared');
             $table->boolean('status');
+            $table->string('customer_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

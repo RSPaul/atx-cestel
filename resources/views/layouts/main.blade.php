@@ -29,18 +29,26 @@
               </li>
               <li><a href="#" title="Reviews">Reviews</a>
               </li>
-		         @auth
-              <li><a href="/profile" class="">Home</a></li>
-              @else
+		          @guest
               <li><a href="{{ route('login') }}" title="Login">Login</a>
               </li>
+              @else
+                <li><a href="/profile" class="">Profile</a></li>
+                <!-- <li>
+                  <a class="register-link-grid" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                  </a>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                  </form>
+                </li> -->
               @endif
 			  
               
             </ul>
 			
 			<ul id="right-page-menu" class="nav navbar-nav navbar-left btn_nav">
-              <li><a href="#" class="phn">Book us Now</a>
+              <li><a href="/book" class="phn">Book us Now</a>
               </li>
             </ul>
           </div>
@@ -85,7 +93,24 @@
     </div>
     
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js" type="text/javascript"></script>
+  <script type="text/javascript" src="{{ asset('js/moment.min.js')}}"></script>
     <script src="{{ asset('js/bootstrap.js')}}" type="text/javascript"></script>
-   
+  <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.js')}}"></script>
+   <script type="text/javascript">
+    $(function () {
+      $('.sel').click(function(){
+        $('.next_serv').show();
+      })
+      $('.ctn-btn').click(function(){
+        activaTab($(this).data('tab'));
+      });
+    });
+    function activaTab(tab){
+        $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+        $('html, body').animate({
+            scrollTop: $("#" + tab).offset().top - 300
+        }, 500);
+    };
+    </script>
 	</body>
 </html>

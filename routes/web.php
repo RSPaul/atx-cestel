@@ -15,8 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/book', 'HomeController@book');
 Route::get('/verify', 'Auth\VerificationController@verify');
 Route::get('/email/resend', 'Auth\VerificationController@resend');
 Route::post('/register/user', 'HomeController@register')->name('register_user');
 Auth::routes(['verify' => true]);
 Route::get('/profile', 'User\UserController@profile');
+Route::post('/book', 'HomeController@book');
