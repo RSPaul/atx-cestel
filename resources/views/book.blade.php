@@ -101,27 +101,27 @@
 	                                    <img src="{{asset('img/washing.png')}}" alt="washing"/>
 	                                    <h3>Washing</h3>
 	                                    <div class="info">$35 flat fee </div>
-	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Washing" @if(in_array('Washing', Session::get('service_categories'))) checked @endif />
+	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Washing" @if(!empty(Session::get('service_categories')) && in_array('Washing', Session::get('service_categories'))) checked @endif />
 	                                 </li>
 	                                 <li>
 	                                    <img src="{{asset('img/ironing.png')}}" alt="ironing"/>
 	                                    <h3>Ironing</h3>
 	                                    <div class="info">Number of garments ($1.97 per garment) 
 	                                    </div>
-	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Ironing" @if(in_array('Ironing', Session::get('service_categories'))) checked @endif/>
+	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Ironing" @if(!empty(Session::get('service_categories')) && in_array('Ironing', Session::get('service_categories'))) checked @endif/>
 	                                 </li>
 	                                 <li>
 	                                    <img src="{{asset('img/bedmaking.png')}}" alt="bedmaking"/>
 	                                    <h3>Bed Making</h3>
 	                                    <div class="info"><input type="text" placeholder="Enter number of beds" name="service_beds" value="{{Session::get('service_beds')}}" />
 	                                    </div>
-	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Bed Making" @if(in_array('Making', Session::get('service_categories'))) checked @endif/>
+	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Bed Making" @if(!empty(Session::get('service_categories')) && in_array('Making', Session::get('service_categories'))) checked @endif/>
 	                                 </li>
 	                                 <li>
 	                                    <img src="{{asset('img/organizing.png')}}" alt="washing"/>
 	                                    <h3>Organizing</h3>
 	                                    <div class="info">$40 per hour </div>
-	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Organizing" @if(in_array('Organizing', Session::get('service_categories'))) checked @endif/>
+	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Organizing" @if(!empty(Session::get('service_categories')) && in_array('Organizing', Session::get('service_categories'))) checked @endif/>
 	                                 </li>
 	                                 <!-- 	<li>
 	                                    <img src="{{asset('img/packing.png')}}" alt="packing"/>
@@ -341,11 +341,11 @@
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Contact Email</label>
-	                              <input type="text"  placeholder="karen@email.com" class="form-control"/>
+	                              <input type="text"  placeholder="karen@email.com" class="form-control" value="{{$profile->email}} " readonly />
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Contact Phone</label>
-	                              <input type="text"  placeholder="597-978-6358" class="form-control"/>
+	                              <input type="text"  placeholder="597-978-6358" class="form-control" value="{{$profile->phone}} " readonly/>
 	                           </div>
 	                        </div>
 	                        <div class="col-rw">

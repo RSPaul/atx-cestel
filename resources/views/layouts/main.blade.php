@@ -93,8 +93,9 @@
     </div>
     
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js" type="text/javascript"></script>
+  <script src="{{ asset('js/popper.min.js')}}" type="text/javascript"></script>
+  <script src="{{ asset('js/bootstrap.js')}}" type="text/javascript"></script>
   <script type="text/javascript" src="{{ asset('js/moment.min.js')}}"></script>
-    <script src="{{ asset('js/bootstrap.js')}}" type="text/javascript"></script>
   <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.js')}}"></script>
    <script type="text/javascript">
     $(function () {
