@@ -21,4 +21,5 @@ Route::get('/email/resend', 'Auth\VerificationController@resend');
 Route::post('/register/user', 'HomeController@register')->name('register_user');
 Auth::routes(['verify' => true]);
 Route::get('/profile', 'User\UserController@profile');
-Route::post('/book', 'HomeController@book');
+Route::post('/book', 'HomeController@book')->name('booking');
+Route::post('/booking/checkout', 'HomeController@book')->name('booking_checkout');

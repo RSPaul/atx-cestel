@@ -34,14 +34,14 @@
               </li>
               @else
                 <li><a href="/profile" class="">Profile</a></li>
-                <!-- <li>
+                <li>
                   <a class="register-link-grid" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}
                   </a>
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                   </form>
-                </li> -->
+                </li>
               @endif
 			  
               
@@ -99,12 +99,38 @@
   <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.js')}}"></script>
    <script type="text/javascript">
     $(function () {
+      $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+      });
       $('.sel').click(function(){
         $('.next_serv').show();
       })
       $('.ctn-btn').click(function(){
         activaTab($(this).data('tab'));
       });
+
+      //signup from booking page
+      $('#bookingSubmit').click(function(e) {
+          e.preventDefault();
+          var form = $(this);
+          var url = form.attr('action');
+          $.ajax({
+                 type: "POST",
+                 url: url,
+                 data: form.serialize(), // serializes the form's elements.
+                 success: function(data){
+                     console.log(data); // show response from the php script.
+                 }
+               });
+
+
+      });
+      //change total price
+      $('#service_quantity').on('input', function() {
+        $('.total_price').val($(this).val() * $('#main_price').val())
+      })
     });
     function activaTab(tab){
         $('.nav-tabs a[href="#' + tab + '"]').tab('show');

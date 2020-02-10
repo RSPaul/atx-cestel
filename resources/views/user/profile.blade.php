@@ -30,7 +30,10 @@
 						<li role="presentation"  class="active"><a href="#account" aria-controls="account" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/account.png')}}" alt="account"/></span> <b>Account</b></a></li>
 						<li role="presentation"><a href="#schedule" aria-controls="schedule" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/schedule.png')}}" alt="schedule"/></span> <b>Schedule</b></a></li>
 						<li role="presentation"><a href="#prevserv" aria-controls="prevserv" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/prev_service.png')}}" alt="prev_service"/></span> <b>Previous Service</b></a></li>
-						<li role="presentation"><a href="#logout" aria-controls="logout" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/logout.png')}}" alt="logout"/></span> <b>Logout</b></a></li>
+						<li role="presentation"><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><span class="bor_rad"><img src="{{asset('img/logout.png')}}" alt="logout"/></span> <b>Logout</b></a></li>
+						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+	                    @csrf
+	                  </form>
 					  </ul>
 				</div>
 				<div class="col-md-10">

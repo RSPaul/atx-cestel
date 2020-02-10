@@ -3,11 +3,30 @@
 <section class="heading_top">
    <div class="container">
       <ul class="nav nav-tabs nav-tabs-dropdown horizontal" role="tablist">
-         <li role="presentation" class="active"><a href="#services" aria-controls="load" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/services.png')}}" alt="services"/></span> <b>Services</b></a></li>
-         <li role="presentation"><a href="#when" aria-controls="account" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/schedule.png')}}" alt="schedule"/></span> <b>When</b></a></li>
-         <li role="presentation"><a href="#contact" aria-controls="schedule" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/contact.png')}}" alt="contact"/></span> <b>Contact</b></a></li>
-         <li role="presentation"><a href="#loading" aria-controls="loading" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/load.png')}}" alt="load"/></span> <b>Load</b></a></li>
-         <li role="presentation"><a href="#detail" aria-controls="logout" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/details.png')}}" alt="details"/></span> <b>Details</b></a></li>
+         <li role="presentation" class="active">
+         	<a href="#services" aria-controls="load" role="tab" data-toggle="tab"><span class="bor_rad">
+         		<img src="{{asset('img/services.png')}}" alt="services"/></span> <b>Services</b>
+         	</a>
+         </li>
+         <li role="presentation">
+         	<a href="#when" aria-controls="account" role="tab" data-toggle="tab"><span class="bor_rad">
+         		<img src="{{asset('img/schedule.png')}}" alt="schedule"/></span> <b>When</b>
+         	</a>
+         </li>
+         <li role="presentation">
+         	<a href="#contact" aria-controls="schedule" role="tab" data-toggle="tab"><span class="bor_rad">
+         		<img src="{{asset('img/contact.png')}}" alt="contact"/></span> <b>Contact</b>
+         	</a>
+         </li>
+         <li role="presentation">
+         	<a href="#loading" aria-controls="loading" role="tab" data-toggle="tab"><span class="bor_rad">
+         		<img src="{{asset('img/load.png')}}" alt="load"/></span> <b>Load</b></a>
+         	</li>
+         <li role="presentation">
+         	<a href="#detail" aria-controls="logout" role="tab" data-toggle="tab"><span class="bor_rad">
+         		<img src="{{asset('img/details.png')}}" alt="details"/></span> <b>Details</b>
+         	</a>
+         </li>
       </ul>
    </div>
 </section>
@@ -17,7 +36,7 @@
       <div class="row ">
          <div class="border_bx_acc">
             <div class="col-md-12">
-	            <form name="service_form" action="" method="POST">
+	            <form name="service_form" action="{{ route('booking') }}" method="POST">
 	            	@csrf
 	               <!-- Tab panes -->
 	               <div class="tab-content">
@@ -100,13 +119,13 @@
 	                                 <li>
 	                                    <img src="{{asset('img/washing.png')}}" alt="washing"/>
 	                                    <h3>Washing</h3>
-	                                    <div class="info">$35 flat fee </div>
+	                                    <div class="info">${{env('WASHING_PRICE')}} flat fee </div>
 	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Washing" @if(!empty(Session::get('service_categories')) && in_array('Washing', Session::get('service_categories'))) checked @endif />
 	                                 </li>
 	                                 <li>
 	                                    <img src="{{asset('img/ironing.png')}}" alt="ironing"/>
 	                                    <h3>Ironing</h3>
-	                                    <div class="info">Number of garments ($1.97 per garment) 
+	                                    <div class="info">Number of garments (${{env('IRONING_PRICE')}} per garment) 
 	                                    </div>
 	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Ironing" @if(!empty(Session::get('service_categories')) && in_array('Ironing', Session::get('service_categories'))) checked @endif/>
 	                                 </li>
@@ -120,7 +139,7 @@
 	                                 <li>
 	                                    <img src="{{asset('img/organizing.png')}}" alt="washing"/>
 	                                    <h3>Organizing</h3>
-	                                    <div class="info">$40 per hour </div>
+	                                    <div class="info">${{env('ORGANIZING_PRICE')}} per hour </div>
 	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Organizing" @if(!empty(Session::get('service_categories')) && in_array('Organizing', Session::get('service_categories'))) checked @endif/>
 	                                 </li>
 	                                 <!-- 	<li>
@@ -192,35 +211,34 @@
 	                           <h2>Tell us about you & how to contact you?</h2>
 	                        </div>
 	                     </section>
-	                     <div class="row">
+	                     @if($profile && $profile->id)
+	                     	<h3 class="text-center">You are already logged in <a href="javascript:void(0);" class="btn btn-primary ctn-btn text-center" data-tab="loading">Continue</a> to next step.</h3>
+	                     @else
+	                    <div class="row">
 	                        <div class="col-md-6 text-center">
 	                           <h3>New Customer</h3>
 	                           <div class="form-group">
 	                              <label>First Name</label>
-	                              <input type="text" name="first_name"  class="form-control" />
+	                              <input type="text" name="first_name"  class="form-control" required />
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Last Name</label>
-	                              <input type="text" name="last_name"  class="form-control" />
+	                              <input type="text" name="last_name"  class="form-control" required/>
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Email Address</label>
-	                              <input type="email" name="email"  class="form-control" />
+	                              <input type="email" name="email"  class="form-control" required/>
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Phone</label>
-	                              <input type="text" name="phone"  class="form-control" />
-	                           </div>
-	                           <div class="form-group">
-	                              <label>Phone</label>
-	                              <input type="password" name="password"  class="form-control" />
+	                              <input type="text" name="phone"  class="form-control" required/>
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Zipcode</label>
 	                              <input type="text" name="zip"  class="form-control" />
 	                           </div>
 	                           <div class=" btn-rw">	
-	                              <a href="javascript:void(0);" class="btn btn-primary">Signup</a>
+	                              <input type="submit" class="btn btn-primary" value="Signup" id="signupFormSubmit">
 	                           </div>
 	                        </div>
 	                        <div class="col-md-6 text-center">
@@ -229,7 +247,8 @@
 	                              <a href="javascript:void(0);" class="btn btn-primary">Login</a>
 	                           </div>
 	                        </div>
-	                     </div>
+	                    </div>
+	                     @endif
 	                  </div>
 	                  <div role="tabpanel" class="tab-pane" id="loading">
 	                     <section class="heading_top selectpack">
@@ -341,53 +360,53 @@
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Contact Email</label>
-	                              <input type="text"  placeholder="karen@email.com" class="form-control" value="{{$profile->email}} " readonly />
+	                              <input type="text"  placeholder="karen@email.com" class="form-control" value="{{$profile->email}}" readonly />
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Contact Phone</label>
-	                              <input type="text"  placeholder="597-978-6358" class="form-control" value="{{$profile->phone}} " readonly/>
+	                              <input type="text"  placeholder="597-978-6358" class="form-control" value="{{$profile->phone}}" readonly/>
 	                           </div>
 	                        </div>
 	                        <div class="col-rw">
 	                           <div class="form-group">
 	                              <label>Pricing</label>
-	                              <input type="text"  placeholder="$35.00" class="form-control"/>
+	                              <input type="text"  placeholder="$35.00" class="form-control" value="{{$price}}" id="main_price" readonly />
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Quantity</label>
-	                              <input type="text"  placeholder="2-shirt pressed" class="form-control"/>
+	                              <input type="number"  placeholder="2-shirt pressed" class="form-control" name="service_quantity" value="{{Session::get('service_quantity')}}" id="service_quantity" min="1" />
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Total</label>
-	                              <input type="text" placeholder="$70.00" class="form-control"/>
+	                              <input type="text" placeholder="$70.00" class="form-control total_price" value="{{$total_price}}" readonly/>
 	                           </div>
 	                        </div>
 	                        <div class="form-group">
 	                           <label>Job details</label>
-	                           <textarea class="form-control" name="service_job_details"></textarea>
+	                           <textarea class="form-control" name="service_job_details">{{Session::get('service_job_details')}}</textarea>
 	                        </div>
 	                        <div class=" btn-rw">	
-	                           <a href="javascript:void(0);" class="btn btn-primary">Edit Service</a>
+	                           <a href="javascript:void(0);" class="btn btn-primary ctn-btn" data-tab="services">Edit Service</a>
 	                        </div>
 	                        <h2>Quality is important to us, may need more service details.</h2>
 	                        <div class="bor_bx">
 	                           <h3>FOLDING</h3>
 	                           <p>Do you have a folding preference and will there be anything off limits? If so, please remove it before we begin service or specify details below.</p>
-	                           <textarea class="form-control" name="service_folding_details"></textarea>
+	                           <textarea class="form-control" name="service_folding_details">{{Session::get('service_folding_details')}}</textarea>
 	                        </div>
 	                        <div class="bor_bx">
 	                           <h3>HANGING</h3>
 	                           <p>Please set aside the clothing you want to be hung and notify your Cesta Laundress. Have a specific instructions, please detail below.<br> 
 	                              <i>Please note that you are expected to provide your own hangers</i>
 	                           </p>
-	                           <textarea class="form-control" name="service_hanging_details"></textarea>
+	                           <textarea class="form-control" name="service_hanging_details">{{Session::get('service_hanging_details')}}</textarea>
 	                        </div>
 	                        <div class="bor_bx">
 	                           <h3>WASHING</h3>
 	                           <p>Please set aside and notify your Laundress of any delicate garments and or air dry only garments. Have specific washing instructions, and or how you want your clothes separated, please detail below.<br> 
 	                              <i>Please note that you are expected to provide your own hangers</i>
 	                           </p>
-	                           <textarea class="form-control" name="service_washing_details"></textarea>
+	                           <textarea class="form-control" name="service_washing_details">{{Session::get('service_washing_details')}}</textarea>
 	                        </div>
 	                        <div class="form_payment">
 	                           <div class="row">
@@ -400,14 +419,14 @@
 	                                          <div class="input-group-prepend">
 	                                             <span class="input-group-text" id="basic-addon1">$</span>
 	                                          </div>
-	                                          <input type="text" class="form-control" placeholder="Amount" aria-label="Username" aria-describedby="basic-addon1" name="service_amount">
+	                                          <input type="text" class="form-control total_price" placeholder="Amount" aria-label="Username" aria-describedby="basic-addon1" name="service_amount" value="{{$total_price}}" readonly>
 	                                       </div>
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group row">
 	                                    <label for="inputPassword" class="col-sm-3 col-form-label"><i>*</i> Description</label>
 	                                    <div class="col-sm-9">
-	                                       <textarea class="form-control" name="service_description"></textarea>
+	                                       <textarea class="form-control" name="service_description">{{Session::get('service_description')}}</textarea>
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group row">
@@ -421,13 +440,13 @@
 	                                 <div class="form-group row">
 	                                    <label for="inputPassword" class="col-sm-3 col-form-label"><i>*</i> Name</label>
 	                                    <div class="col-sm-9">
-	                                       <input type="text" class="form-control" id="name" name="user_name">
+	                                       <input type="text" class="form-control" id="name" name="user_name" value="{{$profile->first_name}} {{$profile->last_name}}">
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group row">
 	                                    <label for="inputPassword" class="col-sm-3 col-form-label"><i>*</i> Email</label>
 	                                    <div class="col-sm-9">
-	                                       <input type="email" class="form-control" id="email" name="user_email">
+	                                       <input type="email" class="form-control" id="email" name="user_email" value="{{$profile->email}}">
 	                                    </div>
 	                                 </div>
 	                              </div>
@@ -436,13 +455,13 @@
 	                                 <div class="form-group row">
 	                                    <label for="staticEmail" class="col-sm-3 col-form-label">*Address</label>
 	                                    <div class="col-sm-9">
-	                                       <input type="text" class="form-control" id="user_address" value="" name="user_address">
+	                                       <input type="text" class="form-control" id="user_address" name="user_address" value="{{$profile->address}}">
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group row">
 	                                    <label for="staticEmail" class="col-sm-3 col-form-label">*City</label>
 	                                    <div class="col-sm-9">
-	                                       <input type="text" class="form-control" id="user_city" value="" name="user_city">
+	                                       <input type="text" class="form-control" id="user_city" value="{{$profile->city_state}}" name="user_city">
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group row">
@@ -450,9 +469,9 @@
 	                                    <div class="col-sm-9 two-col">
 	                                       <select class="form-control" name="user_state">
 	                                          <option>--Select State -- </option>
-	                                          <option>Punjab</option>
+	                                          <option value="" selected>Punjab</option>
 	                                       </select>
-	                                       <input type="text" class="form-control" placeholder="Zip" id="zip" name="user_zip">
+	                                       <input type="text" class="form-control" placeholder="Zip" id="zip" name="user_zip" value="{{$profile->zip}}">
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group row">
@@ -469,7 +488,7 @@
 	                                    <label for="staticEmail" class="col-sm-3 col-form-label">*Name on Card</label>
 	                                    <div class="col-sm-9">
 	                                       <div class="input-group mb-3">
-	                                          <input type="text" class="form-control" placeholder="Name on Card" name="card_name">
+	                                          <input type="text" class="form-control" placeholder="Name on Card" name="card_name" value="{{$profile->first_name}} {{$profile->last_name}}">
 	                                          <div class="input-group-prepend">
 	                                             <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock" aria-hidden="true"></i>
 	                                             </span>
@@ -512,7 +531,7 @@
 	                                    </div>
 	                                 </div>
 	                                 <div class="spc_right">
-	                                    <input type="submit" class="btn btn-primary" value="Submit Payment">
+	                                    <input type="submit" class="btn btn-primary" value="Submit Payment" >
 	                                 </div>
 	                              </div>
 	                           </div>

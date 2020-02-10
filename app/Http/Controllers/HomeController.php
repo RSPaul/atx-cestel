@@ -11,6 +11,7 @@ use DB;
 use Mail;
 use App\User;
 use App\UserCards;
+use App\Bookings;
 use App\Mail\VerificationEmail;
 
 class HomeController extends Controller {
@@ -78,6 +79,7 @@ class HomeController extends Controller {
             $service_hanging_details = $request->service_hanging_details; 
             $service_washing_details = $request->service_washing_details; 
             $service_amount = $request->service_amount; 
+            $service_quantity = $request->service_quantity; 
             $service_description = $request->service_description; 
             $service_payment_type = $request->service_payment_type; 
             $user_name = $request->user_name; 
@@ -104,7 +106,8 @@ class HomeController extends Controller {
             $request->session()->put('service_folding_details', $request->service_folding_details); 
             $request->session()->put('service_hanging_details', $request->service_hanging_details); 
             $request->session()->put('service_washing_details', $request->service_washing_details); 
-            $request->session()->put('service_amount', $request->service_amount); 
+            $request->session()->put('service_amount', $request->service_amount);
+            $request->session()->put('service_quantity', $request->service_quantity);
             $request->session()->put('service_description', $request->service_description); 
             $request->session()->put('service_payment_type', $request->service_payment_type); 
             $request->session()->put('user_name', $request->user_name); 
@@ -131,7 +134,8 @@ class HomeController extends Controller {
             $service_folding_details = $request->session()->get('service_folding_details'); 
             $service_hanging_details = $request->session()->get('service_hanging_details'); 
             $service_washing_details = $request->session()->get('service_washing_details'); 
-            $service_amount = $request->session()->get('service_amount'); 
+            $service_amount = $request->session()->get('service_amount');
+            $service_quantity = $request->session()->get('service_quantity'); 
             $service_description = $request->session()->get('service_description'); 
             $service_payment_type = $request->session()->get('service_payment_type'); 
             $user_name = $request->session()->get('user_name'); 
@@ -147,12 +151,34 @@ class HomeController extends Controller {
             $card_expiry_year = $request->session()->get('card_expiry_year'); 
             $card_security_code = $request->session()->get('card_security_code'); 
         }
-        $profile = array();
+        
+        $price = 0;
+        $profile = (object) array('id'=> '', 'first_name' => '', 'last_name' => '', 'address' => '', 'city_state' => '', 'zip' => '', 'phone' => '', 'email' => '');
+        if(isset($service_categories) && sizeof($service_categories)) {
+            foreach($service_categories as $service) {
+                $service_price = env(strtoupper($service) . '_PRICE');
+                $price = $price + $service_price;
+            }
+        }
+        $total_price = $price * $service_quantity;
         if (Auth::check()) {
             $profile = User::where(['id' => Auth::user()->id])->first(); 
         }
-        // echo "<pre>";
-        // print_r($request->session());die();
-        return view('book')->with([ "profile" => $profile]);
+        
+        return view('book')->with([ "profile" => $profile, "price" => $price, "total_price" => $total_price]);
+    }
+
+    public function booking_checkout(Request $request) {
+        $user_id = Auth::user()->id;
+        $data = $request->all();
+        $data['user_id'] = $user_id;
+
+        Bookings::create($data);
+
+        $msg = array(
+            'status'  => 'success',
+            'message' => 'Booking Successful'
+        );
+        return response()->json($msg);
     }
 }
