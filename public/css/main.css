@@ -2477,3 +2477,12 @@ a.btn.btn-wht {
 	
 }
 
+img.user-edit-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+    background: #ccc;
+    border: 2px solid #d3ab53;
+    object-fit: cover;
+}

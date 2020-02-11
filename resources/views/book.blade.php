@@ -36,7 +36,7 @@
       <div class="row ">
          <div class="border_bx_acc">
             <div class="col-md-12">
-	            <form name="service_form" action="{{ route('booking') }}" method="POST">
+	            <form name="service_form" action="{{ route('booking') }}" method="POST" id="bookingForm">
 	            	@csrf
 	               <!-- Tab panes -->
 	               <div class="tab-content">
@@ -68,7 +68,7 @@
 	                                    <h3>2-3 members</h3>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Petite" @if(Session::get('service_type') == 'Petite') checked @endif/>Select
+	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Petite" @if(Session::get('booking[service_type]') == 'Petite') checked @endif/>Select
 	                           </div>
 	                           <div class="col-md-4 text-center">
 	                              <h4>Median</h4>
@@ -85,7 +85,7 @@
 	                                    <h3>2-3 members</h3>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Median" @if(Session::get('service_type') == 'Median') checked @endif/>Select
+	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Median" @if(Session::get('booking[service_type]') == 'Median') checked @endif/>Select
 	                           </div>
 	                           <div class="col-md-4 text-center">
 	                              <h4>Grand</h4>
@@ -102,7 +102,7 @@
 	                                    <h3>2-3 members</h3>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Grand"  @if(Session::get('service_type') == 'Grand') checked @endif/>
+	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Grand"  @if(Session::get('booking[service_type]') == 'Grand') checked @endif/>
 	                           </div>
 	                        </div>
 	                     </div>
@@ -120,33 +120,37 @@
 	                                    <img src="{{asset('img/washing.png')}}" alt="washing"/>
 	                                    <h3>Washing</h3>
 	                                    <div class="info">${{env('WASHING_PRICE')}} flat fee </div>
-	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Washing" @if(!empty(Session::get('service_categories')) && in_array('Washing', Session::get('service_categories'))) checked @endif />
+	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Washing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Washing', Session::get('booking[service_categories]'))) checked @endif />
 	                                 </li>
 	                                 <li>
 	                                    <img src="{{asset('img/ironing.png')}}" alt="ironing"/>
 	                                    <h3>Ironing</h3>
 	                                    <div class="info">Number of garments (${{env('IRONING_PRICE')}} per garment) 
 	                                    </div>
-	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Ironing" @if(!empty(Session::get('service_categories')) && in_array('Ironing', Session::get('service_categories'))) checked @endif/>
+	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Ironing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Ironing', Session::get('booking[service_categories]'))) checked @endif/>
 	                                 </li>
 	                                 <li>
 	                                    <img src="{{asset('img/bedmaking.png')}}" alt="bedmaking"/>
 	                                    <h3>Bed Making</h3>
-	                                    <div class="info"><input type="text" placeholder="Enter number of beds" name="service_beds" value="{{Session::get('service_beds')}}" />
+	                                    <div class="info"><input type="text" placeholder="Enter number of beds" name="service_beds" value="{{Session::get('booking[service_beds]')}}" />
 	                                    </div>
-	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Bed Making" @if(!empty(Session::get('service_categories')) && in_array('Making', Session::get('service_categories'))) checked @endif/>
+	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="BedMaking" @if(!empty(Session::get('booking[service_categories]')) && in_array('BedMaking', Session::get('booking[service_categories]'))) checked @endif/>
 	                                 </li>
 	                                 <li>
 	                                    <img src="{{asset('img/organizing.png')}}" alt="washing"/>
 	                                    <h3>Organizing</h3>
 	                                    <div class="info">${{env('ORGANIZING_PRICE')}} per hour </div>
-	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Organizing" @if(!empty(Session::get('service_categories')) && in_array('Organizing', Session::get('service_categories'))) checked @endif/>
+	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Organizing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Organizing', Session::get('booking[service_categories]'))) checked @endif/>
 	                                 </li>
 	                                 <!-- 	<li>
 	                                    <img src="{{asset('img/packing.png')}}" alt="packing"/>
 	                                    <h3>Packing</h3>
 	                                    <a href="javascript:void(0);" class="btn btn-primary"/>Select</a>
 	                                    </li> -->
+	                                    <input type="hidden" value="{{ env('WASHING_PRICE') }}" id="WASHING_PRICE">
+	                                    <input type="hidden" value="{{ env('IRONING_PRICE') }}" id="IRONING_PRICE">
+	                                    <input type="hidden" value="{{ env('ORGANIZING_PRICE') }}" id="ORGANIZING_PRICE">
+	                                    <input type="hidden" value="{{ env('BEDMAKING_PRICE') }}" id="BEDMAKING_PRICE">
 	                              </ul>
 	                           </div>
 	                        </div>
@@ -168,14 +172,14 @@
 	                              <div class="form-group">
 	                                 <img src="{{asset('img/day.png')}}" alt="day"/>
 	                                 <select name="service_day" required >
-	                                    <option value="Monday" @if(Session::get('service_day') == 'Monday') "selected='selected'" @endif>Monday</option>
-	                                    <option value="Tuesday" @if(Session::get('service_day') == 'Tuesday') "selected='selected'" @endif>Tuesday</option>
-	                                    <option value="Wednesday" @if(Session::get('service_day') == 'Wednesday') "selected='selected'" @endif>Wednesday</option>
-	                                    <option value="Thursday" @if(Session::get('service_day') == 'Thursday') "selected='selected'" @endif>Thursday</option>
-	                                    <option value="Friday" @if(Session::get('service_day') == 'Friday') "selected='selected'" @endif>Friday</option>
-	                                    <option value="Weekly" @if(Session::get('service_day') == 'Weekly') "selected='selected'" @endif>Weekly</option>
-	                                    <option value="Bi-weekly" @if(Session::get('service_day') == 'Bi-weekly') "selected='selected'" @endif>Bi-weekly</option>
-	                                    <option value="Monthly" @if(Session::get('service_day') == 'Monthly') "selected='selected'" @endif>Monthly</option>
+	                                    <option value="Monday" @if(Session::get('booking[service_day]') == 'Monday') "selected='selected'" @endif>Monday</option>
+	                                    <option value="Tuesday" @if(Session::get('booking[service_day]') == 'Tuesday') "selected='selected'" @endif>Tuesday</option>
+	                                    <option value="Wednesday" @if(Session::get('booking[service_day]') == 'Wednesday') "selected='selected'" @endif>Wednesday</option>
+	                                    <option value="Thursday" @if(Session::get('booking[service_day]') == 'Thursday') "selected='selected'" @endif>Thursday</option>
+	                                    <option value="Friday" @if(Session::get('booking[service_day]') == 'Friday') "selected='selected'" @endif>Friday</option>
+	                                    <option value="Weekly" @if(Session::get('booking[service_day]') == 'Weekly') "selected='selected'" @endif>Weekly</option>
+	                                    <option value="Bi-weekly" @if(Session::get('booking[service_day]') == 'Bi-weekly') "selected='selected'" @endif>Bi-weekly</option>
+	                                    <option value="Monthly" @if(Session::get('booking[service_day]') == 'Monthly') "selected='selected'" @endif>Monthly</option>
 	                                 </select>
 	                              </div>
 	                           </div>
@@ -184,8 +188,8 @@
 	                              <div class="form-group">
 	                                 <img src="{{asset('img/day.png')}}" alt="day"/>
 	                                 <select name="service_time" required>
-	                                    <option value="8:00AM - 7:00PM"  @if(Session::get('service_time') == '8:00AM - 7:00PM') "selected='selected'" @endif>8:00AM - 7:00PM</option>
-	                                    <option value="9:00AM - 10:00PM"  @if(Session::get('service_time') == '9:00AM - 10:00PM') "selected='selected'" @endif>9:00AM - 10:00PM</option>
+	                                    <option value="8:00AM - 7:00PM"  @if(Session::get('booking[service_time]') == '8:00AM - 7:00PM') "selected='selected'" @endif>8:00AM - 7:00PM</option>
+	                                    <option value="9:00AM - 10:00PM"  @if(Session::get('booking[service_time]') == '9:00AM - 10:00PM') "selected='selected'" @endif>9:00AM - 10:00PM</option>
 	                                 </select>
 	                              </div>
 	                           </div>
@@ -194,8 +198,8 @@
 	                              <div class="form-group">
 	                                 <img src="{{asset('img/day.png')}}" alt="day"/>
 	                                 <select name="service_laundress" required>
-	                                    <option value="Washing" @if(Session::get('service_laundress') == 'Washing') "selected='selected'" @endif>Washing</option>
-	                                    <option value="Ironing" @if(Session::get('service_laundress') == 'Ironing') "selected='selected'" @endif>Ironing</option>
+	                                    <option value="Washing" @if(Session::get('booking[service_laundress]') == 'Washing') "selected='selected'" @endif>Washing</option>
+	                                    <option value="Ironing" @if(Session::get('booking[service_laundress]') == 'Ironing') "selected='selected'" @endif>Ironing</option>
 	                                 </select>
 	                              </div>
 	                           </div>
@@ -276,7 +280,7 @@
 	                                    <p>	All ironing items must be created than 96% cotton. A folding package must be purchased with this package </p>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_package" value="p5" @if(Session::get('service_package') == 'p5') checked @endif>Select
+	                              <input type="radio" name="service_package" value="p5" @if(Session::get('booking[service_package]') == 'p5') checked @endif>Select
 	                           </div>
 	                           <div class="col-md-3 text-center fold">
 	                              <h4>Press Package 10</h4>
@@ -290,7 +294,7 @@
 	                                    <p>	All ironing items must be created than 96% cotton. A folding package must be purchased with this package </p>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_package" value="p10" @if(Session::get('service_package') == 'p10') checked @endif>Select
+	                              <input type="radio" name="service_package" value="p10" @if(Session::get('booking[service_package]') == 'p10') checked @endif>Select
 	                           </div>
 	                           <div class="col-md-3 text-center fold">
 	                              <h4>Press Package 15</h4>
@@ -304,7 +308,7 @@
 	                                    <p>	All ironing items must be created than 96% cotton. A folding package must be purchased with this package </p>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_package" value="p15" @if(Session::get('service_package') == 'p15') checked @endif>Select
+	                              <input type="radio" name="service_package" value="p15" @if(Session::get('booking[service_package]') == 'p15') checked @endif>Select
 	                           </div>
 	                           <div class="col-md-3 text-center fold">
 	                              <h4>Press Package 20</h4>
@@ -318,7 +322,7 @@
 	                                    <p>	All ironing items must be created than 96% cotton. A folding package must be purchased with this package </p>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_package" value="p20" @if(Session::get('service_package') == 'p20') checked @endif>Select
+	                              <input type="radio" name="service_package" value="p20" @if(Session::get('booking[service_package]') == 'p20') checked @endif>Select
 	                           </div>
 	                        </div>
 	                     </div>
@@ -332,15 +336,15 @@
 	                        <div class="col-rw">
 	                           <div class="form-group">
 	                              <label>Service Day</label>
-	                              <input type="text"  placeholder="08/19/2019" class="form-control" value="{{Session::get('service_day')}}"  readonly />
+	                              <input type="text"  placeholder="08/19/2019" class="form-control" value="{{Session::get('booking[service_day]')}}"  readonly />
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Time</label>
-	                              <input type="text"  placeholder="3:00 pm - 5:00 pm" class="form-control" value="{{Session::get('service_time')}}" readonly />
+	                              <input type="text"  placeholder="3:00 pm - 5:00 pm" class="form-control" value="{{Session::get('booking[service_time]')}}" readonly />
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Laundress</label>
-	                              <input type="text"  placeholder="Jenny Johnson" class="form-control" value="{{Session::get('service_laundress')}}" readonly/>
+	                              <input type="text"  placeholder="Jenny Johnson" class="form-control" value="{{Session::get('booking[service_laundress]')}}" readonly/>
 	                           </div>
 	                        </div>
 	                        <div class="col2-rw">
@@ -374,7 +378,7 @@
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Quantity</label>
-	                              <input type="number"  placeholder="2-shirt pressed" class="form-control" name="service_quantity" value="{{Session::get('service_quantity')}}" id="service_quantity" min="1" />
+	                              <input type="number"  placeholder="2-shirt pressed" class="form-control" name="service_quantity" value="{{Session::get('booking[service_quantity]') || 1}}" id="service_quantity" min="1" />
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Total</label>
@@ -383,7 +387,7 @@
 	                        </div>
 	                        <div class="form-group">
 	                           <label>Job details</label>
-	                           <textarea class="form-control" name="service_job_details">{{Session::get('service_job_details')}}</textarea>
+	                           <textarea class="form-control" name="service_job_details">{{Session::get('booking[service_job_details]')}}</textarea>
 	                        </div>
 	                        <div class=" btn-rw">	
 	                           <a href="javascript:void(0);" class="btn btn-primary ctn-btn" data-tab="services">Edit Service</a>
@@ -392,22 +396,24 @@
 	                        <div class="bor_bx">
 	                           <h3>FOLDING</h3>
 	                           <p>Do you have a folding preference and will there be anything off limits? If so, please remove it before we begin service or specify details below.</p>
-	                           <textarea class="form-control" name="service_folding_details">{{Session::get('service_folding_details')}}</textarea>
+	                           <textarea class="form-control" name="service_folding_details">{{Session::get('booking[service_folding_details]')}}</textarea>
 	                        </div>
 	                        <div class="bor_bx">
 	                           <h3>HANGING</h3>
 	                           <p>Please set aside the clothing you want to be hung and notify your Cesta Laundress. Have a specific instructions, please detail below.<br> 
 	                              <i>Please note that you are expected to provide your own hangers</i>
 	                           </p>
-	                           <textarea class="form-control" name="service_hanging_details">{{Session::get('service_hanging_details')}}</textarea>
+	                           <textarea class="form-control" name="service_hanging_details">{{Session::get('booking[service_hanging_details]')}}</textarea>
 	                        </div>
 	                        <div class="bor_bx">
 	                           <h3>WASHING</h3>
 	                           <p>Please set aside and notify your Laundress of any delicate garments and or air dry only garments. Have specific washing instructions, and or how you want your clothes separated, please detail below.<br> 
 	                              <i>Please note that you are expected to provide your own hangers</i>
 	                           </p>
-	                           <textarea class="form-control" name="service_washing_details">{{Session::get('service_washing_details')}}</textarea>
+	                           <textarea class="form-control" name="service_washing_details">{{Session::get('booking[service_washing_details]')}}</textarea>
 	                        </div>
+	                        <div class="alert alert-danger" id="msgError"></div>
+	                        <div class="alert alert-success" id="msgSuccess"></div>
 	                        <div class="form_payment">
 	                           <div class="row">
 	                              <div class="col-md-6">
@@ -426,7 +432,7 @@
 	                                 <div class="form-group row">
 	                                    <label for="inputPassword" class="col-sm-3 col-form-label"><i>*</i> Description</label>
 	                                    <div class="col-sm-9">
-	                                       <textarea class="form-control" name="service_description">{{Session::get('service_description')}}</textarea>
+	                                       <textarea class="form-control" name="service_description">{{Session::get('booking[service_description]')}}</textarea>
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group row">
@@ -531,7 +537,7 @@
 	                                    </div>
 	                                 </div>
 	                                 <div class="spc_right">
-	                                    <input type="submit" class="btn btn-primary" value="Submit Payment" >
+	                                    <a type="submit" class="btn btn-primary" id="bookingSubmit">Submit Payment</a>
 	                                 </div>
 	                              </div>
 	                           </div>

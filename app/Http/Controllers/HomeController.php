@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Stripe\Stripe;
 use DB;
 use Mail;
 use App\User;
@@ -16,6 +17,10 @@ use App\Mail\VerificationEmail;
 
 class HomeController extends Controller {
     
+    public function __construct() {
+        Stripe::setApiKey(env('STRIPE_SECRET'));        
+    }
+
     public function register(Request $request) {
 
     	$data = $request->all();
@@ -95,61 +100,61 @@ class HomeController extends Controller {
             $card_expiry_year = $request->card_expiry_year; 
             $card_security_code = $request->card_security_code; 
 
-            $request->session()->put('service_type', $request->service_type);
-            $request->session()->put('service_categories', $request->service_categories);
-            $request->session()->put('service_beds', $request->service_beds); 
-            $request->session()->put('service_day', $request->service_day);             
-            $request->session()->put('service_time', $request->service_time); 
-            $request->session()->put('service_laundress', $request->service_laundress); 
-            $request->session()->put('service_package', $request->service_package); 
-            $request->session()->put('service_job_details', $request->service_job_details); 
-            $request->session()->put('service_folding_details', $request->service_folding_details); 
-            $request->session()->put('service_hanging_details', $request->service_hanging_details); 
-            $request->session()->put('service_washing_details', $request->service_washing_details); 
-            $request->session()->put('service_amount', $request->service_amount);
-            $request->session()->put('service_quantity', $request->service_quantity);
-            $request->session()->put('service_description', $request->service_description); 
-            $request->session()->put('service_payment_type', $request->service_payment_type); 
-            $request->session()->put('user_name', $request->user_name); 
-            $request->session()->put('user_email', $request->user_email); 
-            $request->session()->put('user_address', $request->user_address); 
-            $request->session()->put('user_city', $request->user_city); 
-            $request->session()->put('user_state', $request->user_state); 
-            $request->session()->put('user_zip', $request->user_zip); 
-            $request->session()->put('user_country', $request->user_country); 
-            $request->session()->put('card_name', $request->card_name); 
-            $request->session()->put('card_number', $request->card_number); 
-            $request->session()->put('card_expiry_month', $request->card_expiry_month); 
-            $request->session()->put('card_expiry_year', $request->card_expiry_year); 
-            $request->session()->put('card_security_code', $request->card_security_code); 
+            $request->session()->put('booking[service_type]', $request->service_type);
+            $request->session()->put('booking[service_categories]', $request->service_categories);
+            $request->session()->put('booking[service_beds]', $request->service_beds); 
+            $request->session()->put('booking[service_day]', $request->service_day);             
+            $request->session()->put('booking[service_time]', $request->service_time); 
+            $request->session()->put('booking[service_laundress]', $request->service_laundress); 
+            $request->session()->put('booking[service_package]', $request->service_package); 
+            $request->session()->put('booking[service_job_details]', $request->service_job_details); 
+            $request->session()->put('booking[service_folding_details]', $request->service_folding_details); 
+            $request->session()->put('booking[service_hanging_details]', $request->service_hanging_details); 
+            $request->session()->put('booking[service_washing_details]', $request->service_washing_details); 
+            $request->session()->put('booking[service_amount]', $request->service_amount);
+            $request->session()->put('booking[service_quantity]', $request->service_quantity);
+            $request->session()->put('booking[service_description]', $request->service_description); 
+            $request->session()->put('booking[service_payment_type]', $request->service_payment_type); 
+            $request->session()->put('booking[user_name]', $request->user_name); 
+            $request->session()->put('booking[user_email]', $request->user_email); 
+            $request->session()->put('booking[user_address]', $request->user_address); 
+            $request->session()->put('booking[user_city]', $request->user_city); 
+            $request->session()->put('booking[user_state]', $request->user_state); 
+            $request->session()->put('booking[user_zip]', $request->user_zip); 
+            $request->session()->put('booking[user_country]', $request->user_country); 
+            $request->session()->put('booking[card_name]', $request->card_name); 
+            $request->session()->put('booking[card_number]', $request->card_number); 
+            $request->session()->put('booking[card_expiry_month]', $request->card_expiry_month); 
+            $request->session()->put('booking[card_expiry_year]', $request->card_expiry_year); 
+            $request->session()->put('booking[card_security_code]', $request->card_security_code); 
         } else {
-            $service_type = $request->session()->get('service_type');
-            $service_categories = $request->session()->get('service_categories');
-            $service_beds = $request->session()->get('service_beds'); 
-            $service_day = $request->session()->get('service_day');             
-            $service_time = $request->session()->get('service_time'); 
-            $service_laundress = $request->session()->get('service_laundress'); 
-            $service_package = $request->session()->get('service_package'); 
-            $service_job_details = $request->session()->get('service_job_details'); 
-            $service_folding_details = $request->session()->get('service_folding_details'); 
-            $service_hanging_details = $request->session()->get('service_hanging_details'); 
-            $service_washing_details = $request->session()->get('service_washing_details'); 
-            $service_amount = $request->session()->get('service_amount');
-            $service_quantity = $request->session()->get('service_quantity'); 
-            $service_description = $request->session()->get('service_description'); 
-            $service_payment_type = $request->session()->get('service_payment_type'); 
-            $user_name = $request->session()->get('user_name'); 
-            $user_email = $request->session()->get('user_email'); 
-            $user_address = $request->session()->get('user_address'); 
-            $user_city = $request->session()->get('user_city'); 
-            $user_state = $request->session()->get('user_state'); 
-            $user_zip = $request->session()->get('user_zip'); 
-            $user_country = $request->session()->get('user_country'); 
-            $card_name = $request->session()->get('card_name'); 
-            $card_number = $request->session()->get('card_number'); 
-            $card_expiry_month = $request->session()->get('card_expiry_month'); 
-            $card_expiry_year = $request->session()->get('card_expiry_year'); 
-            $card_security_code = $request->session()->get('card_security_code'); 
+            $service_type = $request->session()->get('booking[service_type]');
+            $service_categories = $request->session()->get('booking[service_categories]');
+            $service_beds = $request->session()->get('booking[service_beds]'); 
+            $service_day = $request->session()->get('booking[service_day]');             
+            $service_time = $request->session()->get('booking[service_time]'); 
+            $service_laundress = $request->session()->get('booking[service_laundress]'); 
+            $service_package = $request->session()->get('booking[service_package]'); 
+            $service_job_details = $request->session()->get('booking[service_job_details]'); 
+            $service_folding_details = $request->session()->get('booking[service_folding_details]'); 
+            $service_hanging_details = $request->session()->get('booking[service_hanging_details]'); 
+            $service_washing_details = $request->session()->get('booking[service_washing_details]'); 
+            $service_amount = $request->session()->get('booking[service_amount]');
+            $service_quantity = $request->session()->get('booking[service_quantity]'); 
+            $service_description = $request->session()->get('booking[service_description]'); 
+            $service_payment_type = $request->session()->get('booking[service_payment_type]'); 
+            $user_name = $request->session()->get('booking[user_name]'); 
+            $user_email = $request->session()->get('booking[user_email]'); 
+            $user_address = $request->session()->get('booking[user_address]'); 
+            $user_city = $request->session()->get('booking[user_city]'); 
+            $user_state = $request->session()->get('booking[user_state]'); 
+            $user_zip = $request->session()->get('booking[user_zip]'); 
+            $user_country = $request->session()->get('booking[user_country]'); 
+            $card_name = $request->session()->get('booking[card_name]'); 
+            $card_number = $request->session()->get('booking[card_number]'); 
+            $card_expiry_month = $request->session()->get('booking[card_expiry_month]'); 
+            $card_expiry_year = $request->session()->get('booking[card_expiry_year]'); 
+            $card_security_code = $request->session()->get('booking[card_security_code]'); 
         }
         
         $price = 0;
@@ -164,8 +169,70 @@ class HomeController extends Controller {
         if (Auth::check()) {
             $profile = User::where(['id' => Auth::user()->id])->first(); 
         }
-        
-        return view('book')->with([ "profile" => $profile, "price" => $price, "total_price" => $total_price]);
+        if($request->isMethod('post')) {
+
+            $success = true;
+            try {
+                //create stripe payment
+                $token = \Stripe\Token::create([
+                    "card" => array(
+                        'name' => $request->get('card_name'),
+                        "number" => $request->get('card_number'),
+                        "exp_month" => $request->get('card_expiry_month'),
+                        "exp_year" => $request->get('card_expiry_year'),
+                        "cvc" => $request->get('card_security_code')
+                    ),
+                ]);
+
+                //create customer if not created
+                if($profile->customer_id) {
+                    $customer_id = $profile->customer_id;
+                } else {
+                    $customer = \Stripe\Customer::create(
+                        [
+                            'source' => $token['id'],
+                            'email' =>  $user_email,
+                            'description' => 'My name is '. $profile->first_name,
+                        ]
+                    );
+                    $customer_id = $customer['id'];  
+                    User::where(['id' => $profile->id ])
+                        ->update([
+                            "customer_id" => $customer_id]);                  
+                }
+
+                $data = $request->all();
+                $data['user_id'] = $profile->id;
+                $data['status'] = 'new';
+                $data['service_categories'] = serialize($data['service_categories']);
+                Bookings::create($data);
+                $request->session()->forget('booking[]');
+                $message = 'Booking Successful.';
+            } catch (\Stripe\Error\RateLimit $e) {
+              $success = false;
+              $message = $e->getMessage();
+            } catch (\Stripe\Error\InvalidRequest $e) {
+              $success = false;
+              $message = $e->getMessage();
+            } catch (\Stripe\Error\Authentication $e) {
+              $success = false;
+              $message = $e->getMessage();
+            } catch (\Stripe\Error\ApiConnection $e) {
+              $success = false;
+              $message = $e->getMessage();
+            } catch (\Stripe\Error\Base $e) {
+              $success = false;
+              $message = $e->getMessage();
+            } catch (Exception $e) {
+              $success = false;
+              $message = $e->getMessage();
+            }
+            $response = array('success' => $success,
+                              'message' => $message);
+            return response()->json($response);
+        } else {
+            return view('book')->with([ "profile" => $profile, "price" => $price, "total_price" => $total_price]);
+        }
     }
 
     public function booking_checkout(Request $request) {
