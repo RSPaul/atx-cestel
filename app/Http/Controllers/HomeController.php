@@ -35,6 +35,7 @@ class HomeController extends Controller {
     	$data['services'] = serialize($data['services']);
     	$data['password'] = Hash::make($data['password']);
     	$data['status'] = 0;
+        $data['user_type'] = 'customer';
     	try {
         	$user = User::create($data);
             $remember_token = $this->generate_token();
@@ -247,5 +248,40 @@ class HomeController extends Controller {
             'message' => 'Booking Successful'
         );
         return response()->json($msg);
+    }
+
+    public function bePartTeam(Request $request){
+
+        if($request->isMethod('post')) {
+
+            $data = $request->all();
+            $request->validate([
+                'first_name' => ['required', 'string', 'max:255'],
+                'last_name' => ['required', 'string', 'max:255'],
+                'password' => ['required', 'string', 'min:8'],
+            ]);
+            
+            $data['language']       = serialize($data['language']);
+            $data['available']      = serialize($data['available']);
+            $data['more_questions'] = serialize($data['more_questions']);
+            $data['password'] = Hash::make($data['password']);
+            $data['status'] = 0;
+            $data['user_type'] = 'laundress';
+
+        try {
+            $user = User::create($data);
+            return redirect('/be-part-team')->with('message', 'Account created successfully. Once Admin approves you will notified via email');
+
+        } catch (\Illuminate\Database\QueryException $exception) {
+            // You can check get the details of the error using `errorInfo`:
+            $errorInfo = $exception->errorInfo;
+            return redirect('/register')->with('message', $errorInfo);
+        }
+
+
+        }else{
+            return view('be-part-team');
+        }
+
     }
 }

@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 Route::get('/book', 'HomeController@book');
+Route::get('/be-part-team', 'HomeController@bePartTeam');
+Route::post('/be-part-team', 'HomeController@bePartTeam')->name('partTeam');
 Route::get('/verify', 'Auth\VerificationController@verify');
 Route::get('/email/resend', 'Auth\VerificationController@resend');
 Route::post('/register/user', 'HomeController@register')->name('register_user');
