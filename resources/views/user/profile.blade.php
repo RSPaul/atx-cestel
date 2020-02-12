@@ -3,8 +3,8 @@
 <section class="heading_top">
    <div class="container">
       <div class="avatar_info">
-         <div class="avatar">
-            <img src="{{asset('uploads/profiles')}}/{{$profile->profile_pic}}" alt="{{$profile->first_name}} {{$profile->last_name}}" onerror="this.onerror=null;this.src='{{asset("uploads/profiles/l60Hf.png")}}'"/>
+         <div class="avatar profile-img">
+            <img class="user-edit-img" src="{{asset('uploads/profiles')}}/{{$profile->profile_pic}}" alt="{{$profile->first_name}} {{$profile->last_name}}" onerror="this.onerror=null;this.src='{{asset("uploads/profiles/l60Hf.png")}}'"/>
          </div>
          <div class="avatar-info">
             <h3>{{$profile->first_name}} {{$profile->last_name}}</h3>

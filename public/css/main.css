@@ -2486,3 +2486,6 @@ img.user-edit-img {
     border: 2px solid #d3ab53;
     object-fit: cover;
 }
+.border_bx_acc.create.disp-blck {
+    display: block;
+}

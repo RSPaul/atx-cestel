@@ -31,16 +31,6 @@
 					</div>
 					<div class="form-group">
 						<div class="col">
-							<label>Living Zip Code</label>
-							<input type="text" name="zip" class="form-control"/>
-						</div>
-						<div class="col">
-							<label>Phone Number</label>
-							<input type="text" name="phone" class="form-control"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col">
 							<label>Email</label>
 							<input type="email" name="email" class="form-control"/>
 						</div>
@@ -49,6 +39,17 @@
 							<input type="text" name="password" class="form-control"/>
 						</div>
 					</div>
+					<div class="form-group">
+						<div class="col">
+							<label>Living Zip Code</label>
+							<input type="text" name="zip" class="form-control"/>
+						</div>
+						<div class="col">
+							<label>Phone Number</label>
+							<input type="text" name="phone" class="form-control"/>
+						</div>
+					</div>
+					
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">

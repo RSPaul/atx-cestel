@@ -13,7 +13,7 @@
        <div class="container">
            
         <div class="row ">
-            <div class="border_bx_acc create">
+            <div class="border_bx_acc create disp-blck">
              <form method="POST" action="{{ route('register_user') }}">
                 @csrf  
                 <div class="col-md-12">

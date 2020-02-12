@@ -251,7 +251,10 @@ class HomeController extends Controller {
     }
 
     public function bePartTeam(Request $request){
-
+        //if logged in as user redirect to profile page
+        if(Auth::check()) {
+            return redirect('/profile');
+        }
         if($request->isMethod('post')) {
 
             $data = $request->all();

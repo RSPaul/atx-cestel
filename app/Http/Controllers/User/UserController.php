@@ -15,7 +15,7 @@ use App\User;
 class UserController extends Controller
 {	
 	public function __construct() {
-        $this->middleware(['auth','verified'],  ['except' => ['get']]);
+        $this->middleware(['auth','verified', 'user'],  ['except' => ['get']]);
     }
 
     public function profile(Request $request) {
