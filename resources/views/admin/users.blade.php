@@ -46,7 +46,7 @@
               <td>{{$user->phone}}</td>
               <td>{{$user->city_State}}</td>
               <td>{{$user->zip}}</td>
-              <td> @if($user->status == 0) <a href="javascript:void(0);" data-id="{{$user->id}}" class="btn btn-danger btn-circle btn-sm verify-user"> <i class="fas fa-exclamation-triangle"></i> </a> @else <a class="btn btn-success btn-circle btn-sm" disabled> <i class="fas fa-exclamation-triangle"></i></a> @endif  </td>
+              <td> @if($user->status == 0) <a href="javascript:void(0);" data-id="{{$user->id}}" class="btn btn-danger btn-circle btn-sm verify-user"> <i class="fas fa-exclamation-triangle"></i> </a> @else <a class="btn btn-success btn-circle btn-sm" disabled> <i class="fas fa-check"></i></a> @endif  </td>
             </tr>
             @endforeach
           </tbody>

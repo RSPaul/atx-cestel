@@ -171,7 +171,7 @@
 	                              <label>Choose a day</label>
 	                              <div class="form-group">
 	                                 <img src="{{asset('img/day.png')}}" alt="day"/>
-	                                 <select name="service_day" required >
+	                                 <select name="service_day" required id="service_day" >
 	                                    <option value="Monday" @if(Session::get('booking[service_day]') == 'Monday') "selected='selected'" @endif>Monday</option>
 	                                    <option value="Tuesday" @if(Session::get('booking[service_day]') == 'Tuesday') "selected='selected'" @endif>Tuesday</option>
 	                                    <option value="Wednesday" @if(Session::get('booking[service_day]') == 'Wednesday') "selected='selected'" @endif>Wednesday</option>
@@ -187,7 +187,7 @@
 	                              <label>Choose a Time</label>
 	                              <div class="form-group">
 	                                 <img src="{{asset('img/day.png')}}" alt="day"/>
-	                                 <select name="service_time" required>
+	                                 <select name="service_time" id="service_time" required>
 	                                    <option value="8:00AM - 7:00PM"  @if(Session::get('booking[service_time]') == '8:00AM - 7:00PM') "selected='selected'" @endif>8:00AM - 7:00PM</option>
 	                                    <option value="9:00AM - 10:00PM"  @if(Session::get('booking[service_time]') == '9:00AM - 10:00PM') "selected='selected'" @endif>9:00AM - 10:00PM</option>
 	                                 </select>
@@ -197,9 +197,11 @@
 	                              <label>Choose a Laundress</label>
 	                              <div class="form-group">
 	                                 <img src="{{asset('img/day.png')}}" alt="day"/>
-	                                 <select name="service_laundress" required>
-	                                    <option value="Washing" @if(Session::get('booking[service_laundress]') == 'Washing') "selected='selected'" @endif>Washing</option>
-	                                    <option value="Ironing" @if(Session::get('booking[service_laundress]') == 'Ironing') "selected='selected'" @endif>Ironing</option>
+	                                 <select name="service_laundress" id="service_laundress" required>
+	                                 	<option value="">Select</option>
+	                                 	@foreach($laundress as $laundres)
+	                                 	<option value="{{$laundres->id}}" @if(Session::get('booking[service_laundress]') == $laundres->id) "selected='selected'" @endif>{{$laundres->first_name}} {{$laundres->last_name}}</option>
+	                                 	@endforeach
 	                                 </select>
 	                              </div>
 	                           </div>
@@ -336,15 +338,15 @@
 	                        <div class="col-rw">
 	                           <div class="form-group">
 	                              <label>Service Day</label>
-	                              <input type="text"  placeholder="08/19/2019" class="form-control" value="{{Session::get('booking[service_day]')}}"  readonly />
+	                              <input type="text"  placeholder="08/19/2019" class="form-control" value="{{Session::get('booking[service_day]')}}"  readonly id="service_day_selected" />
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Time</label>
-	                              <input type="text"  placeholder="3:00 pm - 5:00 pm" class="form-control" value="{{Session::get('booking[service_time]')}}" readonly />
+	                              <input type="text"  placeholder="3:00 pm - 5:00 pm" class="form-control" value="{{Session::get('booking[service_time]')}}" readonly  id="service_time_selected" />
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Laundress</label>
-	                              <input type="text"  placeholder="Jenny Johnson" class="form-control" value="{{Session::get('booking[service_laundress]')}}" readonly/>
+	                              <input type="text"  placeholder="Jenny Johnson" class="form-control" value="{{Session::get('booking[service_laundress]')}}" readonly id="service_laundress_selected" />
 	                           </div>
 	                        </div>
 	                        <div class="col2-rw">

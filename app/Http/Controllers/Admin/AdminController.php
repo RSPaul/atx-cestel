@@ -29,4 +29,19 @@ class AdminController extends Controller
     					->get();
     	return view('admin.users')->with([ "users" => $users, 'type' => $type]);
     }
+
+    public function verifyUser(Request $request) {
+        try {
+            User::where(['id' => $request->id])
+                        ->update([
+                            'status' => 1
+                        ]);
+            $response = array('success' => true,
+                              'message' => 'User verified.');
+        }catch(Exception $e) {
+            $response = array('success' => false,
+                              'message' => $e->getMessage());
+        }
+        return response()->json($response);
+    }
 }

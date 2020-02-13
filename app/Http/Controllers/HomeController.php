@@ -170,6 +170,7 @@ class HomeController extends Controller {
         if (Auth::check()) {
             $profile = User::where(['id' => Auth::user()->id])->first(); 
         }
+        $laundress = User::where(['user_type' => 'laundress'])->get(); 
         if($request->isMethod('post')) {
 
             $success = true;
@@ -232,7 +233,7 @@ class HomeController extends Controller {
                               'message' => $message);
             return response()->json($response);
         } else {
-            return view('book')->with([ "profile" => $profile, "price" => $price, "total_price" => $total_price]);
+            return view('book')->with([ "profile" => $profile, "price" => $price, "total_price" => $total_price, 'laundress' => $laundress]);
         }
     }
 
