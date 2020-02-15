@@ -10,25 +10,25 @@ $(function () {
         $('.next_serv').show();
       })
       $('.ctn-btn').click(function(){
-        activaTab($(this).data('tab'));
+        activeTab($(this).data('tab'));
       });
 
       //get user details if booking page and auto fill sesion fields
-      if($('#bookingForm') && $('#bookingForm').length) {
-        $.ajax({
-          url: "/user/me",
-          type: "GET",
-          dataType: 'JSON',
-          success: function(user) {
-            if(user.loggedIn) {
-              console.log('user data ', user.data);
-            }
-          },
-          error: function(error) {
-            console.log('Can\'t get current user ', error);
-          }
-        })
-      }
+      // if($('#bookingForm') && $('#bookingForm').length) {
+      //   $.ajax({
+      //     url: "/user/me",
+      //     type: "GET",
+      //     dataType: 'JSON',
+      //     success: function(user) {
+      //       if(user.loggedIn) {
+      //         console.log('user data ', user.data);
+      //       }
+      //     },
+      //     error: function(error) {
+      //       console.log('Can\'t get current user ', error);
+      //     }
+      //   })
+      // }
 
 
       var totalPrice = 0;
@@ -55,35 +55,36 @@ $(function () {
       //signup from booking page
       $('#bookingSubmit').click(function(e) {
           e.preventDefault();
-          var btn = $(this);
-          var form = $('#bookingForm');
-          var url = form.attr('action');
-          btn.text('Please wait..');
-          $.ajax({
-                 type: "POST",
-                 url: url,
-                 data: form.serialize(), // serializes the form's elements.
-                 success: function(response){
+          if(validateBookingForm('payment')) {
+            var btn = $(this);
+            var form = $('#bookingForm');
+            var url = form.attr('action');
+            btn.text('Please wait..');
+            $.ajax({
+                   type: "POST",
+                   url: url,
+                   data: form.serialize(), // serializes the form's elements.
+                   success: function(response){
+                      btn.text('Submit Payment');
+                      console.log(response); // show response from the php script.
+                      $('#msgSuccess').html(response.message);
+                      $('#msgSuccess').show();
+                      scrollToDiv('msgSuccess');
+                      setTimeout(function() {
+                        window.location.href = response.return_url;
+                      },3000);
+                   },
+                   error: function(error) {
+                    scrollToDiv('msgError');
                     btn.text('Submit Payment');
-                    console.log(response); // show response from the php script.
-                    $('#msgSuccess').html(response.message);
-                    $('#msgSuccess').show();
-                    scrollToDiv('msgSuccess');
+                    $('#msgError').html(error.responseJSON.message);
+                    $('#msgError').show();
                     setTimeout(function() {
-                      window.location.href = "{{ route('user_dashboard') }}";
+                      $('#msgError').fadeOut('slow');
                     },3000);
-                 },
-                 error: function(error) {
-                  scrollToDiv('msgError');
-                  btn.text('Submit Payment');
-                  $('#msgError').html(error.responseJSON.message);
-                  $('#msgError').show();
-                  setTimeout(function() {
-                    $('#msgError').fadeOut('slow');
-                  },3000);
-                 }
-               });
-
+                   }
+                 });
+          }
 
       });
       //change total price
@@ -177,14 +178,195 @@ $(function () {
           $('#service_day_selected').val($('#service_day option:selected').html());
         }
       });
+
+      //login modal
+      $(".submit_log").click(function(e) {
+          e.preventDefault();
+          $(this).text('Please wait..');
+          ajax_login();
+      });
+
+      $('#password').keypress(function(event){
+          var keycode = (event.keyCode ? event.keyCode : event.which);
+          if(keycode == '13'){
+              $('.submit_log').text('Please wait..');
+              ajax_login();
+          }
+      });
+
+      // var name = '';
+      //fill last tab data from register form
+      $('.register-details').keyup(function(){
+          if($(this).attr('name') == 'register[email]') {
+            $('.service_email').val($(this).val());
+          } else if($(this).attr('name') == 'register[phone]') {
+            $('.service_phone').val($(this).val());
+          } else if($(this).attr('name') == 'register[zip]') {
+            $('.service_zip').val($(this).val());
+          } else if($(this).attr('name') == 'register[first_name]') {
+            $('.service_contact_name').val($(this).val());
+          } else if($(this).attr('name') == 'register[last_name]') {
+            //$('.service_contact_name').val(name);
+          }
+      });
+
     });
-    function activaTab(tab){
-        $('.nav-tabs a[href="#' + tab + '"]').tab('show');
-        scrollToDiv(tab);
+    function activeTab(tab){
+        //check validations and restrict the next tab
+        if(validateBookingForm(tab)) {
+          $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+          scrollToDiv(tab);
+        }
     };
 
     function scrollToDiv(divId) {
       $('html, body').animate({
           scrollTop: $("#" + divId).offset().top - 300
       }, 500);
+    }
+
+    function ajax_login() {
+        var loginForm = $("#loginForm");
+        var formData = loginForm.serialize();
+        var formurl = loginForm.attr('action');
+        $(".invalid-feedback").hide();
+        $.ajax({
+            url: formurl,
+            type:'POST',
+            data:formData,
+            success:function(data) {    
+                
+                if(data && data.auth) {       
+                    console.log(data);
+                    updateUserDetails(data.user);
+                    $('.not-logged').hide();
+                    $('.logged-in').show();
+                    activeTab('loading');
+                    $('#login-modal').modal('hide');
+                }
+                $('.submit_log').text('LOGIN');
+            },
+            error: function (data) {
+                $(".invalid-feedback").show();
+                console.log("error",data);
+                $('.submit_log').text('LOGIN');
+            }
+        });
+    }
+
+    function updateUserDetails(user) {
+      $('#service_address').val(user.address);
+      $('#service_zip').val(user.zip);
+      $('#service_contact_name').val(user.first_name + ' ' + user.last_name);
+      $('#service_email').val(user.email);
+      $('#service_phone').val(user.phone);
+      $('#isLoggedIn').val('1');
+    }
+
+    function validateBookingForm(tabId) {
+      $('#bookingValidationError').hide();
+      var response = false;
+      var message = '';
+      if(tabId == 'when') {
+        if($("input[name='service_type']").is(":checked") && $("input[name='service_categories[]']").is(":checked")) {
+          response = true;
+        } else {
+          message = 'Select your add on service.';
+        }
+      } else if(tabId == 'contact') {
+        if($('#service_laundress option:selected').val() != '') {
+          var service_laundress = true;
+        } else {
+          message = 'Choose your laundress.';
+        }
+        if($('#service_day option:selected').val() != '') {
+          var service_day = true;
+        } else {
+          message = 'Choose your service day.';
+        }
+        if($('#service_time option:selected').val() != '') {
+          var service_time = true;
+        } else {
+          message = 'Choose your service day.';
+        }
+
+        if(service_laundress && service_day && service_time) {
+          response = true;
+        }
+      } else if(tabId == 'loading') {
+        var registerCount = 0;
+        $('.register-details').each(function() {
+          message = 'Please enter all required details.';
+          if($(this).val() != '') {
+            registerCount++;
+          } else if($(this).attr('register[email]') && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($(this).val())) {
+            registerCount++;
+          } else {
+            message = 'Please enter valid email address.';
+          }
+        });
+        if(registerCount == 6) {
+          response = true;
+        }
+        //if user is logged in
+        if($('#isLoggedIn').val() == '1') {
+          response = true;
+        }
+      } else if(tabId == 'detail') {
+        if($("input[name='service_package']").is(":checked")) {
+          response = true;
+        } else {
+          message = 'Select your press package.';
+        }
+      } else if(tabId == 'payment') {
+        response = true;
+        if($('#user_address').val() == '') {
+          message = 'Please enter biliing address';
+          response = false;
+        }
+        if($('#user_city').val() == '') {
+          message = 'Please enter biliing city.';
+          response = false;
+        }
+        if($('#user_state option:selected').val() == '') {
+          message = 'Please enter biliing state.';
+          response = false;
+        }
+        if($('#zip option:selected').val() == '') {
+          message = 'Please enter biliing zip.';
+          response = false;
+        }
+        if($('#user_country option:selected').val() == '') {
+          message = 'Please enter biliing country.';
+          response = false;
+        }
+        if($('#card_number').val() == '') {
+          message = 'Please enter card number.';
+          response = false;
+        }
+        if($('#card_name').val() == '') {
+          message = 'Please enter card name.';
+          response = false;
+        }
+        if($('#card_security_code').val() == '') {
+          message = 'Please enter card security code.';
+          response = false;
+        }
+        if($('#service_description').val() == '') {
+          message = 'Please enter service description.';
+          response = false;
+        }
+      }
+
+      //show validation message
+      if(!response) {
+        $('#bookingValidationError p').html(message);
+        $('#bookingValidationError').show();
+        scrollToDiv('bookingValidationError');
+        setTimeout(function () {
+          $('#bookingValidationError').fadeOut('slow');
+        },3000);
+      }
+
+      return response;
     }

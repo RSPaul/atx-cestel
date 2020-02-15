@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function profile(Request $request) {
     	$profile = User::where(['id' => Auth::user()->id])->first();
-    	return view('user.profile')->with([ "profile" => $profile]);
+    	return view('user.dashboard')->with([ "profile" => $profile]);
     }
 
     public function get($id) {
@@ -61,5 +61,11 @@ class UserController extends Controller
         }
 
         return response()->json(['success'=>'done']);
+    }
+
+    public function dashboard(Request $request) {
+        $tab_id = $request->tab;
+        $profile = User::where(['id' => Auth::user()->id])->first();
+        return view('user.dashboard')->with([ "profile" => $profile, "tab_id" => $tab_id]);
     }
 }

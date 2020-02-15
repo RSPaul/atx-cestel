@@ -20,7 +20,7 @@ class UserCheckMiddleware
     {
         if (Auth::check()):
             $type = Auth::user()->user_type; 
-            if ($type == 'customer'):
+            if ($type == 'user'):
                 return $next($request);
             else:
                 return \Redirect::to('login');

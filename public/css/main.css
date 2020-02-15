@@ -2489,3 +2489,9 @@ img.user-edit-img {
 .border_bx_acc.create.disp-blck {
     display: block;
 }
+.invalid-feedback, .logged-in {
+    display: none;
+}
+#bookingValidationError {
+    display: none;
+}

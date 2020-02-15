@@ -21,10 +21,10 @@ class RedirectIfAuthenticated
         if (Auth::guard($guard)->check()) {
             if (Auth::user()->user_type == "admin") {
                 return redirect('/admin');
-            } else if (Auth::user()->user_type == "customer") {
-                return redirect('/profile');
+            } else if (Auth::user()->user_type == "user") {
+                return redirect('/user/dashboard');
             } else {
-                return redirect('/dashboard');
+                return redirect('/laundress/dashboard');
             }
         }
 

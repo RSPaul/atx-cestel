@@ -35,7 +35,7 @@ class HomeController extends Controller {
     	$data['services'] = serialize($data['services']);
     	$data['password'] = Hash::make($data['password']);
     	$data['status'] = 0;
-        $data['user_type'] = 'customer';
+        $data['user_type'] = 'user';
     	try {
         	$user = User::create($data);
             $remember_token = $this->generate_token();
@@ -174,7 +174,18 @@ class HomeController extends Controller {
         if($request->isMethod('post')) {
 
             $success = true;
+            $return_url = '/user/dashboard';
             try {
+                //if user is not logged in create new user
+                if(!Auth::check()) {
+                    $user_data = $request->get('register');
+                    $user_data['password'] = Hash::make($user_data['password']);
+                    $user_data['status'] = 1;
+                    $user_data['user_type'] = 'user';
+                    $profile = User::create($user_data);
+                    Auth::login($profile);
+                    $return_url = '/thank-you';
+                }
                 //create stripe payment
                 $token = \Stripe\Token::create([
                     "card" => array(
@@ -230,7 +241,8 @@ class HomeController extends Controller {
               $message = $e->getMessage();
             }
             $response = array('success' => $success,
-                              'message' => $message);
+                              'message' => $message,
+                              'return_url' => $return_url);
             return response()->json($response);
         } else {
             return view('book')->with([ "profile" => $profile, "price" => $price, "total_price" => $total_price, 'laundress' => $laundress]);

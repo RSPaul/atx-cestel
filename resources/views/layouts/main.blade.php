@@ -82,6 +82,60 @@
         
       </footer>
       <!-- End Footer section-->
+
+      <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-left">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="login px-md-4 text-center">
+                        <h3 class="mb-4">LOG INTO YOUR ACCOUNT</h5>
+                        <span class="invalid-feedback" role="alert">
+                            <strong>You have entered an invalid Email or password.</strong>
+                        </span>
+                        <form method="POST" action="{{ route('login') }}" id="loginForm">
+                            @csrf
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <!--<label class="mb-2">Email</label>-->
+                                  <input type="email" placeholder="Email" class="form-control" id="user_email" name="email" aria-describedby="emailHelp" placeholder="" required="">                           
+                                </div>
+                                <div class="form-group">
+                                  <!--<label class="mb-2">Password</label>-->
+                                  <input type="password" placeholder="Password" class="form-control" id="user_password" name="password" placeholder="" required="">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row text-left mb-2">
+                              <div class="col-md-12">
+                                <input type="checkbox" name="remember" /><span class="remember">Remember me</span>
+                              </div>
+                            </div>              
+                            <div class="row mb-2">
+                              <div class="col-md-12">
+                                <div class="form-group text-center">
+                                  <button type="button" class="login-btn login-submit-btn submit_log" name="log-in">LOGIN</button>                         
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div class="row forgot-grid">
+                              <div class="col-md-6 col-6 text-left">
+                                <a href="{{url('password/reset')}}">Forgot my password</a>
+                              </div>
+                              <div class="clearfix"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
       
     </div>
     

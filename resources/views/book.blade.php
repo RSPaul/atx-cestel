@@ -9,21 +9,21 @@
          	</a>
          </li>
          <li role="presentation">
-         	<a href="#when" aria-controls="account" role="tab" data-toggle="tab"><span class="bor_rad">
+         	<a href="#" data-tab="when" class="ctn-btn" aria-controls="account" role="tab" data-toggle="tab"><span class="bor_rad">
          		<img src="{{asset('img/schedule.png')}}" alt="schedule"/></span> <b>When</b>
          	</a>
          </li>
          <li role="presentation">
-         	<a href="#contact" aria-controls="schedule" role="tab" data-toggle="tab"><span class="bor_rad">
+         	<a href="#" data-tab="contact" class="ctn-btn" aria-controls="schedule" role="tab" data-toggle="tab"><span class="bor_rad">
          		<img src="{{asset('img/contact.png')}}" alt="contact"/></span> <b>Contact</b>
          	</a>
          </li>
          <li role="presentation">
-         	<a href="#loading" aria-controls="loading" role="tab" data-toggle="tab"><span class="bor_rad">
+         	<a href="#" data-tab="loading" class="ctn-btn" aria-controls="loading" role="tab" data-toggle="tab"><span class="bor_rad">
          		<img src="{{asset('img/load.png')}}" alt="load"/></span> <b>Load</b></a>
          	</li>
          <li role="presentation">
-         	<a href="#detail" aria-controls="logout" role="tab" data-toggle="tab"><span class="bor_rad">
+         	<a href="#" data-tab="detail" class="ctn-btn" aria-controls="logout" role="tab" data-toggle="tab"><span class="bor_rad">
          		<img src="{{asset('img/details.png')}}" alt="details"/></span> <b>Details</b>
          	</a>
          </li>
@@ -36,6 +36,7 @@
       <div class="row ">
          <div class="border_bx_acc">
             <div class="col-md-12">
+            	<div class="alert alert-danger text-center" id="bookingValidationError"><p></p></div>
 	            <form name="service_form" action="{{ route('booking') }}" method="POST" id="bookingForm">
 	            	@csrf
 	               <!-- Tab panes -->
@@ -167,6 +168,18 @@
 	                     </section>
 	                     <div class="choose_opt">
 	                        <div class="row">
+	                        	<div class="col-md-4">
+	                              <label>Choose a Laundress</label>
+	                              <div class="form-group">
+	                                 <img src="{{asset('img/day.png')}}" alt="day"/>
+	                                 <select name="service_laundress" id="service_laundress" required>
+	                                 	<option value="">Select</option>
+	                                 	@foreach($laundress as $laundres)
+	                                 	<option value="{{$laundres->id}}" @if(Session::get('booking[service_laundress]') == $laundres->id) "selected='selected'" @endif>{{$laundres->first_name}} {{$laundres->last_name}}</option>
+	                                 	@endforeach
+	                                 </select>
+	                              </div>
+	                            </div>
 	                           <div class="col-md-4">
 	                              <label>Choose a day</label>
 	                              <div class="form-group">
@@ -193,18 +206,6 @@
 	                                 </select>
 	                              </div>
 	                           </div>
-	                           <div class="col-md-4">
-	                              <label>Choose a Laundress</label>
-	                              <div class="form-group">
-	                                 <img src="{{asset('img/day.png')}}" alt="day"/>
-	                                 <select name="service_laundress" id="service_laundress" required>
-	                                 	<option value="">Select</option>
-	                                 	@foreach($laundress as $laundres)
-	                                 	<option value="{{$laundres->id}}" @if(Session::get('booking[service_laundress]') == $laundres->id) "selected='selected'" @endif>{{$laundres->first_name}} {{$laundres->last_name}}</option>
-	                                 	@endforeach
-	                                 </select>
-	                              </div>
-	                           </div>
 	                        </div>
 	                     </div>
 	                     <div class="text-center">
@@ -212,48 +213,55 @@
 	                     </div>
 	                  </div>
 	                  <div role="tabpanel" class="tab-pane" id="contact">
-	                     <section class="heading_top selectpack">
-	                        <div class="container">
-	                           <h2>Tell us about you & how to contact you?</h2>
-	                        </div>
-	                     </section>
-	                     @if($profile && $profile->id)
+	                     	<section class="heading_top selectpack">
+	                        	<div class="container">
+	                           	<h2>Tell us about you & how to contact you?</h2>
+	                        	</div>
+	                     	</section>
+	                    @if($profile && $profile->id)
+							<input type="hidden" name="isLoggedIn" id="isLoggedIn" value="1">
 	                     	<h3 class="text-center">You are already logged in <a href="javascript:void(0);" class="btn btn-primary ctn-btn text-center" data-tab="loading">Continue</a> to next step.</h3>
-	                     @else
-	                    <div class="row">
-	                        <div class="col-md-6 text-center">
-	                           <h3>New Customer</h3>
-	                           <div class="form-group">
-	                              <label>First Name</label>
-	                              <input type="text" name="first_name"  class="form-control" required />
-	                           </div>
-	                           <div class="form-group">
-	                              <label>Last Name</label>
-	                              <input type="text" name="last_name"  class="form-control" required/>
-	                           </div>
-	                           <div class="form-group">
-	                              <label>Email Address</label>
-	                              <input type="email" name="email"  class="form-control" required/>
-	                           </div>
-	                           <div class="form-group">
-	                              <label>Phone</label>
-	                              <input type="text" name="phone"  class="form-control" required/>
-	                           </div>
-	                           <div class="form-group">
-	                              <label>Zipcode</label>
-	                              <input type="text" name="zip"  class="form-control" />
-	                           </div>
-	                           <div class=" btn-rw">	
-	                              <input type="submit" class="btn btn-primary" value="Signup" id="signupFormSubmit">
-	                           </div>
-	                        </div>
-	                        <div class="col-md-6 text-center">
-	                           <h3>Returning Customer</h3>
-	                           <div class=" btn-rw">	
-	                              <a href="javascript:void(0);" class="btn btn-primary">Login</a>
-	                           </div>
-	                        </div>
-	                    </div>
+	                    @else
+	                    	<input type="hidden" name="isLoggedIn" id="isLoggedIn" value="0">							
+	                    	<h3 class="text-center logged-in">You are already logged in <a href="javascript:void(0);" class="btn btn-primary ctn-btn text-center" data-tab="loading">Continue</a> to next step.</h3>
+		                    <div class="row not-logged">
+		                        <div class="col-md-6 text-center">
+		                           <h3>New Customer</h3>
+		                           <div class="form-group">
+		                              <label>First Name</label>
+		                              <input type="text" name="register[first_name]"  class="form-control register-details" required />
+		                           </div>
+		                           <div class="form-group">
+		                              <label>Last Name</label>
+		                              <input type="text" name="register[last_name]"  class="form-control register-details" required/>
+		                           </div>
+		                           <div class="form-group">
+		                              <label>Email Address</label>
+		                              <input type="email" name="register[email]"  class="form-control register-details" required/>
+		                           </div>
+		                           <div class="form-group">
+		                              <label>Password</label>
+		                              <input type="password" name="register[password]"  class="form-control register-details" required/>
+		                           </div>
+		                           <div class="form-group">
+		                              <label>Phone</label>
+		                              <input type="text" name="register[phone]"  class="form-control register-details" required/>
+		                           </div>
+		                           <div class="form-group">
+		                              <label>Zipcode</label>
+		                              <input type="text" name="register[zip]"  class="form-control register-details" />
+		                           </div>
+		                           <div class=" btn-rw">	
+		                              <a href="javascript:void(0);" class="btn btn-primary ctn-btn" data-tab="loading">Continue</a>
+		                           </div>
+		                        </div>
+		                        <div class="col-md-6 text-center">
+		                           <h3>Returning Customer</h3>
+		                           <div class=" btn-rw">	
+		                              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Login</a>
+		                           </div>
+		                        </div>
+		                    </div>
 	                     @endif
 	                  </div>
 	                  <div role="tabpanel" class="tab-pane" id="loading">
@@ -352,25 +360,25 @@
 	                        <div class="col2-rw">
 	                           <div class="form-group first">
 	                              <label>Service Address</label>
-	                              <input type="text"  placeholder="1516, S. Brookes Street, Austin, Texas" class="form-control" value="{{$profile->address}}" readonly/>
+	                              <input type="text"  placeholder="1516, S. Brookes Street, Austin, Texas" class="form-control" id="service_address" name="service_address" value="{{$profile->address}}"/>
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Zip Code</label>
-	                              <input type="text"  placeholder="74293" class="form-control" value="{{$profile->zip}}" readonly/>
+	                              <input type="text" id="service_zip" name="service_zip" placeholder="74293" class="form-control service_zip" value="{{$profile->zip}}" readonly/>
 	                           </div>
 	                        </div>
 	                        <div class="col-rw">
 	                           <div class="form-group">
 	                              <label>Contact Name</label>
-	                              <input type="text"  placeholder="Karen Mars" class="form-control" value="{{$profile->first_name}} {{$profile->last_name}}" readonly/>
+	                              <input type="text"  placeholder="Karen Mars" class="form-control service_contact_name" id="service_contact_name" name="service_contact_name" value="{{$profile->first_name}} {{$profile->last_name}}" readonly/>
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Contact Email</label>
-	                              <input type="text"  placeholder="karen@email.com" class="form-control" value="{{$profile->email}}" readonly />
+	                              <input type="text" id="service_email" name="service_email" placeholder="karen@email.com" class="form-control service_email" value="{{$profile->email}}" readonly />
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Contact Phone</label>
-	                              <input type="text"  placeholder="597-978-6358" class="form-control" value="{{$profile->phone}}" readonly/>
+	                              <input type="text"  placeholder="597-978-6358" class="form-control service_phone" id="service_phone" name="service_phone" value="{{$profile->phone}}" readonly/>
 	                           </div>
 	                        </div>
 	                        <div class="col-rw">
@@ -434,7 +442,7 @@
 	                                 <div class="form-group row">
 	                                    <label for="inputPassword" class="col-sm-3 col-form-label"><i>*</i> Description</label>
 	                                    <div class="col-sm-9">
-	                                       <textarea class="form-control" name="service_description">{{Session::get('booking[service_description]')}}</textarea>
+	                                       <textarea class="form-control" name="service_description" id="service_description">{{Session::get('booking[service_description]')}}</textarea>
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group row">
@@ -448,13 +456,13 @@
 	                                 <div class="form-group row">
 	                                    <label for="inputPassword" class="col-sm-3 col-form-label"><i>*</i> Name</label>
 	                                    <div class="col-sm-9">
-	                                       <input type="text" class="form-control" id="name" name="user_name" value="{{$profile->first_name}} {{$profile->last_name}}">
+	                                       <input type="text" class="form-control service_contact_name" id="name" name="user_name" value="{{$profile->first_name}} {{$profile->last_name}}">
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group row">
 	                                    <label for="inputPassword" class="col-sm-3 col-form-label"><i>*</i> Email</label>
 	                                    <div class="col-sm-9">
-	                                       <input type="email" class="form-control" id="email" name="user_email" value="{{$profile->email}}">
+	                                       <input type="email" class="form-control service_email" id="email" name="user_email" value="{{$profile->email}}">
 	                                    </div>
 	                                 </div>
 	                              </div>
@@ -475,9 +483,9 @@
 	                                 <div class="form-group row">
 	                                    <label for="staticEmail" class="col-sm-3 col-form-label">*State/Zip</label>
 	                                    <div class="col-sm-9 two-col">
-	                                       <select class="form-control" name="user_state">
-	                                          <option>--Select State -- </option>
-	                                          <option value="" selected>Punjab</option>
+	                                       <select class="form-control" name="user_state" id="user_state">
+	                                          <option value="">--Select State -- </option>
+	                                          <option value="Punjab" selected>Punjab</option>
 	                                       </select>
 	                                       <input type="text" class="form-control" placeholder="Zip" id="zip" name="user_zip" value="{{$profile->zip}}">
 	                                    </div>
@@ -485,9 +493,9 @@
 	                                 <div class="form-group row">
 	                                    <label for="staticEmail" class="col-sm-3 col-form-label">*Country</label>
 	                                    <div class="col-sm-9">
-	                                       <select class="form-control" name="user_country">
-	                                          <option>United State</option>
-	                                          <option>India</option>
+	                                       <select class="form-control" name="user_country" id="user_country">
+	                                          <option value="IN">India</option>
+	                                          <option value="USA">United State</option>
 	                                       </select>
 	                                    </div>
 	                                 </div>
@@ -496,7 +504,7 @@
 	                                    <label for="staticEmail" class="col-sm-3 col-form-label">*Name on Card</label>
 	                                    <div class="col-sm-9">
 	                                       <div class="input-group mb-3">
-	                                          <input type="text" class="form-control" placeholder="Name on Card" name="card_name" value="{{$profile->first_name}} {{$profile->last_name}}">
+	                                          <input type="text" class="form-control" placeholder="Name on Card" name="card_name" id="card_name" value="{{$profile->first_name}} {{$profile->last_name}}">
 	                                          <div class="input-group-prepend">
 	                                             <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock" aria-hidden="true"></i>
 	                                             </span>
@@ -508,7 +516,7 @@
 	                                    <label for="staticEmail" class="col-sm-3 col-form-label">*Card Number</label>
 	                                    <div class="col-sm-9">
 	                                       <div class="input-group mb-3">
-	                                          <input type="text" class="form-control" placeholder="Card Number" name="card_number">
+	                                          <input type="text" class="form-control" placeholder="Card Number" name="card_number" id="card_number">
 	                                          <div class="input-group-prepend">
 	                                             <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock" aria-hidden="true"></i>
 	                                             </span>
@@ -525,12 +533,12 @@
 	                                        @endfor
 	                                       </select>
 	                                       <select class="form-control" name="card_expiry_year">
-	                                       	@for($i = 2020; $i<2050;$i++)
+	                                       	@for($i = 2021; $i<2050;$i++)
 	                                          <option value="{{$i}}">{{$i}}</option>
 	                                      	@endfor
 	                                       </select>
 	                                       <div class="input-group mb-3">
-	                                          <input type="text" class="form-control" placeholder="CVC" name="card_security_code">
+	                                          <input type="text" class="form-control" placeholder="CVC" name="card_security_code" id="card_security_code">
 	                                          <div class="input-group-prepend">
 	                                             <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock" aria-hidden="true"></i>
 	                                             </span>

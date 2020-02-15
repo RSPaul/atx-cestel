@@ -29,17 +29,18 @@ Auth::routes(['verify' => true]);
 /**
 * Generic Routes
 **/
-Route::get('/user/{id}', 'User\UserController@get')->name('user_by_id');
+// Route::get('/user/{id}', 'User\UserController@get')->name('user_by_id');
 Route::post('/user/upload/profile', 'User\UserController@uploadPicture')->name('upload_profile_picture');
 
 /**
-* Customer Routes
+* User Routes
 **/
 Route::get('/profile', 'User\UserController@profile')->name('user_profile');
 Route::get('/dashbaord', 'User\UserController@profile')->name('user_dashboard');
 
 Route::post('/book', 'HomeController@book')->name('booking');
 Route::post('/booking/checkout', 'HomeController@book')->name('booking_checkout');
+Route::get('/user/{tab}', 'User\UserController@dashboard')->name('user_dashboard');
 
 /**
 * Laundress Routes

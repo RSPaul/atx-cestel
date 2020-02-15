@@ -37,7 +37,7 @@
             <div class="col-md-10">
                <!-- Tab panes -->
                <div class="tab-content">
-                  <div role="tabpanel" class="tab-pane" id="dashboard">
+                  <div role="tabpanel" class="tab-pane @if($tab_id == 'dashboard') active @endif" id="dashboard">
                      <div class="btn_rw">
                         <a href="#" class="btn btn-wht active">Today's Schedule</a>
                         <a href="#" class="btn btn-wht">Next 7 Days</a>
@@ -135,7 +135,7 @@
                         </div>
                      </div>
                   </div>
-                  <div role="tabpanel" class="tab-pane active" id="account">
+                  <div role="tabpanel" class="tab-pane @if($tab_id == 'profile') active @endif" id="account">
 	                  <form autocomplete="off" method="POST" accept="">
 	                     @csrf
 	                     <div role="tabpanel" class="tab-pane active" id="account">
@@ -183,7 +183,7 @@
 	                     </div>
 	                  </form>
 	              </div>
-                  <div role="tabpanel" class="tab-pane" id="schedule">
+                  <div role="tabpanel" class="tab-pane @if($tab_id == 'schedule') active @endif" id="schedule">
                      <div class="btn_rw">
                         <a href="#" class="btn btn-wht active" id="today">Today</a>
                         <a href="#" class="btn btn-wht">Tommorrow</a>
@@ -242,7 +242,7 @@
                         </div>
                      </div>
                   </div>
-                  <div role="tabpanel" class="tab-pane" id="prevserv">
+                  <div role="tabpanel" class="tab-pane @if($tab_id == 'prevserv') active @endif" id="prevserv">
                      <div class="form-group">
                         <label>Service Selected</label>
                         <input type="text" name="text" placeholder="Folding, Ironing & Hanging" class="form-control"/>

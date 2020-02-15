@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,28 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function credentials(Request $request)
+    {   
+        return ['email' => $request->email, 'password' => $request->password, 'status' => 1];
+    }
+
+    protected function authenticated(Request $request, $user) {
+
+        if ($request->ajax()){
+            return response()->json([
+                 'auth' => auth()->check(),
+                 'user' => $user,
+                 'intended' => $this->redirectPath(),
+             ]);
+        }
+        if ($user->user_type == "admin") {
+            return redirect('/admin');
+        } else if ($user->user_type == "customer") {
+            return redirect('/profile');
+        } else {
+            return redirect('/dashboard');
+        }
     }
 }
