@@ -34,7 +34,7 @@
               <li><a href="{{ route('login') }}" title="Login">Login</a>
               </li>
               @else
-                <li><a href="/profile" class="">Profile</a></li>
+                <li><a href="/user/profile" class="">Profile</a></li>
               @endif
 			  
               

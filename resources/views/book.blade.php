@@ -3,26 +3,26 @@
 <section class="heading_top">
    <div class="container">
       <ul class="nav nav-tabs nav-tabs-dropdown horizontal" role="tablist">
-         <li role="presentation" class="active">
+         <li role="presentation" class="active tab_services">
          	<a href="#services" aria-controls="load" role="tab" data-toggle="tab"><span class="bor_rad">
          		<img src="{{asset('img/services.png')}}" alt="services"/></span> <b>Services</b>
          	</a>
          </li>
-         <li role="presentation">
+         <li role="presentation" class="tab_when">
          	<a href="#" data-tab="when" class="ctn-btn" aria-controls="account" role="tab" data-toggle="tab"><span class="bor_rad">
          		<img src="{{asset('img/schedule.png')}}" alt="schedule"/></span> <b>When</b>
          	</a>
          </li>
-         <li role="presentation">
+         <li role="presentation" class="tab_contact">
          	<a href="#" data-tab="contact" class="ctn-btn" aria-controls="schedule" role="tab" data-toggle="tab"><span class="bor_rad">
          		<img src="{{asset('img/contact.png')}}" alt="contact"/></span> <b>Contact</b>
          	</a>
          </li>
-         <li role="presentation">
+         <li role="presentation" class="tab_loading">
          	<a href="#" data-tab="loading" class="ctn-btn" aria-controls="loading" role="tab" data-toggle="tab"><span class="bor_rad">
          		<img src="{{asset('img/load.png')}}" alt="load"/></span> <b>Load</b></a>
          	</li>
-         <li role="presentation">
+         <li role="presentation" class="tab_detail">
          	<a href="#" data-tab="detail" class="ctn-btn" aria-controls="logout" role="tab" data-toggle="tab"><span class="bor_rad">
          		<img src="{{asset('img/details.png')}}" alt="details"/></span> <b>Details</b>
          	</a>

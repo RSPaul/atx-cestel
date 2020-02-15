@@ -55,7 +55,7 @@
                </a>
                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                   <div class="bg-white py-2 collapse-inner rounded">
-                     <a class="collapse-item" href="/users/customer">Customers</a>
+                     <a class="collapse-item" href="/users/user">Users</a>
                      <a class="collapse-item" href="/users/laundress">Laundress</a>
                      <!-- <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
                         <div class="collapse-divider"></div>

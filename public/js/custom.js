@@ -214,8 +214,11 @@ $(function () {
     function activeTab(tab){
         //check validations and restrict the next tab
         if(validateBookingForm(tab)) {
-          $('.nav-tabs a[href="#' + tab + '"]').tab('show');
-          scrollToDiv(tab);
+        	$('.tab-pane').removeClass('active');
+          	$('#' + tab).addClass('active');
+          	$('.nav.nav-tabs.nav-tabs-dropdown.horizontal li').removeClass('active');
+          	$('.tab_' + tab).addClass('active');
+          	scrollToDiv(tab);
         }
     };
 
@@ -264,109 +267,110 @@ $(function () {
     }
 
     function validateBookingForm(tabId) {
-      $('#bookingValidationError').hide();
-      var response = false;
-      var message = '';
-      if(tabId == 'when') {
-        if($("input[name='service_type']").is(":checked") && $("input[name='service_categories[]']").is(":checked")) {
-          response = true;
-        } else {
-          message = 'Select your add on service.';
-        }
-      } else if(tabId == 'contact') {
-        if($('#service_laundress option:selected').val() != '') {
-          var service_laundress = true;
-        } else {
-          message = 'Choose your laundress.';
-        }
-        if($('#service_day option:selected').val() != '') {
-          var service_day = true;
-        } else {
-          message = 'Choose your service day.';
-        }
-        if($('#service_time option:selected').val() != '') {
-          var service_time = true;
-        } else {
-          message = 'Choose your service day.';
-        }
+      	$('#bookingValidationError').hide();
+      	var response = false;
+      	var message = '';
+	    if(tabId == 'when') {
+	      	console.log($("input[name='service_type']").is(":checked") , $("input[name='service_categories[]']").is(":checked"), tabId);
+	        if($("input[name='service_type']").is(":checked") && $("input[name='service_categories[]']").is(":checked")) {
+	          response = true;
+	        } else {
+	          message = 'Select your add on service.';
+	        }
+	    } else if(tabId == 'contact') {
+	        if($('#service_laundress option:selected').val() != '') {
+	          var service_laundress = true;
+	        } else {
+	          message = 'Choose your laundress.';
+	        }
+	        if($('#service_day option:selected').val() != '') {
+	          var service_day = true;
+	        } else {
+	          message = 'Choose your service day.';
+	        }
+	        if($('#service_time option:selected').val() != '') {
+	          var service_time = true;
+	        } else {
+	          message = 'Choose your service day.';
+	        }
 
-        if(service_laundress && service_day && service_time) {
-          response = true;
-        }
-      } else if(tabId == 'loading') {
-        var registerCount = 0;
-        $('.register-details').each(function() {
-          message = 'Please enter all required details.';
-          if($(this).val() != '') {
-            registerCount++;
-          } else if($(this).attr('register[email]') && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($(this).val())) {
-            registerCount++;
-          } else {
-            message = 'Please enter valid email address.';
-          }
-        });
-        if(registerCount == 6) {
-          response = true;
-        }
-        //if user is logged in
-        if($('#isLoggedIn').val() == '1') {
-          response = true;
-        }
-      } else if(tabId == 'detail') {
-        if($("input[name='service_package']").is(":checked")) {
-          response = true;
-        } else {
-          message = 'Select your press package.';
-        }
-      } else if(tabId == 'payment') {
-        response = true;
-        if($('#user_address').val() == '') {
-          message = 'Please enter biliing address';
-          response = false;
-        }
-        if($('#user_city').val() == '') {
-          message = 'Please enter biliing city.';
-          response = false;
-        }
-        if($('#user_state option:selected').val() == '') {
-          message = 'Please enter biliing state.';
-          response = false;
-        }
-        if($('#zip option:selected').val() == '') {
-          message = 'Please enter biliing zip.';
-          response = false;
-        }
-        if($('#user_country option:selected').val() == '') {
-          message = 'Please enter biliing country.';
-          response = false;
-        }
-        if($('#card_number').val() == '') {
-          message = 'Please enter card number.';
-          response = false;
-        }
-        if($('#card_name').val() == '') {
-          message = 'Please enter card name.';
-          response = false;
-        }
-        if($('#card_security_code').val() == '') {
-          message = 'Please enter card security code.';
-          response = false;
-        }
-        if($('#service_description').val() == '') {
-          message = 'Please enter service description.';
-          response = false;
-        }
-      }
+	        if(service_laundress && service_day && service_time) {
+	          response = true;
+	        }
+	    } else if(tabId == 'loading') {
+	        var registerCount = 0;
+	        $('.register-details').each(function() {
+	          message = 'Please enter all required details.';
+	          if($(this).val() != '') {
+	            registerCount++;
+	          } else if($(this).attr('register[email]') && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($(this).val())) {
+	            registerCount++;
+	          } else {
+	            message = 'Please enter valid email address.';
+	          }
+	        });
+	        if(registerCount == 6) {
+	          response = true;
+	        }
+	        //if user is logged in
+	        if($('#isLoggedIn').val() == '1') {
+	          response = true;
+	        }
+	    } else if(tabId == 'detail') {
+	        if($("input[name='service_package']").is(":checked")) {
+	          response = true;
+	        } else {
+	          message = 'Select your press package.';
+	        }
+	    } else if(tabId == 'payment') {
+	        response = true;
+	        if($('#user_address').val() == '') {
+	          message = 'Please enter biliing address';
+	          response = false;
+	        }
+	        if($('#user_city').val() == '') {
+	          message = 'Please enter biliing city.';
+	          response = false;
+	        }
+	        if($('#user_state option:selected').val() == '') {
+	          message = 'Please enter biliing state.';
+	          response = false;
+	        }
+	        if($('#zip option:selected').val() == '') {
+	          message = 'Please enter biliing zip.';
+	          response = false;
+	        }
+	        if($('#user_country option:selected').val() == '') {
+	          message = 'Please enter biliing country.';
+	          response = false;
+	        }
+	        if($('#card_number').val() == '') {
+	          message = 'Please enter card number.';
+	          response = false;
+	        }
+	        if($('#card_name').val() == '') {
+	          message = 'Please enter card name.';
+	          response = false;
+	        }
+	        if($('#card_security_code').val() == '') {
+	          message = 'Please enter card security code.';
+	          response = false;
+	        }
+	        if($('#service_description').val() == '') {
+	          message = 'Please enter service description.';
+	          response = false;
+	        }
+	    }
 
-      //show validation message
-      if(!response) {
-        $('#bookingValidationError p').html(message);
-        $('#bookingValidationError').show();
-        scrollToDiv('bookingValidationError');
-        setTimeout(function () {
-          $('#bookingValidationError').fadeOut('slow');
-        },3000);
-      }
-
-      return response;
+	    //show validation message
+	    if(!response) {
+	        $('#bookingValidationError p').html(message);
+	        $('#bookingValidationError').show();
+	        scrollToDiv('bookingValidationError');
+	        setTimeout(function () {
+	          $('#bookingValidationError').fadeOut('slow');
+	        },3000);
+	    }
+	    console.log('here ', response);
+	    return response;
     }

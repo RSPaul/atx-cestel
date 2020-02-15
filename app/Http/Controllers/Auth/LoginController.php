@@ -56,10 +56,10 @@ class LoginController extends Controller
         }
         if ($user->user_type == "admin") {
             return redirect('/admin');
-        } else if ($user->user_type == "customer") {
-            return redirect('/profile');
+        } else if ($user->user_type == "user") {
+            return redirect('/user/dashboard');
         } else {
-            return redirect('/dashboard');
+            return redirect('/laundress/dashboard');
         }
     }
 }
