@@ -1,9 +1,10 @@
 @include('emails.layouts.header')
 
-<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Hi {{$laundress->first_name}},</p>
-<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">You have a new booking</p>
+<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Hi {{$booking->first_name}},</p>
+<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">You have successfully booked your laundrer. </p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Below are the booking details:</p>
 
+<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Laundrer Name: {{$laundress->first_name}}, {{$laundress->last_name}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Type: {{$booking->service_type}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Categories: {{$booking->service_categories}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Beds: {{$booking->service_beds}}</p>

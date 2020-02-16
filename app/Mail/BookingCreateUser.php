@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Auth;
 
-class BookingCreate extends Mailable
+class BookingCreateUser extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -35,6 +35,6 @@ class BookingCreate extends Mailable
     {
 				 return $this->from(env('FROM_EMAIL'),env('FROM_NAME'))
                 ->subject('Booking Successful')
-                ->view('emails.booking_create');
+                ->view('emails.booking_create_user');
     }
 }

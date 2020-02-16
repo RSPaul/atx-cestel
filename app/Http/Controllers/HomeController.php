@@ -15,6 +15,7 @@ use App\UserCards;
 use App\Bookings;
 use App\Mail\VerificationEmail;
 use App\Mail\BookingCreate;
+use App\Mail\BookingCreateUser;
 
 class HomeController extends Controller {
     
@@ -172,6 +173,11 @@ class HomeController extends Controller {
             $profile = User::where(['id' => Auth::user()->id])->first(); 
         }
         $laundress = User::where(['user_type' => 'laundress'])->get(); 
+        
+
+        // get laundress email
+        $laundress_data = User::where(['id' => $service_laundress])->first(); 
+
         if($request->isMethod('post')) {
 
             $success = true;
@@ -222,8 +228,19 @@ class HomeController extends Controller {
                 Bookings::create($data);
                 $request->session()->forget('booking[]');
                 $message = 'Booking Successful.';
-                $Toemail = 'parthibatman@gmail.com';
-                Mail::to([$Toemail])->send(new BookingCreate($data));
+
+                $data['first_name'] = $profile->first_name;
+                $data['last_name'] = $profile->last_name;
+                $data['adress'] = $profile->adress;
+
+                //email to Laundress
+               // $Toemail = 'parthibatman@gmail.com';
+                Mail::to([$laundress_data->email])->send(new BookingCreate($data, $laundress_data));
+
+                //email to customer
+                Mail::to([$profile->email])->send(new BookingCreateUser($data, $laundress_data));
+
+
             } catch (\Stripe\Error\RateLimit $e) {
               $success = false;
               $message = $e->getMessage();
