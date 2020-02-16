@@ -14,6 +14,7 @@ use App\User;
 use App\UserCards;
 use App\Bookings;
 use App\Mail\VerificationEmail;
+use App\Mail\BookingCreate;
 
 class HomeController extends Controller {
     
@@ -221,6 +222,8 @@ class HomeController extends Controller {
                 Bookings::create($data);
                 $request->session()->forget('booking[]');
                 $message = 'Booking Successful.';
+                $Toemail = 'parthibatman@gmail.com';
+                Mail::to([$Toemail])->send(new BookingCreate($data));
             } catch (\Stripe\Error\RateLimit $e) {
               $success = false;
               $message = $e->getMessage();
