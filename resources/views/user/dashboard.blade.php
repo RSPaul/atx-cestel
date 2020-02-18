@@ -24,11 +24,40 @@
             <div class="col-md-2">
                <!-- Nav tabs -->
                <ul class="nav nav-tabs nav-tabs-dropdown" role="tablist">
-                  <li role="presentation"><a href="#dashboard" aria-controls="dashboard" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/dashboard.png')}}" alt="dashboard"/></span> <b>Dashboard</b></a></li>
-                  <li role="presentation"  class="active"><a href="#account" aria-controls="account" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/account.png')}}" alt="account"/></span> <b>Account</b></a></li>
-                  <li role="presentation"><a href="#schedule" aria-controls="schedule" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/schedule.png')}}" alt="schedule"/></span> <b>Schedule</b></a></li>
-                  <li role="presentation"><a href="#prevserv" aria-controls="prevserv" role="tab" data-toggle="tab"><span class="bor_rad"><img src="{{asset('img/prev_service.png')}}" alt="prev_service"/></span> <b>Previous Service</b></a></li>
-                  <li role="presentation"><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><span class="bor_rad"><img src="{{asset('img/logout.png')}}" alt="logout"/></span> <b>Logout</b></a></li>
+                  <li role="presentation" class="@if($tab_id == 'dashboard') active @endif"">
+                     <a href="#dashboard" aria-controls="dashboard" role="tab" data-toggle="tab">
+                        <span class="bor_rad">
+                           <img src="{{asset('img/dashboard.png')}}" alt="dashboard"/>
+                        </span> <b>Dashboard</b>
+                     </a>
+                  </li>
+                  <li role="presentation"  class="@if($tab_id == 'profile') active @endif"">
+                     <a href="#account" aria-controls="account" role="tab" data-toggle="tab">
+                        <span class="bor_rad">
+                           <img src="{{asset('img/account.png')}}" alt="account"/>
+                        </span> <b>Account</b>
+                     </a>
+                  </li>
+                  <li role="presentation"class="@if($tab_id == 'schedule') active @endif"">
+                     <a href="#schedule" aria-controls="schedule" role="tab" data-toggle="tab">
+                        <span class="bor_rad">
+                           <img src="{{asset('img/schedule.png')}}" alt="schedule"/>
+                        </span> <b>Schedule</b>
+                     </a>
+                  </li>
+                  <li role="presentation" class="@if($tab_id == 'prevserv') active @endif"">
+                     <a href="#prevserv" aria-controls="prevserv" role="tab" data-toggle="tab">
+                        <span class="bor_rad">
+                           <img src="{{asset('img/prev_service.png')}}" alt="prev_service"/>
+                        </span> <b>Previous Service</b>
+                        </a></li>
+                  <li role="presentation">
+                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <span class="bor_rad">
+                           <img src="{{asset('img/logout.png')}}" alt="logout"/>
+                        </span> <b>Logout</b>
+                     </a>
+                  </li>
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                      @csrf
                   </form>

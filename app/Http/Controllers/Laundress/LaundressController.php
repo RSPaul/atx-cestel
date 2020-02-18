@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Laundress;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,16 +11,17 @@ use Illuminate\Support\Facades\Validator;
 use DB;
 use Mail;
 use App\User;
+use App\Bookings;
 
-class UserController extends Controller
+class LaundressController extends Controller
 {	
 	public function __construct() {
-        $this->middleware(['auth','verified', 'user'],  ['except' => ['get', 'updateProile']]);
+        $this->middleware(['auth','verified', 'laundress'],  ['except' => ['get']]);
     }
 
     public function profile(Request $request) {
     	$profile = User::where(['id' => Auth::user()->id])->first();
-    	return view('user.dashboard')->with([ "profile" => $profile]);
+    	return view('laundress.dashboard')->with([ "profile" => $profile]);
     }
 
     public function get($id) {
@@ -66,39 +67,21 @@ class UserController extends Controller
     public function dashboard(Request $request) {
         $tab_id = $request->tab;
         $profile = User::where(['id' => Auth::user()->id])->first();
-        return view('user.dashboard')->with([ "profile" => $profile, "tab_id" => $tab_id]);
+        return view('laundress.dashboard')->with([ "profile" => $profile, "tab_id" => $tab_id]);
     }
 
-    public function updateProile(Request $request) {
-        $profile = $request->all();
-        $message = 'Profile updated.';
-        $success = true;
-        try {
-            if($profile['password'] != '' && Hash::make($profile['current_password']) == Auth::user()->password) {
-                User::where(['id' => Auth::user()->id])
-                        ->update([
-                            'password' => Hash::make($profile['password'])
-                        ]);
-                User::where(['id' => Auth::user()->id])
-                            ->update($profile);
-            } else if($profile['password'] == '' || @$profile['password']) {
-                unset($profile['password']);
-                unset($profile['current_password']);
-                unset($profile['confirm_password']);
-                User::where(['id' => Auth::user()->id])
-                            ->update($profile);
-               
-            } else {
-                $success = false;
-                $message = 'Your current password is invalid.';
-            }
-        } catch(Exception $e) {
-            $success = false;
-            $message = $e->getMessage();
-        }
-        $response = array('success' => $success,
-                          'message' => $message,
-                          'data' => $profile);
-        return response()->json($response);
+    public function schedule(Request $request) {
+        $next_week_bookings = array();
+        $bookings = Bookings::where(['service_laundress' => Auth::user()->id])
+                    ->join('users', 'users.id', '=', 'bookings.user_id')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+                    ->where('bookings.created_at', '<=', date('Y-m-d'))
+                    ->get();
+        $next_week_bookings = Bookings::where(['service_laundress' => Auth::user()->id])
+                    ->join('users', 'users.id', '=', 'bookings.user_id')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+                    ->where('bookings.created_at', '>', date('Y-m-d'))
+                    ->get();
+        return response()->json(['bookings'=> array('today' => $bookings, 'next_week' => $next_week_bookings)]);
     }
 }

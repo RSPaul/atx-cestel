@@ -29,8 +29,9 @@ Auth::routes(['verify' => true]);
 /**
 * Generic Routes
 **/
-// Route::get('/user/{id}', 'User\UserController@get')->name('user_by_id');
+Route::get('/user-profile/{id}', 'User\UserController@get')->name('user_by_id');
 Route::post('/user/upload/profile', 'User\UserController@uploadPicture')->name('upload_profile_picture');
+Route::post('/update-profile', 'User\UserController@updateProile')->name('update_proile');
 
 /**
 * User Routes
@@ -45,7 +46,8 @@ Route::get('/user/{tab}', 'User\UserController@dashboard')->name('user_dashboard
 /**
 * Laundress Routes
 **/
-
+Route::get('/laundress/{tab}', 'Laundress\LaundressController@dashboard')->name('laundress_dashboard');
+Route::get('/laundress-schedule', 'Laundress\LaundressController@schedule')->name('laundress_schedule');
 
 
 /**
