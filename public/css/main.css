@@ -2495,3 +2495,7 @@ img.user-edit-img {
 #bookingValidationError {
     display: none;
 }
+span.details_schedule {
+    padding: 20px;
+    font-size: 16px;
+}

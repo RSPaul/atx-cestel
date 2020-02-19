@@ -72,16 +72,38 @@ class LaundressController extends Controller
 
     public function schedule(Request $request) {
         $next_week_bookings = array();
+        $all_bookings = array();
+
         $bookings = Bookings::where(['service_laundress' => Auth::user()->id])
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->where('bookings.created_at', '<=', date('Y-m-d'))
                     ->get();
+
         $next_week_bookings = Bookings::where(['service_laundress' => Auth::user()->id])
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->where('bookings.created_at', '>', date('Y-m-d'))
                     ->get();
-        return response()->json(['bookings'=> array('today' => $bookings, 'next_week' => $next_week_bookings)]);
+
+        $all_bookings = Bookings::where(['service_laundress' => Auth::user()->id])
+                    ->join('users', 'users.id', '=', 'bookings.user_id')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+                    ->get();
+                    
+
+        return response()->json(['bookings'=> array('today' => $bookings, 'next_week' => $next_week_bookings, 'all_bookings' => $all_bookings)]);
+    }
+
+    public function viewschedule(Request $request) {
+        $data = $request->all();
+
+        $view_boooking = array();
+        $view_boooking = Bookings::where(['service_laundress' => Auth::user()->id])
+                    ->join('users', 'users.id', '=', 'bookings.user_id')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+                    ->where('bookings.id', '=', $data['id'])
+                    ->get();
+        return response()->json(['schedule'=> array('view_boooking' => $view_boooking)]);
     }
 }

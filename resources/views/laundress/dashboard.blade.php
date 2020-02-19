@@ -262,64 +262,26 @@
                            </div>
                         </div>
                      </div>
-                     <div role="tabpanel" class="tab-pane @if($tab_id == 'prevserv') active @endif" id="prevserv">
-                        <div class="form-group">
-                           <label>Service Selected</label>
-                           <input type="text" name="text" placeholder="Folding, Ironing & Hanging" class="form-control"/>
-                        </div>
-                        <div class="col-rw">
-                           <div class="form-group">
-                              <label>Service Day</label>
-                              <input type="text" name="text" placeholder="08/19/2019" class="form-control"/>
+                     <div role="tabpanel" class="tab-pane table_bx @if($tab_id == 'prevserv') active @endif" id="prevserv">
+                        <div class="col-md-9">
+                              <table class="table">
+                                 <tr>
+                                    <th>Time</th>
+                                    <th>Services</th>
+                                    <th>Location</th>
+                                    <th>Customer</th>
+                                    <th>Action</th>
+                                 </tr>
+                                 <tr ng-repeat="booking in bookings.all_bookings">
+                                    <td><b>@{{booking.service_time}}</b></td>
+                                    <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
+                                    <td><b>@{{booking.city_state}}</b> @{{booking.address}}
+                                    </td>
+                                    <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> </td>
+                                    <td><a href="javascript:void(0);" ng-click="viewBooking(booking)">View</a> </td>
+                                 </tr>
+                              </table>
                            </div>
-                           <div class="form-group">
-                              <label>Time</label>
-                              <input type="text" name="text" placeholder="3:00 pm - 5:00 pm" class="form-control"/>
-                           </div>
-                           <div class="form-group">
-                              <label>Laundress</label>
-                              <input type="text" name="text" placeholder="Jenny Johnson" class="form-control"/>
-                           </div>
-                        </div>
-                        <div class="form-group">
-                           <label>Service Address</label>
-                           <input type="text" name="text" placeholder="1516, S. Brookes Street, Austin, Texas 74293" class="form-control"/>
-                        </div>
-                        <div class="col-rw">
-                           <div class="form-group">
-                              <label>Contact Name</label>
-                              <input type="text" name="text" placeholder="Karen Mars" class="form-control"/>
-                           </div>
-                           <div class="form-group">
-                              <label>Contact Email</label>
-                              <input type="text" name="text" placeholder="karen@email.com" class="form-control"/>
-                           </div>
-                           <div class="form-group">
-                              <label>Contact Phone</label>
-                              <input type="text" name="text" placeholder="597-978-6358" class="form-control"/>
-                           </div>
-                        </div>
-                        <div class="col-rw">
-                           <div class="form-group">
-                              <label>Folding Amount</label>
-                              <input type="text" name="text" placeholder="Median" class="form-control"/>
-                           </div>
-                           <div class="form-group">
-                              <label>Hanging Amount</label>
-                              <input type="text" name="text" placeholder="Petite" class="form-control"/>
-                           </div>
-                           <div class="form-group">
-                              <label>Ironing Amount</label>
-                              <input type="text" name="text" placeholder="4 Shirts no starch" class="form-control"/>
-                           </div>
-                        </div>
-                        <div class="form-group">
-                           <label>Job details</label>
-                           <textarea class="form-control"></textarea>
-                        </div>
-                        <div class=" btn-rw">	
-                           <a href="#" class="btn btn-primary">Schedule Service Again</a>
-                        </div>
                      </div>
                      <div role="tabpanel" class="tab-pane" id="logout">...</div>
                   </div>
@@ -329,6 +291,45 @@
       </div>
    </section>
    <!-- End Team section-->
+
+   <!-- The Modal -->
+<div class="modal fade" id="viewSchedule" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+            <h4 class="modal-title">Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+                </button>
+            </div>         
+            <div class="modal-body">
+                <div class="row">
+                     
+                    <span class="details_schedule">Customer First Name: <b>@{{ schedule.first_name }}</b></span><br /><br />
+                    <span class="details_schedule">Customer Last Name: <b>@{{ schedule.last_name }}</b></span><br /><br />
+                    <span class="details_schedule">Customer Address: <b>@{{ schedule.address }}</b></span><br /><br />
+                    <span class="details_schedule">Customer State: <b>@{{ schedule.city_state }}</b></span><br /><br />
+                    <span class="details_schedule">Service Type: <b>@{{ schedule.service_type }}</b></span><br /><br />
+                    <span class="details_schedule">Service Day: <b>@{{ schedule.service_day }}</b></span><br /><br />
+                    <span class="details_schedule">Service Time: <b>@{{ schedule.service_time }}</b></span><br /><br />
+                    <span class="details_schedule">Service Laundress: <b>@{{ schedule.service_laundress }}</b></span><br /><br />
+                    <span class="details_schedule">Service Package: <b>@{{ schedule.service_package }}</b></span><br /><br />
+                    <span class="details_schedule">Service Amount: <b>@{{ schedule.service_amount }}</b></span><br /><br />
+                    <span class="details_schedule">Service Job Details: <b>@{{ schedule.service_job_details }}</b></span><br /><br />
+                    <span class="details_schedule">Service Folding Details: <b>@{{ schedule.service_folding_details }}</b></span><br /><br />
+                    <span class="details_schedule">Service Hanging Details: <b>@{{ schedule.service_hanging_details }}</b></span><br /><br />
+                    <span class="details_schedule">Service Washing Details: <b>@{{ schedule.service_washing_details }}</b></span><br /><br />
+
+                </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </div>
 
 <!-- modal -->
@@ -358,4 +359,7 @@
         </div>
     </div>
 </div>
+
+
+
 @endsection

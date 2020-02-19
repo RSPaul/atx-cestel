@@ -48,6 +48,7 @@ Route::get('/user/{tab}', 'User\UserController@dashboard')->name('user_dashboard
 **/
 Route::get('/laundress/{tab}', 'Laundress\LaundressController@dashboard')->name('laundress_dashboard');
 Route::get('/laundress-schedule', 'Laundress\LaundressController@schedule')->name('laundress_schedule');
+Route::post('/laundress-view-schedule', 'Laundress\LaundressController@viewschedule')->name('laundress-view-schedule');
 
 
 /**

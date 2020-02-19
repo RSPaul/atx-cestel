@@ -1,9 +1,10 @@
 var app = angular.module('laundressUserApp', []);
-
+var modal = document.getElementById("viewSchedule");
 app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
   
   $scope.user = {current_password: '', password: '', confirm_password: ''};
   $scope.showTodayBookings = true;
+  $scope.viewBookings = false;
   
   /*
   * Get User Profile
@@ -67,6 +68,16 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
   	}, function (error) {
   		console.log('error getting schedule ', error);
   	});
+  }
+
+  $scope.viewBooking = function(scheduledata){
+
+    $('#viewSchedule').modal('show');
+    $scope.schedule = scheduledata;
+  }
+
+  $scope.closeviewSchedule = function(){
+    $('#viewSchedule').modal('hide');
   }
 
   /*
