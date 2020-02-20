@@ -1,6 +1,12 @@
 $(function () {
       $('#msgError').hide();
       $('#msgSuccess').hide();
+
+      $('#service_day').datepicker({
+           autoclose: true
+        });
+
+      
       $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -271,7 +277,7 @@ $(function () {
       	var response = false;
       	var message = '';
 	    if(tabId == 'when') {
-	      	console.log($("input[name='service_type']").is(":checked") , $("input[name='service_categories[]']").is(":checked"), tabId);
+	      	//console.log($("input[name='service_type']").is(":checked") , $("input[name='service_categories[]']").is(":checked"), tabId);
 	        if($("input[name='service_type']").is(":checked") && $("input[name='service_categories[]']").is(":checked")) {
 	          response = true;
 	        } else {

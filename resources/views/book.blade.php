@@ -184,7 +184,7 @@
 	                              <label>Choose a day</label>
 	                              <div class="form-group">
 	                                 <img src="{{asset('img/day.png')}}" alt="day"/>
-	                                 <select name="service_day" required id="service_day" >
+	                                 <input type="text" name="service_day" required id="service_day" /> 	                                <!--  <select name="service_day" required id="service_day" >
 	                                    <option value="Monday" @if(Session::get('booking[service_day]') == 'Monday') "selected='selected'" @endif>Monday</option>
 	                                    <option value="Tuesday" @if(Session::get('booking[service_day]') == 'Tuesday') "selected='selected'" @endif>Tuesday</option>
 	                                    <option value="Wednesday" @if(Session::get('booking[service_day]') == 'Wednesday') "selected='selected'" @endif>Wednesday</option>
@@ -193,7 +193,7 @@
 	                                    <option value="Weekly" @if(Session::get('booking[service_day]') == 'Weekly') "selected='selected'" @endif>Weekly</option>
 	                                    <option value="Bi-weekly" @if(Session::get('booking[service_day]') == 'Bi-weekly') "selected='selected'" @endif>Bi-weekly</option>
 	                                    <option value="Monthly" @if(Session::get('booking[service_day]') == 'Monthly') "selected='selected'" @endif>Monthly</option>
-	                                 </select>
+	                                 </select> -->
 	                              </div>
 	                           </div>
 	                           <div class="col-md-4">
@@ -562,4 +562,4 @@
    </div>
 </section>
 <!-- End Team section-->
-@section('content')
+@endsection

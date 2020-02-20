@@ -12,6 +12,7 @@ use DB;
 use Mail;
 use App\User;
 use App\Bookings;
+use Carbon\Carbon;
 
 class LaundressController extends Controller
 {	
@@ -77,13 +78,13 @@ class LaundressController extends Controller
         $bookings = Bookings::where(['service_laundress' => Auth::user()->id])
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
-                    ->where('bookings.created_at', '<=', date('Y-m-d'))
+                    ->where('bookings.service_day', '<=', date('m/d/Y'))
                     ->get();
 
         $next_week_bookings = Bookings::where(['service_laundress' => Auth::user()->id])
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
-                    ->where('bookings.created_at', '>', date('Y-m-d'))
+                    ->where('bookings.service_day', '>', date('m/d/Y'))
                     ->get();
 
         $all_bookings = Bookings::where(['service_laundress' => Auth::user()->id])
@@ -95,15 +96,48 @@ class LaundressController extends Controller
         return response()->json(['bookings'=> array('today' => $bookings, 'next_week' => $next_week_bookings, 'all_bookings' => $all_bookings)]);
     }
 
-    public function viewschedule(Request $request) {
-        $data = $request->all();
+    public function viewscheduleList(Request $request) {
+        $allBooking = array();
+        $today_bookings = array();
+        $tom_bookings = array();
+        $week_bookings = array();
+        $month_bookings = array();
 
-        $view_boooking = array();
-        $view_boooking = Bookings::where(['service_laundress' => Auth::user()->id])
+        $currentdate = date('m/d/Y');
+        $tomDate = date( "m/d/Y", strtotime( "$currentdate +1 day" ) );
+        $thisWeekDate = date( "m/d/Y", strtotime( "$currentdate +7 day" ) ); 
+        $lastDayofWeek = Carbon::now()->endOfWeek();
+        $lastDayofWeek = date( "m/d/Y", strtotime( $lastDayofWeek ) );
+        $lastDay = date('t',strtotime('today'));
+        $lastmonthdate = date('m/'.$lastDay.'/Y');
+
+        $allBooking = Bookings::where(['service_laundress' => Auth::user()->id])
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
-                    ->where('bookings.id', '=', $data['id'])
+                    ->where('bookings.service_day', '>=',  $currentdate)
                     ->get();
-        return response()->json(['schedule'=> array('view_boooking' => $view_boooking)]);
+
+        foreach ($allBooking as $key => $value) {
+
+            if($value->service_day ==  $currentdate) {
+                array_push($today_bookings, $value);
+                array_push($week_bookings, $value);
+                array_push($month_bookings, $value);
+            }else if($value->service_day ==  $tomDate ) {
+                array_push($tom_bookings, $value);
+                array_push($week_bookings, $value);
+                array_push($month_bookings, $value);
+            }else if($value->service_day > date('m/d/Y') && $value->service_day <=  $lastDayofWeek){
+                array_push($week_bookings, $value);
+                array_push($month_bookings, $value);
+            }else if($value->service_day > date('m/d/Y') && $value->service_day <=  $lastmonthdate){
+                array_push($month_bookings, $value);
+            }else{
+
+            }      
+        }            
+       
+        return response()->json(['bookings'=> array('today_bookings' => $today_bookings, 'tom_bookings' => $tom_bookings, 'week_bookings' => $week_bookings, 'month_bookings' => $month_bookings)]);
     }
+
 }

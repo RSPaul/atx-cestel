@@ -171,4 +171,4 @@
        </div>
       </section>
       <!-- End Team section-->
-@section('content')
+@endsection

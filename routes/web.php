@@ -19,7 +19,7 @@ Route::get('/', function () {
 * Public Routes
 **/
 Route::get('/book', 'HomeController@book');
-Route::get('/be-part-team', 'HomeController@bePartTeam');
+Route::get('/be-part-team', 'HomeController@bePartTeam')->name('viewpartTeam');
 Route::post('/be-part-team', 'HomeController@bePartTeam')->name('partTeam');
 Route::get('/verify', 'Auth\VerificationController@verify');
 Route::get('/email/resend', 'Auth\VerificationController@resend');
@@ -42,13 +42,14 @@ Route::get('/dashbaord', 'User\UserController@profile')->name('user_dashboard');
 Route::post('/book', 'HomeController@book')->name('booking');
 Route::post('/booking/checkout', 'HomeController@book')->name('booking_checkout');
 Route::get('/user/{tab}', 'User\UserController@dashboard')->name('user_dashboard');
+Route::get('/user-schedule', 'User\UserController@schedule')->name('user_schedule');
 
 /**
 * Laundress Routes
 **/
 Route::get('/laundress/{tab}', 'Laundress\LaundressController@dashboard')->name('laundress_dashboard');
 Route::get('/laundress-schedule', 'Laundress\LaundressController@schedule')->name('laundress_schedule');
-Route::post('/laundress-view-schedule', 'Laundress\LaundressController@viewschedule')->name('laundress-view-schedule');
+Route::get('/laundress-view-schedule', 'Laundress\LaundressController@viewscheduleList')->name('viewscheduleList');
 
 
 /**

@@ -1,6 +1,6 @@
-var app = angular.module('laundressUserApp', []);
+var app = angular.module('UserApp', []);
 var modal = document.getElementById("viewSchedule");
-app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
+app.controller('UserCtrl', function($scope, $http, $timeout) {
   
   $scope.user = {current_password: '', password: '', confirm_password: ''};
   $scope.showTodayBookings = true;
@@ -16,7 +16,6 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
     $scope.user.password =  '';
     $scope.user.confirm_password = '';
     $scope.getSchedule();
-    $scope.viewSchedulelist();
   });
 
   /*
@@ -62,23 +61,13 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
   * Get User Schedule
   */
   $scope.getSchedule = function() {
-  	$http.get('/laundress-schedule')
-    .then(function (response) {
-      var response = response.data;
-      $scope.bookings = response.bookings;
-    }, function (error) {
-      console.log('error getting schedule ', error);
-    });
-  }
-
-  $scope.viewSchedulelist = function(){
-    $http.get('/laundress-view-schedule')
-    .then(function (response) {
-      var response = response.data;
-      $scope.schedulebookings = response.bookings;
-    }, function (error) {
-      console.log('error getting schedule ', error);
-    });
+  	$http.get('/user-schedule')
+  	.then(function (response) {
+  		var response = response.data;
+  		$scope.bookings = response.bookings;
+  	}, function (error) {
+  		console.log('error getting schedule ', error);
+  	});
   }
 
   $scope.viewBooking = function(scheduledata){

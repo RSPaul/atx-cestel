@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
 	  <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
     <link rel="stylesheet" href="{{asset('css/croppie.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.min.css')}}">
   </head>
   <body>
     <div id="load"></div>
@@ -19,7 +20,7 @@
         <div class="container">
           <div class="navbar-header">
 		 
-            <button aria-controls="bs-navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#bs-navbar" data-toggle="collapse" type="button"><i class="fa fa-align-justify fa-lg"></i></button><a href="index.html" class="navbar-brand"><img src="{{ asset('/img/logo.png')}}" alt="logo" ></a>
+            <button aria-controls="bs-navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#bs-navbar" data-toggle="collapse" type="button"><i class="fa fa-align-justify fa-lg"></i></button><a href="/" class="navbar-brand"><img src="{{ asset('/img/logo.png')}}" alt="logo" ></a>
           </div>
           <div class="navbar-collapse collapse" id="bs-navbar">
            
@@ -30,6 +31,9 @@
               </li>
               <li><a href="#" title="Reviews">Reviews</a>
               </li>
+              @guest
+              <li><a href="{{ route('viewpartTeam') }}" title="Login">Join Team</a></li>
+              @endif
 		          @guest
               <li><a href="{{ route('login') }}" title="Login">Login</a>
               </li>
@@ -144,10 +148,12 @@
   <script src="{{ asset('js/bootstrap.js')}}" type="text/javascript"></script>
   <script type="text/javascript" src="{{ asset('js/moment.min.js')}}"></script>
   <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.js')}}"></script>
+  <script src="{{ asset('js/bootstrap-datepicker.min.js')}}"></script> 
   <script src="{{asset('js/croppie.js')}}"></script>
   <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
   <!-- angularjs -->
   <script type="text/javascript" src="{{asset('js/angular/angular.min.js')}}"></script>
   <script type="text/javascript" src="{{asset('js/angular/laundress.app.js')}}"></script>
+  <script type="text/javascript" src="{{asset('js/angular/user.app.js')}}"></script>
 	</body>
 </html>

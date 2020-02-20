@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use DB;
 use Mail;
 use App\User;
+use App\Bookings;
 
 class UserController extends Controller
 {	
@@ -101,4 +102,30 @@ class UserController extends Controller
                           'data' => $profile);
         return response()->json($response);
     }
+
+    public function schedule(Request $request) {
+        $next_week_bookings = array();
+        $all_bookings = array();
+
+        $bookings = Bookings::where(['user_id' => Auth::user()->id])
+                    ->join('users', 'users.id', '=', 'bookings.service_laundress')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+                    ->where('bookings.service_day', '<=', date('m/d/Y'))
+                    ->get();
+
+        $next_week_bookings = Bookings::where(['user_id' => Auth::user()->id])
+                    ->join('users', 'users.id', '=', 'bookings.service_laundress')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+                    ->where('bookings.service_day', '>', date('m/d/Y'))
+                    ->get();
+
+        $all_bookings = Bookings::where(['user_id' => Auth::user()->id])
+                    ->join('users', 'users.id', '=', 'bookings.service_laundress')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+                    ->get();
+                    
+
+        return response()->json(['bookings'=> array('today' => $bookings, 'next_week' => $next_week_bookings, 'all_bookings' => $all_bookings)]);
+    }
+
 }
