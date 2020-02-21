@@ -205,10 +205,10 @@
    	              </div>
                      <div role="tabpanel" class="tab-pane @if($tab_id == 'schedule') active @endif" id="schedule">
                         <div class="btn_rw">
-                           <a href="#" class="btn btn-wht active" id="today">Today</a>
-                           <a href="#" class="btn btn-wht">Tommorrow</a>
-                           <a href="#" class="btn btn-wht" id="thisweek">This Week</a>
-                           <a href="#" class="btn btn-wht">This Month</a>
+                           <a href="javascript:void(0)" ng-click="showTodBookings = false; showTomBookings = true; showWeekBookings = true; showMonthBookings = true" ng-class="{'active': !showTodBookings}" class="btn btn-wht" id="today">Today</a>
+                           <a href="javascript:void(0)" ng-click="showTomBookings = false; showTodBookings = true; showWeekBookings = true; showMonthBookings = true" ng-class="{'active': !showTomBookings}" class="btn btn-wht">Tommorrow</a>
+                           <a href="javascript:void(0)" ng-click="showWeekBookings = false; showTomBookings = true; showTodBookings = true; showMonthBookings = true" ng-class="{'active': !showWeekBookings}" class="btn btn-wht" id="thisweek">This Week</a>
+                           <a href="javascript:void(0)" ng-click="showMonthBookings = false; showTomBookings = true; showWeekBookings = true; showTodBookings = true" ng-class="{'active': !showMonthBookings}" class="btn btn-wht">This Month</a>
                            <div class="date">
                               <div class="col-date">
                                  <div class='input-group date' id='datetimepicker1'>
@@ -232,26 +232,52 @@
                         <div class="row">
                            <div class="col-md-12">
                               <div id="showinfo">
-                                 <h3>Monday, December 12, 2019</h3>
+                                <?php 
+                                 $currentdate = date('m/d/Y');
+                                 $tomDate = date( "m/d/Y", strtotime( "$currentdate +1 day" ) );
+                                 $WeekDate = Date('m/d/Y', StrToTime("Next Sunday")); 
+                                 $lastDayThisMonth = date("Y-m-t");
+                                 ?>
+                                 <h3 ng-if="!showTodBookings"><?php echo date('M d, Y'); ?></h3>
+                                 <h3 ng-if="!showTomBookings"><?php echo date("M d, Y", strtotime($tomDate)); ?></h3>
+                                 <h3 ng-if="!showWeekBookings"><?php echo date('M d, Y'); ?> - <?php echo date("M d, Y", strtotime($WeekDate)); ?></h3>
+                                 <h3 ng-if="!showMonthBookings"><?php echo date('M d, Y'); ?> - <?php echo date("M d, Y", strtotime($lastDayThisMonth)); ?></h3>
                                  <div class="group_list">
                                     <table class="border_table">
-                                       <tr>
-                                          <td>8:15 - 9:00am</td>
-                                          <td>1108 Cactus Apple Street, Leander, Texas</td>
-                                          <td>Nicole Zuber</td>
-                                          <td>555-678-3421</td>
+                                       <tr class="booking_heading"> 
+                                          <td>Service Time</td>
+                                          <td>Service Type</td>
+                                          <td>Service Package</td>
+                                          <td>Service Amount</td>
+                                          <td>Action</td>
                                        </tr>
-                                       <tr>
-                                          <td>8:15 - 9:00am</td>
-                                          <td>Median - 4 to 6 Baskets</td>
-                                          <td>Nicole Zuber</td>
-                                          <td>555-678-3421</td>
+                                       <tr ng-repeat="booking in schedulebookings.today_bookings" ng-if="!showTodBookings">
+                                          <td>@{{booking.service_time}}</td>
+                                          <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_package}}</td>
+                                          <td>@{{booking.service_amount}}</td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)">View</a> </td>
                                        </tr>
-                                       <tr>
-                                          <td>8:15 - 9:00am</td>
-                                          <td>2020 Texas Sage Street, Leander, Texas</td>
-                                          <td>Alexis Edwards</td>
-                                          <td>555-678-3421</td>
+                                       <tr ng-repeat="booking in schedulebookings.tom_bookings" ng-if="!showTomBookings">
+                                          <td>@{{booking.service_time}}</td>
+                                          <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_package}}</td>
+                                          <td>@{{booking.service_amount}}</td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)">View</a> </td>
+                                       </tr>
+                                       <tr ng-repeat="booking in schedulebookings.week_bookings" ng-if="!showWeekBookings">
+                                          <td>@{{booking.service_time}}</td>
+                                          <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_package}}</td>
+                                          <td>@{{booking.service_amount}}</td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)">View</a> </td>
+                                       </tr>
+                                       <tr ng-repeat="booking in schedulebookings.month_bookings" ng-if="!showMonthBookings">
+                                          <td>@{{booking.service_time}}</td>
+                                          <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_package}}</td>
+                                          <td>@{{booking.service_amount}}</td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)">View</a> </td>
                                        </tr>
                                     </table>
                                  </div>
@@ -260,6 +286,7 @@
                                  <div class="mycal"></div>
                               </div>
                            </div>
+
                         </div>
                      </div>
                      <div role="tabpanel" class="tab-pane table_bx @if($tab_id == 'prevserv') active @endif" id="prevserv">

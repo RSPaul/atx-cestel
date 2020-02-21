@@ -5,6 +5,10 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
   $scope.user = {current_password: '', password: '', confirm_password: ''};
   $scope.showTodayBookings = true;
   $scope.viewBookings = false;
+  $scope.showTodBookings = false;
+  $scope.showTomBookings = true;
+  $scope.showWeekBookings = true;
+  $scope.showMonthBookings = true;
   
   /*
   * Get User Profile
@@ -16,6 +20,7 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
     $scope.user.password =  '';
     $scope.user.confirm_password = '';
     $scope.getSchedule();
+    $scope.viewSchedulelist();
   });
 
   /*
@@ -69,6 +74,17 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
   		console.log('error getting schedule ', error);
   	});
   }
+
+    $scope.viewSchedulelist = function(){
+      $http.get('/user-view-schedule')
+      .then(function (response) {
+        var response = response.data;
+        $scope.schedulebookings = response.bookings;
+        console.log($scope.schedulebookings);
+      }, function (error) {
+        console.log('error getting schedule ', error);
+      });
+    }
 
   $scope.viewBooking = function(scheduledata){
 

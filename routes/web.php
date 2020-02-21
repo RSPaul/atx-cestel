@@ -43,6 +43,7 @@ Route::post('/book', 'HomeController@book')->name('booking');
 Route::post('/booking/checkout', 'HomeController@book')->name('booking_checkout');
 Route::get('/user/{tab}', 'User\UserController@dashboard')->name('user_dashboard');
 Route::get('/user-schedule', 'User\UserController@schedule')->name('user_schedule');
+Route::get('/user-view-schedule', 'User\UserController@viewscheduleList')->name('viewscheduleList');
 
 /**
 * Laundress Routes
