@@ -21,6 +21,8 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
     $scope.user.confirm_password = '';
     $scope.getSchedule();
     $scope.viewSchedulelist();
+
+    $scope.getWeekEarnings();
   });
 
   /*
@@ -80,7 +82,6 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
     .then(function (response) {
       var response = response.data;
       $scope.schedulebookings = response.bookings;
-      console.log($scope.schedulebookings);
     }, function (error) {
       console.log('error getting schedule ', error);
     });
@@ -100,9 +101,22 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
   * Scroll to Div
   */
   $scope.scroll = function(el) {
-  	console.log('el ', el)
   	$('html, body').animate({
 	    scrollTop: $("." + el).offset().top
-	}, 2000);
+	  }, 2000);
   }
+
+  $scope.getWeekEarnings = function () {
+     $http.get('/earnings-by-week')
+      .then(function (response) {
+        // var response = response.data;
+        $scope.earningsData = response.data;
+        // $scope.weekStart = response.weekStart;
+        // $scope.weekEnd = response.weekEnd;
+        console.log(response);
+      }, function (error) {
+        console.log('error getting weekEarnings ', error);
+      });
+  }
+
 });

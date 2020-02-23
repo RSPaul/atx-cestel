@@ -140,4 +140,49 @@ class LaundressController extends Controller
         return response()->json(['bookings'=> array('today_bookings' => $today_bookings, 'tom_bookings' => $tom_bookings, 'week_bookings' => $week_bookings, 'month_bookings' => $month_bookings)]);
     }
 
+    public function earningsByWeek(Request $request) {
+        $now = Carbon::now();
+        $now->startOfWeek(Carbon::MONDAY);
+        $weekStartDate = $now->startOfWeek()->format('d/m/Y');
+        $weekEndDate = $now->endOfWeek()->format('d/m/Y');
+
+        $bookings = Bookings::where(['service_laundress' => Auth::user()->id])
+                        ->whereBetween('service_day', [$weekStartDate, $weekEndDate])
+                            ->get();
+        $washing = array();
+        $iorning = array();
+        $bedMaking = array();
+        $organizing = array();
+        $packing = array();
+        
+        //get earnings by service type
+        foreach($bookings as $booking) {
+            $categories = unserialize($booking->service_categories);
+            if(in_array('Washing', $categories)) {
+                array_push($washing, $booking->service_amount);
+            }
+            if(in_array('Ironing', $categories)) {
+                array_push($iorning, $booking->service_amount);
+            }
+            if(in_array('BedMaking', $categories)) {
+                array_push($bedMaking, $booking->service_amount);
+            }
+            if(in_array('Organizing', $categories)) {
+                array_push($organizing, $booking->service_amount);
+            }
+            if(in_array('Packing', $categories)) {
+                array_push($packing, $booking->service_amount);
+            }
+        }
+        $weekEarnings = array(
+                            array('name'=> 'Washing', 'amount' => array_sum($washing)),
+                            array('name'=> 'Ironing', 'amount' => array_sum($iorning)),
+                            array('name'=> 'Bed Making', 'amount' => array_sum($bedMaking)),
+                            array('name'=> 'Organizing', 'amount' => array_sum($organizing)),
+                            array('name'=> 'Packing', 'amount' => array_sum($packing))
+                        );
+        $totalEarning = array_sum($washing) + array_sum($iorning) + array_sum($bedMaking) + array_sum($packing);
+        return response()->json(['weekEarnings' => $weekEarnings, 'totalEarning' => $totalEarning, 'weekStart' => $now->startOfWeek()->format('m/d'), 'weekEnd' => $now->endOfWeek()->format('m/d')]);
+    }
+
 }

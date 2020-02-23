@@ -74,7 +74,7 @@
                         </div>
                         <div class="row table_bx">
                            <!-- today's bookings -->
-                           <div class="col-md-9" ng-if="showTodayBookings">
+                           <div class="col-md-12" ng-if="showTodayBookings">
                               <table class="table">
                                  <tr>
                                     <th>Time</th>
@@ -92,7 +92,7 @@
                               </table>
                            </div>
                            <!-- next week bookings -->
-                           <div class="col-md-9" ng-if="!showTodayBookings">
+                           <div class="col-md-12" ng-if="!showTodayBookings">
                               <table class="table">
                                  <tr>
                                     <th>Time</th>
@@ -109,7 +109,7 @@
                                  </tr>
                               </table>
                            </div>
-                           <div class="col-md-3">
+                           <!-- <div class="col-md-3">
                               <table class="table">
                                  <tr>
                                     <th colspan="2">Estimated Earnings</th>
@@ -148,7 +148,7 @@
                                     <td>$1140</td>
                                  </tr>
                               </table>
-                           </div>
+                           </div> -->
                         </div>
                      </div>
                   <div role="tabpanel" class="tab-pane @if($tab_id == 'profile') active @endif" id="account">

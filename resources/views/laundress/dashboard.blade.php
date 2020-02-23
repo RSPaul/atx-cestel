@@ -115,16 +115,16 @@
                                     <th colspan="2">Estimated Earnings</th>
                                  </tr>
                                  <tr>
-                                    <td colspan="2">12/9 >>> 12/15</td>
+                                    <td colspan="2">@{{earningsData.weekStart}} >>> @{{earningsData.weekEnd}}</td>
                                  </tr>
                                  <tr>
                                     <td colspan="2">
                                        <table>
-                                          <tr>
-                                             <td><span class="line line-green"></span> Washing</td>
-                                             <td>$450</td>
+                                          <tr ng-repeat="earnings in earningsData.weekEarnings">
+                                             <td><span class="line line-green"></span> @{{earnings.name}}</td>
+                                             <td>@{{earnings.amount | currency}}</td>
                                           </tr>
-                                          <tr>
+                                          <!-- <tr>
                                              <td><span class="line line-sky"></span> Ironing</td>
                                              <td>$450</td>
                                           </tr>
@@ -139,13 +139,13 @@
                                           <tr>
                                              <td><span class="line line-yellow"></span> Packing</td>
                                              <td>$450</td>
-                                          </tr>
+                                          </tr> -->
                                        </table>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td>Weekly Revenue</td>
-                                    <td>$1140</td>
+                                    <td>@{{earningsData.totalEarning | currency}}</td>
                                  </tr>
                               </table>
                            </div>

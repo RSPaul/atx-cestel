@@ -51,6 +51,7 @@ Route::get('/user-view-schedule', 'User\UserController@viewscheduleList')->name(
 Route::get('/laundress/{tab}', 'Laundress\LaundressController@dashboard')->name('laundress_dashboard');
 Route::get('/laundress-schedule', 'Laundress\LaundressController@schedule')->name('laundress_schedule');
 Route::get('/laundress-view-schedule', 'Laundress\LaundressController@viewscheduleList')->name('viewscheduleList');
+Route::get('/earnings-by-week', 'Laundress\LaundressController@earningsByWeek')->name('earningsByWeek');
 
 
 /**
