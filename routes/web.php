@@ -59,4 +59,6 @@ Route::get('/earnings-by-week', 'Laundress\LaundressController@earningsByWeek')-
 **/
 Route::get('/admin', 'Admin\AdminController@dashboard')->name('admin_dashboard');
 Route::get('/users/{type}', 'Admin\AdminController@users');
+Route::get('/admin/bookings', 'Admin\AdminController@bookings');
+Route::get('/admin/bookings/{id}', 'Admin\AdminController@bookingDetails');
 Route::get('/user/verify/{id}', 'Admin\AdminController@verifyUser')->name('verify_user');

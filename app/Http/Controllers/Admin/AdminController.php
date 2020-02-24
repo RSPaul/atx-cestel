@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use DB;
 use Mail;
 use App\User;
+use App\Bookings;
 
 class AdminController extends Controller
 {
@@ -43,5 +44,23 @@ class AdminController extends Controller
                               'message' => $e->getMessage());
         }
         return response()->json($response);
+    }
+
+    public function bookings(){
+
+        $all_bookings = array();
+
+        $all_bookings = Bookings::all();
+        return view('admin.bookings')->with([ "all_bookings" => $all_bookings]);
+
+    }
+
+    public function bookingDetails(Request $request){
+
+        $id = $request->id;
+        
+        return view('admin.bookings_details');
+        //die($id);
+
     }
 }
