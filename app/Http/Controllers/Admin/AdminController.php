@@ -58,9 +58,13 @@ class AdminController extends Controller
     public function bookingDetails(Request $request){
 
         $id = $request->id;
-        
-        return view('admin.bookings_details');
-        //die($id);
+        $booking = Bookings::where(['bookings.id' => $id])
+                    ->join('users as customer', 'customer.id', '=', 'bookings.user_id')
+                    ->join('users as provider', 'provider.id', '=', 'bookings.service_laundress')
+                    ->select(DB::raw('bookings.*, customer.first_name as cfn, customer.last_name cln, customer.address ca, customer.city_state cs, customer.email ce, customer.phone cp, provider.first_name as pfn, provider.last_name pln, provider.address pa, provider.city_state ps, provider.email pe, provider.phone pp'))
+                    ->first();
+        // echo "<pre>"; print_r($booking); die();
+        return view('admin.bookings_details')->with(['booking' => $booking]);
 
     }
 }
