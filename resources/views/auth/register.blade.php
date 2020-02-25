@@ -14,7 +14,7 @@
            
         <div class="row ">
             <div class="border_bx_acc create disp-blck">
-             <form method="POST" action="{{ route('register_user') }}">
+             <form method="POST" action="{{ route('register_user') }}" data-toggle="validator" role="form">
                 @csrf  
                 <div class="col-md-12">
                     <!-- Tab panes -->
@@ -23,14 +23,16 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input type="text" placeholder="Karen" class="form-control" name="first_name"  required />
+                                    <input type="text" placeholder="Karen" class="form-control" name="first_name"  required  data-error="First name is required."/>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             
                             </div>
                             <div class="col-md-6">                      
                                 <div class="form-group">
                                     <label>Last Name</label>
-                                    <input type="text" placeholder="Marrs" class="form-control" name="last_name" required/>
+                                    <input type="text" placeholder="Marrs" class="form-control" name="last_name" required data-error="Last name is required."/>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                         </div>
@@ -38,13 +40,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" name="email" placeholder="karen@gmail.com" class="form-control"  required/>
+                                    <input type="email" name="email" placeholder="karen@gmail.com" class="form-control" data-error="That email address is invalid."  required/>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div> 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" name="password" placeholder="******" class="form-control"  required/>
+                                    <input type="password" name="password" placeholder="******" class="form-control"  required data-error="Password is required." />
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>  
                         </div>  
@@ -57,13 +61,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Address</label>
-                                    <input type="text" name="address" class="form-control"  required/>
+                                    <input type="text" name="address" class="form-control"  required data-error="Address is required."/>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>City, State</label>
-                                    <input type="text" name="city_state" class="form-control"  required/>
+                                    <input type="text" name="city_state" class="form-control"  required data-error="City/State is required."/>
+                                    <div class="help-block with-errors"></div>
                                 </div>  
                             </div>
                         </div>
@@ -71,40 +77,55 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Zip Code</label>
-                                    <input type="text" name="zip" class="form-control"  required/>
+                                    <input type="text" name="zip" class="form-control"  required data-error="Zip code is required."/>
+                                    <div class="help-block with-errors"></div>
                                 </div>  
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <ul class="list_hm">
-                                        <li><label><input type="checkbox" name="services[]" value="Home"/> Home</label></li>
-                                        <li><label><input type="checkbox" name="services[]" value="Apartment"/> Apartment</label></li>                                      <li><label><input type="checkbox" name="services[]" value="Condo" /> Condo</label></li>                                          
+                                        <li><label><input type="checkbox" name="services[]" value="Home" required data-error="Select your residence type."/> Home</label></li>
+                                        <li><label><input type="checkbox" name="services[]" value="Apartment" required data-error="Select your residence type."/> Apartment</label></li>                                      <li><label><input type="checkbox" name="services[]" value="Condo" required data-error="Select your residence type."/> Condo</label></li>                                          
                                     </ul>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Cell Phone Number</label>
-                                    <input type="text" class="form-control"  required name="phone" />
+                                    <label>Cell Phone Number <span class="info-text">(format: xxxx-xxx-xxxx)</span></label>
+                                    <input type="tel" pattern="^\d{4}-\d{3}-\d{4}$" required class="form-control"  required name="phone" data-error="This phone no. is invalid."/>
+                                    <div class="help-block with-errors"></div>
                                 </div>  
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>How did you hear about us!</label>
-                                    <select class="form-control" name="heared"  required>
+                                    <select class="form-control" name="heared"  required data-error="How did you hear about us ?">
                                         <option value="Select all that apply">Select all that apply</option>
                                     </select>
+                                    <div class="help-block with-errors"></div>
                                 </div>      
                             </div>
                         </div>  
                     </div>  
                     <h2>Agree to the terms and conditions</h2>
+                    <div class="form-group">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" id="terms"  required>
+                            By clicking this button, I agree to Cesta's terms & conditions and cancellation policy.
+                          </label>
+                          <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <!-- <div class="checkbox">
                     <label>
-                    <input type="checkbox" name="check" required />
+                    <input type="checkbox" name="check" value="1" required />
                     By clicking this button, I agree to Cesta's terms & conditions and cancellation policy.
                     </label>
+                    </div> -->
                     <h2>Enter Payment Information</h2>
                     
                     <div class="border_bx">

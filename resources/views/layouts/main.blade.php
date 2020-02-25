@@ -150,7 +150,11 @@
   <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.js')}}"></script>
   <script src="{{ asset('js/bootstrap-datepicker.min.js')}}"></script> 
   <script src="{{asset('js/croppie.js')}}"></script>
+  
+  <!-- validation lib -->
+  <script type="text/javascript" src="{{asset('js/validator.min.js')}}"></script>
   <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
+  
   <!-- angularjs -->
   <script type="text/javascript" src="{{asset('js/angular/angular.min.js')}}"></script>
   <script type="text/javascript" src="{{asset('js/angular/laundress.app.js')}}"></script>

@@ -2499,3 +2499,9 @@ span.details_schedule {
     padding: 20px;
     font-size: 16px;
 }
+.has-error .checkbox, .has-error .checkbox-inline, .has-error .control-label, .has-error .help-block, .has-error .radio, .has-error .radio-inline, .has-error.checkbox label, .has-error.checkbox-inline label, .has-error.radio label, .has-error.radio-inline label, .form-group.has-error.has-danger label {
+    color: #a94442;
+}
+span.info-text {
+    font-size: 12px;
+}
