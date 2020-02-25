@@ -309,10 +309,10 @@ $(function () {
 	          message = 'Please enter all required details.';
 	          if($(this).val() != '') {
 	            registerCount++;
-	          } else if($(this).attr('register[email]') && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($(this).val())) {
+	          } else if($(this).attr('name') === 'register[email]' && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($(this).val())) {
 	            registerCount++;
 	          } else {
-	            message = 'Please enter valid email address.';
+	            // message = 'Please enter valid email address.';
 	          }
 	        });
 	        if(registerCount == 6) {
