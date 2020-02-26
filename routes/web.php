@@ -44,6 +44,10 @@ Route::post('/booking/checkout', 'HomeController@book')->name('booking_checkout'
 Route::get('/user/{tab}', 'User\UserController@dashboard')->name('user_dashboard');
 Route::get('/user-schedule', 'User\UserController@schedule')->name('user_schedule');
 Route::get('/user-view-schedule', 'User\UserController@viewscheduleList')->name('viewscheduleList');
+Route::post('/cancel-booking-amount', 'User\UserController@cancelBookingAmount')->name('cancel_booking_amount');
+Route::post('/cancel-booking', 'User\UserController@cancelBooking')->name('cancel_booking');
+Route::post('/complete-booking', 'User\UserController@completeBooking')->name('complete_booking');
+
 
 /**
 * Laundress Routes
@@ -52,6 +56,7 @@ Route::get('/laundress/{tab}', 'Laundress\LaundressController@dashboard')->name(
 Route::get('/laundress-schedule', 'Laundress\LaundressController@schedule')->name('laundress_schedule');
 Route::get('/laundress-view-schedule', 'Laundress\LaundressController@viewscheduleList')->name('viewscheduleList');
 Route::get('/earnings-by-week', 'Laundress\LaundressController@earningsByWeek')->name('earningsByWeek');
+Route::post('/decline-booking', 'Laundress\LaundressController@declineBooking')->name('decline_booking');
 
 
 /**

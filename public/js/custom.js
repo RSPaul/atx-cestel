@@ -3,7 +3,8 @@ $(function () {
       $('#msgSuccess').hide();
 
       $('#service_day').datepicker({
-           autoclose: true
+           autoclose: true,
+           startDate: "dateToday"
         });
 
       

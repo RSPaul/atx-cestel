@@ -80,7 +80,6 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
       .then(function (response) {
         var response = response.data;
         $scope.schedulebookings = response.bookings;
-        console.log($scope.schedulebookings);
       }, function (error) {
         console.log('error getting schedule ', error);
       });
@@ -100,9 +99,56 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
   * Scroll to Div
   */
   $scope.scroll = function(el) {
-  	console.log('el ', el)
   	$('html, body').animate({
 	    scrollTop: $("." + el).offset().top
-	}, 2000);
+	  }, 2000);
   }
+
+  $scope.cancelBooking = function(booking) {
+    
+    $http.post('/cancel-booking-amount', {id: booking.id})
+    .then(function (response) {
+      var response = response.data;
+      swal({
+          title: 'Cancel Booking?',
+          text: "Are you sure you want to cancel this booking. You will be charged $" + response.amount + ".",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+        $http.post('/cancel-booking', {id: booking.id})
+        .then(function (response) {
+          $scope.getSchedule();
+          $scope.viewSchedulelist();
+          swal('Booking Canceled.', "This booking has been canceled", "success");
+        }, function (error) {
+          swal(error.status.toString(), error.data.message, "error");
+        });
+      });
+    }, function (error) {
+      console.log('error getting schedule ', error);
+    });
+  }
+
+  $scope.completeBooking = function(booking) {
+      swal({
+          title: 'Complete Booking?',
+          text: "Are you sure you want to complete this booking",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+        $http.post('/complete-booking', {id: booking.id})
+        .then(function (response) {
+          $scope.getSchedule();
+          $scope.viewSchedulelist();
+          swal('Booking Completed.', "This booking has been completed", "success");
+        }, function (error) {
+          swal(error.status.toString(), error.data.message, "error");
+        });
+      });
+  }
+
 });

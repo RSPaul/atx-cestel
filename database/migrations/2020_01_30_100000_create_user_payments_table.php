@@ -16,14 +16,7 @@ class CreateUserPaymentsTable extends Migration
         Schema::create('user_payments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('user_id');
-            $table->string('transaction_id');
-            $table->string('service_payment_type');
-            $table->string('user_name');
-            $table->string('user_email');
-            $table->string('user_address');
-            $table->string('user_city');
-            $table->string('user_state');
-            $table->string('user_zip');
+            $table->string('booking_id');
             $table->timestamps();
         });
     }

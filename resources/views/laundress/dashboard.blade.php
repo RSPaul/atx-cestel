@@ -87,7 +87,7 @@
                                     <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.address}}
                                     </td>
-                                    <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="#"><i class="fa fa-chevron-right"></a></td>
+                                    <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-chevron-right"></a></td>
                                  </tr>
                               </table>
                            </div>
@@ -105,7 +105,7 @@
                                     <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.address}}
                                     </td>
-                                    <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="#"><i class="fa fa-chevron-right"></a></td>
+                                    <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-chevron-right"></a></td>
                                  </tr>
                               </table>
                            </div>
@@ -256,28 +256,28 @@
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount}}</td>
-                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)">View</a> </td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.tom_bookings" ng-if="!showTomBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount}}</td>
-                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)">View</a> </td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.week_bookings" ng-if="!showWeekBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount}}</td>
-                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)">View</a> </td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.month_bookings" ng-if="!showMonthBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount}}</td>
-                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)">View</a> </td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                     </table>
                                  </div>
@@ -299,13 +299,13 @@
                                     <th>Customer</th>
                                     <th>Action</th>
                                  </tr>
-                                 <tr ng-repeat="booking in bookings.all_bookings">
+                                 <tr ng-repeat="booking in bookings.past_bookings">
                                     <td><b>@{{booking.service_time}}</b></td>
                                     <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.address}}
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> </td>
-                                    <td><a href="javascript:void(0);" ng-click="viewBooking(booking)">View</a> </td>
+                                    <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a></td>
                                  </tr>
                               </table>
                            </div>

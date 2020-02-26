@@ -119,4 +119,24 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
       });
   }
 
+  $scope.cancelBooking = function(booking) {
+    swal({
+        title: 'Decline Booking?',
+        text: "Are you sure you want to decline this booking.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+      $http.post('/decline-booking', {id: booking.id})
+      .then(function (response) {
+        $scope.getSchedule();
+        $scope.viewSchedulelist();
+        swal('Booking Declined.', "This booking has been declined.", "success");
+      }, function (error) {
+        swal(error.status.toString(), error.data.message, "error");
+      });
+    });
+  }
+
 });

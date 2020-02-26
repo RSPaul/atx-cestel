@@ -76,24 +76,32 @@ class LaundressController extends Controller
         $all_bookings = array();
 
         $bookings = Bookings::where(['service_laundress' => Auth::user()->id])
+                    ->where(['bookings.status' => 'new'])
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->where('bookings.service_day', '<=', date('m/d/Y'))
                     ->get();
 
         $next_week_bookings = Bookings::where(['service_laundress' => Auth::user()->id])
+                    ->where(['bookings.status' => 'new'])
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->where('bookings.service_day', '>', date('m/d/Y'))
                     ->get();
 
         $all_bookings = Bookings::where(['service_laundress' => Auth::user()->id])
+                    ->where(['bookings.status' => 'new'])
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->get();
-                    
 
-        return response()->json(['bookings'=> array('today' => $bookings, 'next_week' => $next_week_bookings, 'all_bookings' => $all_bookings)]);
+        $past_bookings = Bookings::where(['service_laundress' => Auth::user()->id])
+                    ->where('bookings.service_day', '<', date('m/d/Y'))
+                    ->join('users', 'users.id', '=', 'bookings.user_id')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+                    ->get();
+
+        return response()->json(['bookings'=> array('today' => $bookings, 'next_week' => $next_week_bookings, 'all_bookings' => $all_bookings, 'past_bookings' => $past_bookings)]);
     }
 
     public function viewscheduleList(Request $request) {
@@ -112,6 +120,7 @@ class LaundressController extends Controller
         $lastmonthdate = date('m/'.$lastDay.'/Y');
 
         $allBooking = Bookings::where(['service_laundress' => Auth::user()->id])
+                    ->where(['bookings.status' => 'new'])
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->where('bookings.service_day', '>=',  $currentdate)
@@ -183,6 +192,23 @@ class LaundressController extends Controller
                         );
         $totalEarning = array_sum($washing) + array_sum($iorning) + array_sum($bedMaking) + array_sum($packing);
         return response()->json(['weekEarnings' => $weekEarnings, 'totalEarning' => $totalEarning, 'weekStart' => $now->startOfWeek()->format('m/d'), 'weekEnd' => $now->endOfWeek()->format('m/d')]);
+    }
+
+    public function declineBooking(Request $request) {
+        $id = (int) $request->id;
+        $booking = DB::table('bookings')
+            ->where('bookings.id', $id)
+            ->where('bookings.service_laundress', Auth::user()->id)
+            ->first();
+
+        $data = array();
+        if($booking) {
+            $data["status"] = 'declined';
+            Bookings::where(['id' => $booking->id ])
+                    ->update($data);
+        } else {
+            return response()->json(['response' => "Booking not found!", "status" => false]);
+        }
     }
 
 }

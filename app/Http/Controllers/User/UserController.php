@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Stripe\Stripe;
 use DB;
 use Mail;
 use App\User;
@@ -18,6 +19,7 @@ class UserController extends Controller
 {	
 	public function __construct() {
         $this->middleware(['auth','verified', 'user'],  ['except' => ['get', 'updateProile']]);
+        Stripe::setApiKey(env('STRIPE_SECRET'));
     }
 
     public function profile(Request $request) {
@@ -109,18 +111,21 @@ class UserController extends Controller
         $all_bookings = array();
 
         $bookings = Bookings::where(['user_id' => Auth::user()->id])
+                    ->where(['bookings.status' => 'new'])
                     ->join('users', 'users.id', '=', 'bookings.service_laundress')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->where('bookings.service_day', '<=', date('m/d/Y'))
                     ->get();
 
         $next_week_bookings = Bookings::where(['user_id' => Auth::user()->id])
+                    ->where(['bookings.status' => 'new'])
                     ->join('users', 'users.id', '=', 'bookings.service_laundress')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->where('bookings.service_day', '>', date('m/d/Y'))
                     ->get();
 
         $all_bookings = Bookings::where(['user_id' => Auth::user()->id])
+                    ->where(['bookings.status' => 'new'])
                     ->join('users', 'users.id', '=', 'bookings.service_laundress')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->get();
@@ -145,6 +150,7 @@ class UserController extends Controller
         $lastmonthdate = date('m/'.$lastDay.'/Y');
 
         $allBooking = Bookings::where(['user_id' => Auth::user()->id])
+                    ->where(['bookings.status' => 'new'])
                     ->join('users', 'users.id', '=', 'bookings.service_laundress')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->where('bookings.service_day', '>=',  $currentdate)
@@ -171,6 +177,154 @@ class UserController extends Controller
         }            
        
         return response()->json(['bookings'=> array('today_bookings' => $today_bookings, 'tom_bookings' => $tom_bookings, 'week_bookings' => $week_bookings, 'month_bookings' => $month_bookings)]);
+    }
+
+    public function cancelBookingAmount(Request $request) {
+        $id = (int) $request->id;
+        $booking = DB::table('bookings')
+            ->where('bookings.user_id', Auth::user()->id)
+            ->where('bookings.id', $id)
+            ->first();
+
+        $data = array();
+        if($booking) {
+
+            $start = $booking->created_at;
+            $scheduledate = $booking->service_day;
+            //$scheduletime = $booking->booking_time;
+            $combinedDT = date('Y-m-d H:i:s', strtotime("$scheduledate")); 
+            $now   = date('Y-m-d H:i:s');
+            $hoursAdded = date('Y-m-d H:i:s',strtotime('+3 hour',strtotime($start)));
+            $hoursAddedten = date('Y-m-d H:i:s',strtotime('-10 hour',strtotime($combinedDT)));
+            $hoursAddedthree = date('Y-m-d H:i:s',strtotime('-3 hour',strtotime($combinedDT)));
+
+            $amount = 0;
+
+            if(strtotime($hoursAdded) > strtotime($now)) {
+             // echo "In ONe";
+                $amount = 0;
+            }else if(strtotime($now) > strtotime($hoursAddedthree) && strtotime($combinedDT) > strtotime($now) ){
+
+              // To Deduct Full Amount as booking is cancelled less than 3 hours of schedule
+                $amount = $booking->price;
+
+            }else if(strtotime($hoursAddedthree) > strtotime($now)  && strtotime($combinedDT) > strtotime($now)){
+
+                $amount = round($booking->price / 2, 2);
+            } 
+                
+            return response()->json(['response' => "Booking is canceled!", "amount" => $amount]);           
+        } else{
+            return response()->json(['response' => "Booking not found!", "status" => false]);
+        }
+    }
+
+    public function cancelBooking(Request $request) {
+        $id = (int) $request->id;
+        $booking = DB::table('bookings')
+            ->where('bookings.id', $id)
+            ->where('bookings.user_id', Auth::user()->id)
+            ->first();
+
+        $data = array();
+        if($booking) {
+            $data["status"] = 'canceled';
+            Bookings::where(['id' => $booking->id ])
+                    ->update($data);
+
+            $start = $booking->created_at;
+            $scheduledate = $booking->service_day;
+            //$scheduletime = $booking->booking_time;
+            $combinedDT = date('Y-m-d H:i:s', strtotime("$scheduledate")); 
+            $now   = date('Y-m-d H:i:s');
+            $hoursAdded = date('Y-m-d H:i:s',strtotime('+3 hour',strtotime($start)));
+            $hoursAddedten = date('Y-m-d H:i:s',strtotime('-10 hour',strtotime($combinedDT)));
+            $hoursAddedthree = date('Y-m-d H:i:s',strtotime('-3 hour',strtotime($combinedDT)));
+
+            $amount = 0;
+
+            if(strtotime($hoursAdded) > strtotime($now)) {
+             // echo "In ONe";
+                $amount = 0;
+            }else if(strtotime($now) > strtotime($hoursAddedthree) && strtotime($combinedDT) > strtotime($now) ){
+
+              // To Deduct Full Amount as booking is cancelled less than 3 hours of schedule
+                $amount = $booking->price;
+
+            }else if(strtotime($hoursAddedthree) > strtotime($now)  && strtotime($combinedDT) > strtotime($now)){
+
+                $amount = round($booking->price / 2, 2);
+            } 
+
+            if($amount != 0) {
+                try {
+                    $charge = \Stripe\Charge::create([
+                        'currency' => 'USD',
+                        'customer' => $booking->customer,
+                        'amount' =>  $amounttobecharged,
+                        "transfer_group" => $booking->transfer_group,
+                    ]);
+                } catch (\Stripe\Error\RateLimit $e) {
+                    $error = $e->getMessage();                  
+                } catch (\Stripe\Error\InvalidRequest $e) {
+                    $error = $e->getMessage();
+                } catch (\Stripe\Error\Authentication $e) {
+                    $error = $e->getMessage();
+                } catch (\Stripe\Error\ApiConnection $e) {
+                    $error = $e->getMessage();
+                } catch (\Stripe\Error\Base $e) {
+                    $error = $e->getMessage();
+                } catch (Exception $e) {
+                    $error = $e->getMessage();
+                }
+            }
+            /*
+            * TODO: SEND EMAILS
+            */
+            return response()->json(['response' => "Booking is canceled!", "status" => true]); 
+        } else{
+            return response()->json(['response' => "Booking not found!", "status" => false]);
+        }
+    }
+
+    public function completeBooking(Request $request) {
+        $id = (int) $request->id;
+        $booking = DB::table('bookings')
+            ->where('bookings.id', $id)
+            ->where('bookings.user_id', Auth::user()->id)
+            ->first();
+        if($booking) {
+            $data = array();
+            $data["status"] = 'completed';
+            Bookings::where(['id' => $booking->id ])
+                    ->update($data);
+            try {
+                $charge = \Stripe\Charge::create([
+                    'currency' => 'USD',
+                    'customer' => Auth::user()->customer_id,
+                    'amount' =>  (int) $booking->service_amount * 2,
+                    "transfer_group" => $booking->transfer_group,
+                ]);
+            } catch (\Stripe\Error\RateLimit $e) {
+                $error = $e->getMessage();                  
+            } catch (\Stripe\Error\InvalidRequest $e) {
+                $error = $e->getMessage();
+            } catch (\Stripe\Error\Authentication $e) {
+                $error = $e->getMessage();
+            } catch (\Stripe\Error\ApiConnection $e) {
+                $error = $e->getMessage();
+            } catch (\Stripe\Error\Base $e) {
+                $error = $e->getMessage();
+            } catch (Exception $e) {
+                $error = $e->getMessage();
+            }
+            /*
+            * TODO: SEND EMAILS
+            */
+            return response()->json(['response' => "Booking is completed!", "status" => true]); 
+        } else {
+            return response()->json(['response' => "Booking not found!", "status" => false]);
+        }
     }
 
 }

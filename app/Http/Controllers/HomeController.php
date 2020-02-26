@@ -13,6 +13,7 @@ use Mail;
 use App\User;
 use App\UserCards;
 use App\Bookings;
+use App\UserPayments;
 use App\Mail\VerificationEmail;
 use App\Mail\BookingCreate;
 use App\Mail\BookingCreateUser;
@@ -187,6 +188,8 @@ class HomeController extends Controller {
                 if(!Auth::check()) {
                     $user_data = $request->get('register');
                     $user_data['password'] = Hash::make($user_data['password']);
+                    $user_data['address'] = $user_address;
+                    $user_data['zip'] = $user_zip;
                     $user_data['status'] = 1;
                     $user_data['user_type'] = 'user';
                     $profile = User::create($user_data);
@@ -204,6 +207,7 @@ class HomeController extends Controller {
                     ),
                 ]);
 
+                
                 //create customer if not created
                 if($profile->customer_id) {
                     $customer_id = $profile->customer_id;
@@ -225,16 +229,32 @@ class HomeController extends Controller {
                 $data['user_id'] = $profile->id;
                 $data['status'] = 'new';
                 $data['service_categories'] = serialize($data['service_categories']);
-                Bookings::create($data);
-                $request->session()->forget('booking[]');
+                $booking = Bookings::create($data);
+                $request->session()->put('booking', null);
                 $message = 'Booking Successful.';
 
                 $data['first_name'] = $profile->first_name;
                 $data['last_name'] = $profile->last_name;
                 $data['adress'] = $profile->adress;
 
+                /*
+                * Transfer the amount to admin account
+                */
+                $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $rn = substr(str_shuffle(str_repeat($pool, 5)), 0, 10);
+                $transfer_group = 'ORDER-'.$booking->id . '-' . $profile->id . '-'.$rn;
+                Bookings::where(['id'=> $booking->id])
+                            ->update(['transfer_group' => $transfer_group]);
+
+                /*
+                * Save to payment history
+                */
+                UserPayments::create([
+                        'user_id' => $profile->id,
+                        'booking_id' => $booking->id
+                ]);
                 //email to Laundress
-               // $Toemail = 'parthibatman@gmail.com';
+                // $Toemail = 'parthibatman@gmail.com';
                 Mail::to([$laundress_data->email])->send(new BookingCreate($data, $laundress_data));
 
                 //email to customer

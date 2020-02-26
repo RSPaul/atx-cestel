@@ -29,6 +29,7 @@ class CreateBookingsTable extends Migration
             $table->text('service_hanging_details')->nullable();
             $table->text('service_washing_details')->nullable();
             $table->text('service_description')->nullable();
+            $table->text('transfer_group')->nullable();
             $table->string('status');
             $table->timestamps();
         });

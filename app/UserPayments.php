@@ -15,6 +15,6 @@ class UserPayments extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'user_id', 'transaction_id', 'service_payment_type', 'user_name', 'user_email', 'user_address', 'user_city', 'user_state', 'user_zip'
+        'user_id', 'booking_id'
     ];
 }

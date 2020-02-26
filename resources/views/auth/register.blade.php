@@ -84,8 +84,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <ul class="list_hm">
-                                        <li><label><input type="checkbox" name="services[]" value="Home" required data-error="Select your residence type."/> Home</label></li>
-                                        <li><label><input type="checkbox" name="services[]" value="Apartment" required data-error="Select your residence type."/> Apartment</label></li>                                      <li><label><input type="checkbox" name="services[]" value="Condo" required data-error="Select your residence type."/> Condo</label></li>                                          
+                                        <li><label><input type="checkbox" name="services[]" value="Home"/> Home</label></li>
+                                        <li><label><input type="checkbox" name="services[]" value="Apartment"/> Apartment</label></li>                                      <li><label><input type="checkbox" name="services[]" value="Condo"/> Condo</label></li>                                          
                                     </ul>
                                     <div class="help-block with-errors"></div>
                                 </div>

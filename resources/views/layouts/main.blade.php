@@ -11,6 +11,7 @@
 	  <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
     <link rel="stylesheet" href="{{asset('css/croppie.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.min.css')}}">
+    <link href="{{asset('css/sweetalert.css')}}" type="text/css" rel="stylesheet" />
   </head>
   <body>
     <div id="load"></div>
@@ -154,6 +155,7 @@
   <!-- validation lib -->
   <script type="text/javascript" src="{{asset('js/validator.min.js')}}"></script>
   <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
+  <script src="{{asset('js/sweetalert.min.js')}}"></script>
   
   <!-- angularjs -->
   <script type="text/javascript" src="{{asset('js/angular/angular.min.js')}}"></script>
