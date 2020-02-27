@@ -79,7 +79,7 @@ class LaundressController extends Controller
                     ->where(['bookings.status' => 'new'])
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
-                    ->where('bookings.service_day', '<=', date('m/d/Y'))
+                    ->where('bookings.service_day', '=', date('m/d/Y'))
                     ->get();
 
         $next_week_bookings = Bookings::where(['service_laundress' => Auth::user()->id])

@@ -114,7 +114,7 @@ class UserController extends Controller
                     ->where(['bookings.status' => 'new'])
                     ->join('users', 'users.id', '=', 'bookings.service_laundress')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
-                    ->where('bookings.service_day', '<=', date('m/d/Y'))
+                    ->where('bookings.service_day', '=', date('m/d/Y'))
                     ->get();
 
         $next_week_bookings = Bookings::where(['user_id' => Auth::user()->id])
@@ -129,9 +129,15 @@ class UserController extends Controller
                     ->join('users', 'users.id', '=', 'bookings.service_laundress')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->get();
+
+        $past_bookings = Bookings::where(['user_id' => Auth::user()->id])
+                    ->where('bookings.service_day', '<', date('m/d/Y'))
+                    ->join('users', 'users.id', '=', 'bookings.service_laundress')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+                    ->get();
                     
 
-        return response()->json(['bookings'=> array('today' => $bookings, 'next_week' => $next_week_bookings, 'all_bookings' => $all_bookings)]);
+        return response()->json(['bookings'=> array('today' => $bookings, 'next_week' => $next_week_bookings, 'all_bookings' => $all_bookings,'past_bookings' => $past_bookings)]);
     }
 
     public function viewscheduleList(Request $request) {

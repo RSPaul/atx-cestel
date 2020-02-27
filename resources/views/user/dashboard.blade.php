@@ -299,7 +299,7 @@
                                     <th>Provider</th>
                                     <th>Action</th>
                                  </tr>
-                                 <tr ng-repeat="booking in bookings.all_bookings">
+                                 <tr ng-repeat="booking in bookings.past_bookings">
                                     <td><b>@{{booking.service_time}}</b></td>
                                     <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.address}}
