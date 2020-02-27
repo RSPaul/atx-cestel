@@ -299,13 +299,23 @@
                                     <th>Provider</th>
                                     <th>Action</th>
                                  </tr>
-                                 <tr ng-repeat="booking in bookings.all_bookings">
+                                 <tr ng-repeat="booking in bookings.past_bookings">
                                     <td><b>@{{booking.service_time}}</b></td>
                                     <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.address}}
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> </td>
-                                    <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="completeBooking(booking)"><i class="fa fa-check"></i> </a> </td>
+                                    <td>
+                                       <a href="javascript:void(0);" ng-click="viewBooking(booking)">
+                                          <i class="fa fa-eye"></i>
+                                       </a> 
+                                       <a href="javascript:void(0);" ng-if="booking.status === 'completed'">
+                                          <i class="fa fa-check"></i> 
+                                       </a> 
+                                       <a href="javascript:void(0);" ng-click="completeBooking(booking)" ng-if="booking.status !== 'completed'">
+                                          <i class="fa fa-check"></i> 
+                                       </a> 
+                                       </td>
                                  </tr>
                               </table>
                            </div>

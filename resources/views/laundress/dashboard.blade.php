@@ -21,6 +21,8 @@
    <section class="bepart_bx">
       <div class="container">
          <div class="row ">
+            <div class="alert alert-success text-center" ng-if="successMsg">@{{successMsg}}</div>
+            <div class="alert alert-danger text-center" ng-if="errMsg">@{{errMsg}}</div>
             <div class="border_bx_acc">
                <div class="col-md-2">
                   <!-- Nav tabs -->
@@ -51,7 +53,15 @@
                            <span class="bor_rad">
                               <img src="{{asset('img/prev_service.png')}}" alt="prev_service"/>
                            </span> <b>Previous Service</b>
-                           </a></li>
+                        </a>
+                     </li>
+                     <li role="presentation" class="@if($tab_id == 'payments') active @endif"">
+                        <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">
+                           <span class="bor_rad">
+                              <img src="{{asset('img/prev_service.png')}}" alt="Payments"/>
+                           </span> <b>Payments</b>
+                        </a>
+                     </li>
                      <li role="presentation">
                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                            <span class="bor_rad">
@@ -309,6 +319,78 @@
                                  </tr>
                               </table>
                            </div>
+                     </div>
+                     <div role="tabpanel" class="tab-pane @if($tab_id == 'payments') active @endif" id="payments">
+                        <div class="row">
+                           <form ng-submit="updateBankAccount()" novalidate>
+                              <div class="col-md-12">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label>Name</label>
+                                       <input type="text" name="bank_name" ng-model="bank.bank_name" class="form-control" required>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label>Routing Number</label>
+                                       <input type="text" name="routing_number" ng-model="bank.routing_number" class="form-control" required>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label>Account Number</label>
+                                       <input type="text" name="account_number" ng-model="bank.account_number" class="form-control" required>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-md-12 text-center mt-4">
+                                 <input type="submit" name="submit" value="Submit" class="btn btn-primary" ng-disabled="!bank.bank_name || !bank.routing_number || !bank.account_number">
+                              </div>
+                           </form>
+                        </div>
+                        <div class="row col-md-12">
+                           <div class="row table_bx col-md-12">
+                              <div class="col-md-12" >
+                                 <table class="table">
+                                    <tr>
+                                       <th>Time</th>
+                                       <th>Services</th>
+                                       <th>Location</th>
+                                       <th>Customer</th>
+                                       <th>Status</th>
+                                       <th>Action</th>
+                                    </tr>
+                                    <tr ng-repeat="booking in payments">
+                                       <td><b>@{{booking.service_time}}</b></td>
+                                       <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
+                                       <td><b>@{{booking.city_state}}</b> @{{booking.address}}
+                                       </td>
+                                       <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-chevron-right"></a></td>
+                                       <td ng-if="booking.payment_request === '0'">
+                                          No
+                                       </td>
+                                       <td ng-if="booking.payment_request === '1'">
+                                          Requested
+                                       </td>
+                                       <td ng-if="booking.payment_request === '2'">
+                                          Completed
+                                       </td>
+                                       <td ng-if="booking.payment_request === '0'">
+                                          Payment Pending
+                                       </td>
+                                       <td ng-if="booking.payment_request === '1'">
+                                          Payment Pending
+                                       </td>
+                                       <td ng-if="booking.payment_request === '2'">
+                                          Payment Completed
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <h5 ng-if="!bank.account_id">Add Account details to send request for Payment.</h5>
+                                 <a href="javascript:void(0);" class="btn btn-primary" ng-click="requestPayment()">Request Payment $@{{totalPayment}}</a>
+                              </div>
+                           </div>
+                        </div>
                      </div>
                      <div role="tabpanel" class="tab-pane" id="logout">...</div>
                   </div>

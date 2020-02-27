@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Stripe\Stripe;
 use DB;
 use Mail;
 use App\User;
+use App\PaymentDetails;
 use App\Bookings;
 use Carbon\Carbon;
 
@@ -18,6 +20,7 @@ class LaundressController extends Controller
 {	
 	public function __construct() {
         $this->middleware(['auth','verified', 'laundress'],  ['except' => ['get']]);
+        Stripe::setApiKey(env('STRIPE_SECRET'));
     }
 
     public function profile(Request $request) {
@@ -79,7 +82,7 @@ class LaundressController extends Controller
                     ->where(['bookings.status' => 'new'])
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
-                    ->where('bookings.service_day', '<=', date('m/d/Y'))
+                    ->where('bookings.service_day', '=', date('m/d/Y'))
                     ->get();
 
         $next_week_bookings = Bookings::where(['service_laundress' => Auth::user()->id])
@@ -209,6 +212,131 @@ class LaundressController extends Controller
         } else {
             return response()->json(['response' => "Booking not found!", "status" => false]);
         }
+    }
+
+    public function updateAccount(Request $request) {
+
+        $msg = "";
+        $data = $request->all();
+        $details = PaymentDetails::where(['user_id' => Auth::user()->id])->first();
+        // echo "<pre>";
+        // print_r($data);
+        // die();
+        if($details) {
+            
+            if($details->account_number != $data['account_number']) {
+                $validatedData = $request->validate([
+                    'account_number' => 'required|string|unique:payment_details',
+                ]);
+            }
+
+            try {
+                $account = \Stripe\Account::update(
+                  $details->account,
+                  [
+                    'external_account' => [
+                        'object' => 'bank_account',
+                        'country' => 'US',
+                        'currency' => 'usd',
+                        'routing_number' => $data['routing_number'],
+                        'account_number' => $data['account_number'],
+                        'account_holder_name' => Auth::user()->name,
+                    ],
+                  ]
+                );
+                $data['account_id'] = $account->external_accounts->data[0]->id;
+                $data['account'] = $account->external_accounts->data[0]->account;
+                $data['bank_name'] = $account->external_accounts->data[0]->bank_name;
+                $data['last4'] = $account->external_accounts->data[0]->last4;
+                
+                $details = PaymentDetails::find($details->id);
+                $details->account_id = $account->external_accounts->data[0]->id;
+                $details->account = $account->external_accounts->data[0]->account;
+                $details->bank_name = $account->external_accounts->data[0]->bank_name;
+                $details->last4 = $account->external_accounts->data[0]->last4;
+
+                $details->save();
+
+                return response()->json(['message' => "Payment Information updated successfully!", "status" => true]);
+
+            } catch (\Stripe\Error\RateLimit $e) {
+                $msg = $e->getMessage();              
+            } catch (\Stripe\Error\InvalidRequest $e) {
+                $msg = $e->getMessage();
+            } catch (\Stripe\Error\Authentication $e) {
+                $msg = $e->getMessage();
+            } catch (\Stripe\Error\ApiConnection $e) {
+                $msg = $e->getMessage();
+            } catch (\Stripe\Error\Base $e) {
+                $msg = $e->getMessage();
+            } catch (Exception $e) {
+                $msg = $e->getMessage();
+            }
+            
+            return response()->json(['message' => $msg, "status" => false]);
+        
+        } else {
+
+            $validatedData = $request->validate([
+                'account_number' => 'required|string|unique:payment_details',
+            ]);
+
+            try {
+
+                $account = \Stripe\Account::create([
+                    'country' => 'US',
+                    'type' => 'custom',
+                    'requested_capabilities' => ["transfers"],
+                    'external_account'=> [
+                        'object' => 'bank_account',
+                        'country' => 'US',
+                        'currency' => 'usd',
+                        'routing_number' => $data['routing_number'],
+                        'account_number' => $data['account_number'],
+                        'account_holder_name' => Auth::user()->name,
+                    ]
+                ]);
+
+                $data['user_id'] = Auth::user()->id;
+                $data['account_type'] = 'custom';
+                $data['account_id'] = $account->external_accounts->data[0]->id;
+                $data['account'] = $account->external_accounts->data[0]->account;
+                $data['bank_name'] = $account->external_accounts->data[0]->bank_name;
+                $data['last4'] = $account->external_accounts->data[0]->last4;
+
+                $details = new PaymentDetails($data);
+                $details->save();
+                
+                return response()->json(['message' => 'Payment Information saved successfully!', "status" => true]);
+
+            } catch (\Stripe\Error\RateLimit $e) {
+                $msg = $e->getMessage();              
+            } catch (\Stripe\Error\InvalidRequest $e) {
+                $msg = $e->getMessage();
+            } catch (\Stripe\Error\Authentication $e) {
+                $msg = $e->getMessage();
+            } catch (\Stripe\Error\ApiConnection $e) {
+                $msg = $e->getMessage();
+            } catch (\Stripe\Error\Base $e) {
+                $msg = $e->getMessage();
+            } catch (Exception $e) {
+                $msg = $e->getMessage();
+            }
+
+            return response()->json(['message' => $msg, "status" => false]);
+        }
+    }
+
+    public function getAccount(Request $request) {
+        $details = PaymentDetails::where(['user_id' => Auth::user()->id])->first();
+        $bookings = DB::table('bookings')
+            ->where('bookings.service_laundress', Auth::user()->id)
+            ->whereIn('bookings.status', ['completed'])
+            ->join('users', 'users.id', '=', 'bookings.user_id')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+            ->orderBy('bookings.id', 'desc')
+            ->get();
+        return response()->json(['message' => $details, "status" => true, 'bookings' => $bookings]);
     }
 
 }

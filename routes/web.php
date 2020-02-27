@@ -57,6 +57,8 @@ Route::get('/laundress-schedule', 'Laundress\LaundressController@schedule')->nam
 Route::get('/laundress-view-schedule', 'Laundress\LaundressController@viewscheduleList')->name('viewscheduleList');
 Route::get('/earnings-by-week', 'Laundress\LaundressController@earningsByWeek')->name('earningsByWeek');
 Route::post('/decline-booking', 'Laundress\LaundressController@declineBooking')->name('decline_booking');
+Route::post('/update-account', 'Laundress\LaundressController@updateAccount')->name('update_account');
+Route::get('/get-account', 'Laundress\LaundressController@getAccount')->name('get_account');
 
 
 /**
