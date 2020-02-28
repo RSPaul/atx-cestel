@@ -10,7 +10,7 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary" style="text-transform: capitalize;">Bookings</h6>
+      <h6 class="m-0 font-weight-bold text-primary" style="text-transform: capitalize;">Payments</h6>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -18,43 +18,44 @@
           <thead>
             <tr>
               <th>Service Type</th>
-              <th>Service Categories</th>
-              <th>Service Day</th>
+              <th>Service Date</th>
+              <th>Service Time</th>
               <th>Service Package</th>
-              <th>Service Amount</th>
-              <th>Service Description</th>
-              <th>Action</th>
+              <th>Amount</th>
+              <th>Provider Share</th>
+              <th>Admin Share</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th>Service Type</th>
-              <th>Service Categories</th>
-              <th>Service Day</th>
+              <th>Service Date</th>
+              <th>Service Time</th>
               <th>Service Package</th>
-              <th>Service Amount</th>
-              <th>Service Description</th>
-              <th>Action</th>
+              <th>Amount</th>
+              <th>Provider Share</th>
+              <th>Admin Share</th>
             </tr>
           </tfoot>
           <tbody>
           	@foreach($bookings as $booking)
-            <?php 
-              $categ = unserialize($booking->service_categories);
-              $categ = implode(', ', $categ)
-            ?>
             <tr>
               <td>{{$booking->service_type}}</td>
-              <td><?php echo $categ; ?></td>
               <td>{{$booking->service_day}}</td>
+              <td>{{$booking->service_time}}</td>  
               <td>{{$booking->service_package}}</td>
-              <td>{{$booking->service_amount}}</td>
-              <td>{{$booking->service_description}}</td>
-              <td><a href="/admin/bookings/{{$booking->id}}">View</a></td>
+              <td>{{round($booking->service_amount, 2)}}</td>
+              <td>{{round($booking->service_amount * 90 / 100, 2)}}</td>
+              <td>{{round($booking->service_amount * 10 / 100, 2)}}</td>
             </tr>
             @endforeach
           </tbody>
         </table>
+        @if($reqs->status == "paid")
+          <button class="btn btn-primary" disabled>Paid - ${{$reqs->amount}}</button>
+        @else
+          <button class="btn btn-primary" id="confirmPayment" data-id="{{$reqs->id}}" data-amount="{{$reqs->amount}}">Confirm Payment - ${{$reqs->amount}}</button>
+        @endif
       </div>
     </div>
   </div>

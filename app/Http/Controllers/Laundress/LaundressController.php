@@ -12,8 +12,9 @@ use Stripe\Stripe;
 use DB;
 use Mail;
 use App\User;
-use App\PaymentDetails;
 use App\Bookings;
+use App\PaymentDetails;
+use App\PaymentRequests;
 use Carbon\Carbon;
 
 class LaundressController extends Controller
@@ -337,6 +338,51 @@ class LaundressController extends Controller
             ->orderBy('bookings.id', 'desc')
             ->get();
         return response()->json(['message' => $details, "status" => true, 'bookings' => $bookings]);
+    }
+
+    public function requestPayment(Request $request) {
+        if ($request->has("book_ids")) {
+            
+            $ids = $request->book_ids;
+            $bookings = DB::table('bookings')
+                ->where(['bookings.service_laundress' => Auth::user()->id, 'bookings.payment_request' => 0])
+                ->whereIn('bookings.id', $ids)
+                ->select('bookings.*')
+                ->get();
+
+            if( count($bookings)) {
+                $payment = 0;
+                $pids = array();
+                foreach ($bookings as $key => $book) {
+                    if($book->status == "completed") {
+                        $payment = $payment + ($book->service_amount * 90 / 100);
+                        array_push($pids, $book->id);
+                    }
+                }
+                
+
+                if($payment) {
+                    $req = new PaymentRequests();
+                    $req->laundress_id = Auth::user()->id;
+                    $req->amount = round($payment, 2);
+                    $req->booking_ids = serialize($pids);
+                    $req->status = "requested";
+                    $req->save();
+
+                    Bookings::whereIn('id', $pids)
+                                    ->update(["payment_request" => '1']);
+
+                   /*
+                   * TODO: SEND MAIL TO ADMIN AND LAUNDRESS
+                   */
+                }
+
+                return response()->json(['response' => "Request sent successfully!", "status" => true]);
+            } else {
+                return response()->json(['response' => "No New Bookings found!", "status" => false]);
+            }        
+
+        }
     }
 
 }

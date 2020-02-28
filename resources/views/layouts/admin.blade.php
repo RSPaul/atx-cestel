@@ -49,11 +49,11 @@
                </div> -->
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#users" aria-expanded="true" aria-controls="users">
                <i class="fas fa-fw fa-user"></i>
                <span>Users</span>
                </a>
-               <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+               <div id="users" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                   <div class="bg-white py-2 collapse-inner rounded">
                      <a class="collapse-item" href="/users/user">Users</a>
                      <a class="collapse-item" href="/users/laundress">Laundress</a>
@@ -62,16 +62,40 @@
             </li>
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-               <a class="nav-link" href="/admin/bookings">
-               <i class="fas fa-fw fa-chart-area"></i>
-               <span>Bookings</span></a>
+               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#bookings" aria-expanded="true" aria-controls="bookings">
+                 <i class="fas fa-fw fa-chart-area"></i>
+                 <span>Bookings</span>
+               </a>
+               <div id="bookings" class="collapse" aria-labelledby="headingPages" data-parent="#bookings">
+                  <div class="bg-white py-2 collapse-inner rounded">
+                     <a class="collapse-item" href="/bookings/all">All</a>
+                     <a class="collapse-item" href="/bookings/completed">Customer Completed</a>
+                     <a class="collapse-item" href="/bookings/paid">Paid</a>
+                     <a class="collapse-item" href="/bookings/declined">Declined</a>
+                  </div>
+               </div>
+               
+            </li>
+            <li class="nav-item">
+               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#payments" aria-expanded="true" aria-controls="payments">
+                 <i class="fas fa-dollar-sign"></i>
+                 <span>Payment Requests</span>
+               </a>
+               <div id="payments" class="collapse" aria-labelledby="headingPages" data-parent="#payments">
+                  <div class="bg-white py-2 collapse-inner rounded">
+                     <a class="collapse-item" href="/payments/all">All</a>
+                     <a class="collapse-item" href="/payments/new">New Request</a>
+                     <a class="collapse-item" href="/payments/paid">Paid Request</a>
+                  </div>
+               </div>
+               
             </li>
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                <a class="nav-link" href="tables.html">
                <i class="fas fa-fw fa-table"></i>
                <span>Tables</span></a>
-            </li>
+            </li> -->
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
             <!-- Sidebar Toggler (Sidebar) -->

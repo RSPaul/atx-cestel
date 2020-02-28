@@ -22,6 +22,21 @@
 	<div class="container">
 		<!-- login  -->
 		<div class="row">
+			@if(Session::has('error'))
+	          <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
+	             {{ Session::get('error') }}
+	          </p>
+	        @endif
+	        @if(Session::has('message'))
+	          <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
+	             {{ Session::get('message') }}
+	          </p>
+	        @endif
+	        @if(Session::has('success'))
+	          <p class="alert {{ Session::get('alert-class', 'alert-success') }}">
+	             {{ Session::get('success') }}
+	          </p>
+	        @endif
 			<div class="col-md-8 col-lg-6 offset-lg-3 offset-md-2">
 				<div class="form-border-md">
 				<form class="login-form-grid"  method="POST" action="{{ route('login') }}">

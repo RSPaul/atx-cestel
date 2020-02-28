@@ -116,15 +116,17 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
           buttons: true,
           dangerMode: true,
       })
-      .then((willDelete) => {
-        $http.post('/cancel-booking', {id: booking.id})
-        .then(function (response) {
-          $scope.getSchedule();
-          $scope.viewSchedulelist();
-          swal('Booking Canceled.', "This booking has been canceled", "success");
-        }, function (error) {
-          swal(error.status.toString(), error.data.message, "error");
-        });
+      .then((confirm) => {
+        if(confirm) {
+          $http.post('/cancel-booking', {id: booking.id})
+          .then(function (response) {
+            $scope.getSchedule();
+            $scope.viewSchedulelist();
+            swal('Booking Canceled.', "This booking has been canceled", "success");
+          }, function (error) {
+            swal(error.status.toString(), error.data.message, "error");
+          });
+        }
       });
     }, function (error) {
       console.log('error getting schedule ', error);
@@ -139,15 +141,17 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
           buttons: true,
           dangerMode: true,
       })
-      .then((willDelete) => {
-        $http.post('/complete-booking', {id: booking.id})
-        .then(function (response) {
-          $scope.getSchedule();
-          $scope.viewSchedulelist();
-          swal('Booking Completed.', "This booking has been completed", "success");
-        }, function (error) {
-          swal(error.status.toString(), error.data.message, "error");
-        });
+      .then((confirm) => {
+        if(confirm) {
+          $http.post('/complete-booking', {id: booking.id})
+          .then(function (response) {
+            $scope.getSchedule();
+            $scope.viewSchedulelist();
+            swal('Booking Completed.', "This booking has been completed", "success");
+          }, function (error) {
+            swal(error.status.toString(), error.data.message, "error");
+          });
+        }
       });
   }
 

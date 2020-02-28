@@ -13,6 +13,9 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
   $scope.showWeekBookings = true;
   $scope.showMonthBookings = true;
   $scope.totalPayment = 0;
+  $scope.showBankAccount = false;
+  $scope.payIds = [];
+
   /*
   * Get User Profile
   */
@@ -126,15 +129,17 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
         buttons: true,
         dangerMode: true,
     })
-    .then((willDelete) => {
-      $http.post('/decline-booking', {id: booking.id})
-      .then(function (response) {
-        $scope.getSchedule();
-        $scope.viewSchedulelist();
-        swal('Booking Declined.', "This booking has been declined.", "success");
-      }, function (error) {
-        swal(error.status.toString(), error.data.message, "error");
-      });
+    .then((confirm) => {
+      if (confirm) {
+        $http.post('/decline-booking', {id: booking.id})
+        .then(function (response) {
+          $scope.getSchedule();
+          $scope.viewSchedulelist();
+          swal('Booking Declined.', "This booking has been declined.", "success");
+        }, function (error) {
+          swal(error.status.toString(), error.data.message, "error");
+        });
+      }
     });
   }
 
@@ -143,24 +148,17 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
     .then(function (response) {
       var data = response.data;
       if(response.status) {
-        $scope.successMsg = data.message;
+        swal("Success", "Bank details has been updated.", "success");
       } else {
-        $scope.errMsg = data.message;
-      }
-      $timeout(function () {
-        $scope.successMsg = '';
-        $scope.errMsg = '';
-      },3000);
+        swal("Error", data.message, "error");
+      }      
     }, function (error) {
-      $timeout(function () {
-        $scope.successMsg = '';
-        $scope.errMsg = '';
-      },3000);
-      $scope.errMsg = error.data.message;
+      swal(error.status.toString(), error.data.message, "error");
     });
   }
 
   $scope.getBankDetails = function () {
+    $scope.totalPayment = 0;
     $http.get('/get-account')
     .then(function (response) {
       var data = response.data;
@@ -168,7 +166,8 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
       $scope.payments = data.bookings;
       $scope.payments.map(p => {
         if(p.payment_request === '0') {
-          $scope.totalPayment = $scope.totalPayment + parseInt(p.service_amount);
+          $scope.totalPayment = $scope.totalPayment + parseFloat(p.service_amount);
+          $scope.payIds.push(p.id);
         }
       })
     }, function(error) {
@@ -184,7 +183,22 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
         buttons: true,
         dangerMode: true,
     })
-    .then((willDelete) => {
+    .then((confirm) => {
+      if(confirm) {
+        $http.post('/request-payment', {book_ids:$scope.payIds})
+        .then(function (response) {
+          var data = response.data;
+          if(response.status) {
+            swal("Success", "Payment request has been sent to admin.", "success");
+            $scope.getBankDetails();
+          } else {
+            $scope.errMsg = data.message;
+            swal("Error", data.message, "error");
+          }
+        }, function (error) {
+          swal(error.status.toString(), error.data.message, "error");
+        });
+      }
     });
   }
 

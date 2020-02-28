@@ -11,7 +11,16 @@
     <!-- Start Team section-->
     <section class="bepart_bx create">
        <div class="container">
-           
+        @if(Session::has('error'))
+          <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
+             {{ Session::get('error') }}
+          </p>
+        @endif
+        @if(Session::has('success'))
+          <p class="alert {{ Session::get('alert-class', 'alert-success') }}">
+             {{ Session::get('success') }}
+          </p>
+        @endif
         <div class="row ">
             <div class="border_bx_acc create disp-blck">
              <form method="POST" action="{{ route('register_user') }}" data-toggle="validator" role="form">

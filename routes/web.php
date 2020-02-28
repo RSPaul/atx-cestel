@@ -59,6 +59,7 @@ Route::get('/earnings-by-week', 'Laundress\LaundressController@earningsByWeek')-
 Route::post('/decline-booking', 'Laundress\LaundressController@declineBooking')->name('decline_booking');
 Route::post('/update-account', 'Laundress\LaundressController@updateAccount')->name('update_account');
 Route::get('/get-account', 'Laundress\LaundressController@getAccount')->name('get_account');
+Route::post('/request-payment', 'Laundress\LaundressController@requestPayment')->name('request_payment');
 
 
 /**
@@ -66,6 +67,9 @@ Route::get('/get-account', 'Laundress\LaundressController@getAccount')->name('ge
 **/
 Route::get('/admin', 'Admin\AdminController@dashboard')->name('admin_dashboard');
 Route::get('/users/{type}', 'Admin\AdminController@users');
-Route::get('/admin/bookings', 'Admin\AdminController@bookings');
-Route::get('/admin/bookings/{id}', 'Admin\AdminController@bookingDetails');
+Route::get('/bookings/{type}', 'Admin\AdminController@bookings');
+Route::get('/bookings/{id}', 'Admin\AdminController@bookingDetails');
 Route::get('/user/verify/{id}', 'Admin\AdminController@verifyUser')->name('verify_user');
+Route::get('/payments/{type}', 'Admin\AdminController@payments')->name('payments');
+Route::get('/payment/{id}', 'Admin\AdminController@viewPayment')->name('view_payment');
+Route::get('/admin/confirm-payment/{id}', 'Admin\AdminController@confirmPayment')->name('admin_confirm_ayment');

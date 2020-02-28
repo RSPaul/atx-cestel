@@ -28,14 +28,14 @@ class HomeController extends Controller {
 
     	$data = $request->all();
 
-    	$request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
-        ]);
+    	// $request->validate([
+     //        'first_name' => ['required', 'string', 'max:255'],
+     //        'last_name' => ['required', 'string', 'max:255'],
+     //        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+     //        'password' => ['required', 'string', 'min:8'],
+     //    ]);
     	
-    	$data['services'] = serialize($data['services']);
+    	$data['services'] = (isset($data['services'])) ? serialize($data['services']) : '';
     	$data['password'] = Hash::make($data['password']);
     	$data['status'] = 0;
         $data['user_type'] = 'user';
@@ -55,13 +55,13 @@ class HomeController extends Controller {
                 UserCards::create($data);
             }
 
-
-            Mail::to([$user->email])->send(new VerificationEmail($user, $link));
-            return redirect('/verify')->with('status', 'Registered successfully.');
+            if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
+                Mail::to([$user->email])->send(new VerificationEmail($user, $link));
+            }
+            return redirect('/verify')->with('success', 'Registered successfully.');
         } catch (\Illuminate\Database\QueryException $exception) {
-            // You can check get the details of the error using `errorInfo`:
-            $errorInfo = $exception->errorInfo;
-            return redirect('/register')->with('status',$errorInfo);
+
+            return redirect('/register')->with('error',$exception->getMessage());
         }
     }
 
@@ -254,11 +254,13 @@ class HomeController extends Controller {
                         'booking_id' => $booking->id
                 ]);
                 //email to Laundress
-                // $Toemail = 'parthibatman@gmail.com';
-                Mail::to([$laundress_data->email])->send(new BookingCreate($data, $laundress_data));
+                if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
+                    // $Toemail = 'parthibatman@gmail.com';
+                    Mail::to([$laundress_data->email])->send(new BookingCreate($data, $laundress_data));
 
-                //email to customer
-                Mail::to([$profile->email])->send(new BookingCreateUser($data, $laundress_data));
+                    //email to customer
+                    Mail::to([$profile->email])->send(new BookingCreateUser($data, $laundress_data));
+                }
 
 
             } catch (\Stripe\Error\RateLimit $e) {
@@ -317,24 +319,26 @@ class HomeController extends Controller {
                 'password' => ['required', 'string', 'min:8'],
             ]);
             
-            $data['language']       = serialize($data['language']);
-            $data['available']      = serialize($data['available']);
-            $data['more_questions'] = serialize($data['more_questions']);
+            $data['language']       = (isset($data['language'])) ? serialize($data['language']) : '';
+            $data['available']      = (isset($data['available'])) ? serialize($data['available']) : '';
+            $data['more_questions'] = (isset($data['more_questions'])) ? serialize($data['more_questions']) : '';
             $data['password'] = Hash::make($data['password']);
             $data['status'] = 0;
             $data['user_type'] = 'laundress';
 
-        try {
-            $user = User::create($data);
-            return redirect('/be-part-team')->with('message', 'Account created successfully. Once Admin approves you will notified via email');
+            try {
+                $user = User::create($data);
 
-        } catch (\Illuminate\Database\QueryException $exception) {
-            // You can check get the details of the error using `errorInfo`:
-            $errorInfo = $exception->errorInfo;
-            return redirect('/register')->with('message', $errorInfo);
-        }
+                /*
+                * TODO: SEND MAIL TO ADMIN AND USER
+                */
+                return redirect('/be-part-team')->with('success', 'Account created successfully. Once Admin approves you will notified via email');
 
+            } catch (\Illuminate\Database\QueryException $exception) {
 
+                $errorInfo = $exception->errorInfo;
+                return redirect('/be-part-team')->with('error', $exception->getMessage());
+            }
         }else{
             return view('be-part-team');
         }

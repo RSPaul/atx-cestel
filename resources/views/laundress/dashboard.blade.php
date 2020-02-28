@@ -265,28 +265,28 @@
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
-                                          <td>@{{booking.service_amount}}</td>
+                                          <td>@{{booking.service_amount | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.tom_bookings" ng-if="!showTomBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
-                                          <td>@{{booking.service_amount}}</td>
+                                          <td>@{{booking.service_amount | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.week_bookings" ng-if="!showWeekBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
-                                          <td>@{{booking.service_amount}}</td>
+                                          <td>@{{booking.service_amount | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.month_bookings" ng-if="!showMonthBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
-                                          <td>@{{booking.service_amount}}</td>
+                                          <td>@{{booking.service_amount | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                     </table>
@@ -300,7 +300,7 @@
                         </div>
                      </div>
                      <div role="tabpanel" class="tab-pane table_bx @if($tab_id == 'prevserv') active @endif" id="prevserv">
-                        <div class="col-md-9">
+                        <div class="col-md-12">
                               <table class="table">
                                  <tr>
                                     <th>Time</th>
@@ -321,7 +321,11 @@
                            </div>
                      </div>
                      <div role="tabpanel" class="tab-pane @if($tab_id == 'payments') active @endif" id="payments">
-                        <div class="row">
+                        <div class="btn_rw">
+                           <a href="javascript:void(0);" class="btn btn-wht" ng-click="showBankAccount = true" ng-class="{'active': showBankAccount}">Account Details</a>
+                           <a href="javascript:void(0);" class="btn btn-wht" ng-click="showBankAccount = false" ng-class="{'active': !showBankAccount}">Payment Details</a>
+                        </div>
+                        <div class="row" ng-if="showBankAccount">
                            <form ng-submit="updateBankAccount()" novalidate>
                               <div class="col-md-12">
                                  <div class="col-md-6">
@@ -348,26 +352,28 @@
                               </div>
                            </form>
                         </div>
-                        <div class="row col-md-12">
+                        <div class="row col-md-12" ng-if="!showBankAccount">
                            <div class="row table_bx col-md-12">
                               <div class="col-md-12" >
                                  <table class="table">
                                     <tr>
                                        <th>Time</th>
                                        <th>Services</th>
-                                       <th>Location</th>
-                                       <th>Customer</th>
+                                       <th>Total Amount</th>
+                                       <th>Your Share</th>
+                                       <th>Admin Share</th>
                                        <th>Status</th>
                                        <th>Action</th>
                                     </tr>
                                     <tr ng-repeat="booking in payments">
                                        <td><b>@{{booking.service_time}}</b></td>
-                                       <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
-                                       <td><b>@{{booking.city_state}}</b> @{{booking.address}}
+                                       <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b></td>
+                                       <td><b>@{{booking.service_amount | currency}}
                                        </td>
-                                       <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-chevron-right"></a></td>
+                                       <td><b>@{{(booking.service_amount * 90 / 100) | currency }}</td>
+                                       <td><b>@{{(booking.service_amount * 10 / 100) | currency }}</td>
                                        <td ng-if="booking.payment_request === '0'">
-                                          No
+                                          Not Requested
                                        </td>
                                        <td ng-if="booking.payment_request === '1'">
                                           Requested
@@ -387,7 +393,8 @@
                                     </tr>
                                  </table>
                                  <h5 ng-if="!bank.account_id">Add Account details to send request for Payment.</h5>
-                                 <a href="javascript:void(0);" class="btn btn-primary" ng-click="requestPayment()">Request Payment $@{{totalPayment}}</a>
+                                 <a href="javascript:void(0);" class="btn btn-primary" ng-click="requestPayment()" ng-if="totalPayment > 0">Request Payment $@{{totalPayment}}</a>
+                                 <a href="javascript:void(0);" class="btn btn-primary" ng-if="totalPayment == 0" disabled>Request Payment $@{{totalPayment}}</a>
                               </div>
                            </div>
                         </div>
@@ -402,41 +409,41 @@
    <!-- End Team section-->
 
    <!-- The Modal -->
-<div class="modal fade" id="viewSchedule" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-            <h4 class="modal-title">Details</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-                </button>
-            </div>         
-            <div class="modal-body">
-                <div class="row">
-                     
-                    <span class="details_schedule">Customer First Name: <b>@{{ schedule.first_name }}</b></span><br /><br />
-                    <span class="details_schedule">Customer Last Name: <b>@{{ schedule.last_name }}</b></span><br /><br />
-                    <span class="details_schedule">Customer Address: <b>@{{ schedule.address }}</b></span><br /><br />
-                    <span class="details_schedule">Customer State: <b>@{{ schedule.city_state }}</b></span><br /><br />
-                    <span class="details_schedule">Service Type: <b>@{{ schedule.service_type }}</b></span><br /><br />
-                    <span class="details_schedule">Service Day: <b>@{{ schedule.service_day }}</b></span><br /><br />
-                    <span class="details_schedule">Service Time: <b>@{{ schedule.service_time }}</b></span><br /><br />
-                    <span class="details_schedule">Service Laundress: <b>@{{ schedule.service_laundress }}</b></span><br /><br />
-                    <span class="details_schedule">Service Package: <b>@{{ schedule.service_package }}</b></span><br /><br />
-                    <span class="details_schedule">Service Amount: <b>@{{ schedule.service_amount }}</b></span><br /><br />
-                    <span class="details_schedule">Service Job Details: <b>@{{ schedule.service_job_details }}</b></span><br /><br />
-                    <span class="details_schedule">Service Folding Details: <b>@{{ schedule.service_folding_details }}</b></span><br /><br />
-                    <span class="details_schedule">Service Hanging Details: <b>@{{ schedule.service_hanging_details }}</b></span><br /><br />
-                    <span class="details_schedule">Service Washing Details: <b>@{{ schedule.service_washing_details }}</b></span><br /><br />
+   <div class="modal fade" id="viewSchedule" tabindex="-1" role="dialog" aria-hidden="true">
+       <div class="modal-dialog modal-dialog-centered" role="document">
+           <div class="modal-content">
+               <div class="modal-header text-center">
+               <h4 class="modal-title">Details</h4>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>         
+               <div class="modal-body">
+                   <div class="row">
+                        
+                       <span class="details_schedule">Customer First Name: <b>@{{ schedule.first_name }}</b></span><br /><br />
+                       <span class="details_schedule">Customer Last Name: <b>@{{ schedule.last_name }}</b></span><br /><br />
+                       <span class="details_schedule">Customer Address: <b>@{{ schedule.address }}</b></span><br /><br />
+                       <span class="details_schedule">Customer State: <b>@{{ schedule.city_state }}</b></span><br /><br />
+                       <span class="details_schedule">Service Type: <b>@{{ schedule.service_type }}</b></span><br /><br />
+                       <span class="details_schedule">Service Day: <b>@{{ schedule.service_day }}</b></span><br /><br />
+                       <span class="details_schedule">Service Time: <b>@{{ schedule.service_time }}</b></span><br /><br />
+                       <span class="details_schedule">Service Laundress: <b>@{{ schedule.service_laundress }}</b></span><br /><br />
+                       <span class="details_schedule">Service Package: <b>@{{ schedule.service_package }}</b></span><br /><br />
+                       <span class="details_schedule">Service Amount: <b>@{{ schedule.service_amount | currency }}</b></span><br /><br />
+                       <span class="details_schedule">Service Job Details: <b>@{{ schedule.service_job_details }}</b></span><br /><br />
+                       <span class="details_schedule">Service Folding Details: <b>@{{ schedule.service_folding_details }}</b></span><br /><br />
+                       <span class="details_schedule">Service Hanging Details: <b>@{{ schedule.service_hanging_details }}</b></span><br /><br />
+                       <span class="details_schedule">Service Washing Details: <b>@{{ schedule.service_washing_details }}</b></span><br /><br />
 
-                </div>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+                   </div>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               </div>
+           </div>
+       </div>
+   </div>
 
 
 </div>

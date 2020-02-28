@@ -31,18 +31,22 @@
                         <input type="email" name="email" class="form-control" required  data-error="That email address is invalid."/>
                         <div class="help-block with-errors"></div>
                      </div>
+                  </div>
+                  <div class="form-group">
                      <div class="col">
                         <label>Password</label>
-                        <input type="text" name="password" class="form-control" data-error="Password is required."/>
+                        <input type="password" name="password" class="form-control" data-error="Password is required." required/>
                         <div class="help-block with-errors"></div>
                      </div>
                   </div>
                   <div class="form-group">
                      <div class="col">
                         <label>Living Zip Code</label>
-                        <input type="text" name="zip" class="form-control" data-error="Zip code is required."/>
+                        <input type="text" name="zip" class="form-control" data-error="Zip code is required." required />
                         <div class="help-block with-errors"></div>
                      </div>
+                  </div>
+                  <div class="form-group">
                      <div class="col">
                         <label>Phone Number </label>
                         <input type="tel" pattern="^\d{4}-\d{3}-\d{4}$" required name="phone" class="form-control" data-error="Use this format for phone no. (xxxx-xxx-xxxx)"/>
@@ -60,9 +64,9 @@
                      <div class="col">
                         <label>Primary Language</label>
                         <div class="checklist">
-                           <label><input type="checkbox" value="English" name="language[primary][]" required data-error="Choose your primary language."/> English</label>
-                           <label><input type="checkbox" value="Spanish" name="language[primary][]" required data-error="Choose your primary language."/> Spanish</label>
-                           <label><input type="checkbox" value="Other" name="language[primary][]" required data-error="Choose your primary language."/> Other</label>
+                           <label><input type="checkbox" value="English" name="language[primary][]"/> English</label>
+                           <label><input type="checkbox" value="Spanish" name="language[primary][]"/> Spanish</label>
+                           <label><input type="checkbox" value="Other" name="language[primary][]"/> Other</label>
                         </div>
                         <div class="help-block with-errors"></div>
                      </div>

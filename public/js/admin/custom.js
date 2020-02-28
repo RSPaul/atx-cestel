@@ -1,4 +1,9 @@
 $(document).ready(function() {
+	$.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  	});
   $('.dataTable').DataTable();
 
     $('.verify-user').click(function() {
@@ -29,6 +34,39 @@ $(document).ready(function() {
 		  		error: function(error) {
 		  			console.log('error ', error);
 		  			swal("Error!", error, "error");
+		  		}
+		  	})
+		  }
+		});
+	});
+
+	$('#confirmPayment').click(function() {
+	  //verify user
+	  var btn = $(this);
+	  btn.attr('disabled', 'true');
+	  swal({
+	  	  title: 'Confirm Payment',
+	 	  text: "You are going to pay $" + btn.data('amount'),
+		  icon: "warning",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((pay) => {
+		  if (pay) {
+		  	let id = btn.data('id');
+		  	$.ajax({
+		  		url: "/admin/confirm-payment/" + id,
+		  		type: 'GET',
+		  		success: function(resposne) {
+		  			if(resposne.success) {
+		  				btn.html('Confirm Payment - $0');
+		  				swal("Paid", "You have paid the amount to provider,", "success");	
+		  			} else {
+		  				swal("Error!", resposne.message, "error");	
+		  			}
+		  		},
+		  		error: function(error) {
+		  			swal(error.status.toString(), error.responseJSON.message, "error");
 		  		}
 		  	})
 		  }
