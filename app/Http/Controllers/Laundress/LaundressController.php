@@ -48,25 +48,31 @@ class LaundressController extends Controller
     }
 
     public function uploadPicture(Request $request) {
+        if(Auth::check()) {
+            $msg = '';
+            $status = true;
+            try {
+                $data = $request->image;
+                list($type, $data) = explode(';', $data);
+                list(, $data)      = explode(',', $data);
+                $data = base64_decode($data);
+                $image_name = time().'.png';
+                $path = public_path() . "/uploads/profiles/" . $image_name;
 
-        if(Auth::user()) {
-            $data = $request->image;
-            list($type, $data) = explode(';', $data);
-            list(, $data)      = explode(',', $data);
-            $data = base64_decode($data);
-            $image_name = time().'.png';
-            $path = public_path() . "/uploads/profiles/" . $image_name;
+                file_put_contents($path, $data);
 
-            file_put_contents($path, $data);
-
-            User::where(['id' => Auth::user()->id])
+                User::where(['id' => Auth::user()->id])
                         ->update([
                             'profile_pic' => $image_name
                         ]);
+            } catch (Exception $e) {
+                $status = false;
+                $msg = $e->getMessage();
+            }
 
         }
 
-        return response()->json(['success'=>'done']);
+        return response()->json(['success'=> $status, 'msg' => $msg]);
     }
 
     public function dashboard(Request $request) {

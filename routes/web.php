@@ -52,6 +52,7 @@ Route::post('/complete-booking', 'User\UserController@completeBooking')->name('c
 /**
 * Laundress Routes
 **/
+Route::post('/laundress/upload/profile', 'Laundress\LaundressController@uploadPicture');
 Route::get('/laundress/{tab}', 'Laundress\LaundressController@dashboard')->name('laundress_dashboard');
 Route::get('/laundress-schedule', 'Laundress\LaundressController@schedule')->name('laundress_schedule');
 Route::get('/laundress-view-schedule', 'Laundress\LaundressController@viewscheduleList')->name('viewscheduleList');

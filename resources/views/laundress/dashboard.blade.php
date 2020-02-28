@@ -463,11 +463,12 @@
                     <div class="col-md-12">
                         <div class="text-center">
                             <div id="upload-demo" style="width:300px;"></div>
-							<button type="button" class="choose-file-btn">Upload Image</button>
+							<button type="button" class="choose-file-btn">Choose Image</button>
 							<input type="file" id="upload" style="visibility:hidden;" accept="image/*" />
 							<br/>
                             <div class="err"></div>
-							<button type="button" class="btn btn-success upload-result" style="display: none;">Choose Image</button>
+                     <input type="hidden" name="userType" id="userType" value="laundress">
+							<button type="button" class="btn btn-success upload-result" style="display: none;">Upload Image</button>
 						</div>
 					</div>
                 </div>

@@ -138,7 +138,6 @@ $(function () {
               $uploadCrop.croppie('bind', {
                   url: e.target.result
               }).then(function() {
-                  console.log('jQuery bind complete');
               });
           }
           reader.readAsDataURL(this.files[0]);
@@ -148,13 +147,16 @@ $(function () {
               type: 'canvas',
               size: 'viewport'
           }).then(function(resp) {
+              var userType  = $('#userType').val();
               $.ajax({
-                  url: "{{ route('upload_profile_picture') }}",
+                  url: "/"+ userType +"/upload/profile",
                   type: "POST",
                   data: {
                       "image": resp
                   },
+                  dataType: 'JSON',
                   success: function(data) {
+                    console.log('data ', data);
                       $("#edit-photo").modal("hide");
                       $(".profile-img img").attr('src', resp)
                       $('#upload-demo').croppie('destroy');

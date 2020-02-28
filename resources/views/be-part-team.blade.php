@@ -9,9 +9,14 @@
 <!-- Start Team section-->
 <section class="bepart_bx">
    <div class="container">
-      @if(Session::has('message'))
-      <p class="alert {{ Session::get('alert-class', 'alert-info') }}">
-         {{ Session::get('message') }}
+      @if(Session::has('error'))
+      <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
+         {{ Session::get('error') }}
+      </p>
+      @endif
+      @if(Session::has('success'))
+      <p class="alert {{ Session::get('alert-class', 'alert-success') }}">
+         {{ Session::get('success') }}
       </p>
       @endif
       <form name="be_part_form" action="{{ route('partTeam') }}" method="POST" id="bePartForm"  data-toggle="validator" role="form">
