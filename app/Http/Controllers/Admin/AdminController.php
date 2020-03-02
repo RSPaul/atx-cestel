@@ -52,12 +52,13 @@ class AdminController extends Controller
             /*
             * TODO: SEND EMAILS
             */
-            if($$status == 1) {
+            $user = User::where(['id' => $request->id])->first();
+            if($status == 1) {
                 Mail::to($user->email)
-                    ->send(new UserVerified());
+                    ->send(new UserVerified($user));
             } else {
                 Mail::to($user->email)
-                    ->send(new UserRevoked());
+                    ->send(new UserRevoked($user));
             }
         }catch(Exception $e) {
             $response = array('success' => false,
