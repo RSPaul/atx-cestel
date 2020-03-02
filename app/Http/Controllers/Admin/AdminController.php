@@ -16,6 +16,11 @@ use App\Bookings;
 use App\PaymentDetails;
 use App\PaymentRequests;
 
+use App\Mail\UserVerified;
+use App\Mail\UserRevoked;
+use App\Mail\PaymentAcceptAdmin;
+use App\Mail\PaymentAcceptLaundress;
+
 class AdminController extends Controller
 {
     public function __construct() {
@@ -37,12 +42,23 @@ class AdminController extends Controller
 
     public function verifyUser(Request $request) {
         try {
+            $status = (isset($request->status)) ? $request->status : 1;
             User::where(['id' => $request->id])
                         ->update([
-                            'status' => 1
+                            'status' => $status
                         ]);
             $response = array('success' => true,
                               'message' => 'User verified.');
+            /*
+            * TODO: SEND EMAILS
+            */
+            if($$status == 1) {
+                Mail::to($user->email)
+                    ->send(new UserVerified());
+            } else {
+                Mail::to($user->email)
+                    ->send(new UserRevoked());
+            }
         }catch(Exception $e) {
             $response = array('success' => false,
                               'message' => $e->getMessage());
@@ -148,8 +164,8 @@ class AdminController extends Controller
                     /*
                     * TODO: SEND MAIL TO ADMIN AND LAUNDRESS
                     */
-                    // Mail::to($chef->email)->send(new PaymentAccept($chef));
-                    // Mail::to(env('ADMIN_EMAIL'))->send(new PaymentAcceptAdmin($chef));
+                    Mail::to($chef->email)->send(new PaymentAcceptLaundress($chef));
+                    Mail::to(env('ADMIN_EMAIL'))->send(new PaymentAcceptAdmin($chef));
                     
                     return response()->json(['response' => "Paid successfully!", 'success' => true]);
 

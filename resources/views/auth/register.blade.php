@@ -103,8 +103,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Cell Phone Number <span class="info-text">(format: xxxx-xxx-xxxx)</span></label>
-                                    <input type="tel" pattern="^\d{4}-\d{3}-\d{4}$" required class="form-control"  required name="phone" data-error="This phone no. is invalid."/>
+                                    <label>Cell Phone Number</label>
+                                    <input type="text" required class="form-control"  required name="phone" data-error="This phone no. is invalid." onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))"/>
                                     <div class="help-block with-errors"></div>
                                 </div>  
                             </div>

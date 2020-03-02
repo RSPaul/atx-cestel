@@ -50,7 +50,7 @@
               <td>{{$booking->service_package}}</td>
               <td>{{$booking->service_amount}}</td>
               <td>{{$booking->service_description}}</td>
-              <td><a href="/admin/bookings/{{$booking->id}}">View</a></td>
+              <td><a href="/booking/{{$booking->id}}">View</a></td>
             </tr>
             @endforeach
           </tbody>

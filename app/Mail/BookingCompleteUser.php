@@ -6,24 +6,25 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Auth;
 
-class BookingCreate extends Mailable
+class BookingCanceledUser extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $booking;
+    public $user;
     public $laundress;
-    
+    public $booking;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($booking, $laundress)
+    public function __construct($user, $laundress, $booking)
     {
-        $this->booking = $booking;
+        $this->user = $user;
         $this->laundress = $laundress;
+        $this->booking = $booking;
     }
 
     /**
@@ -33,8 +34,8 @@ class BookingCreate extends Mailable
      */
     public function build()
     {
-		return $this->from(env('FROM_EMAIL'),env('FROM_NAME'))
-            ->subject('Booking Successful')
-            ->view('emails.booking_create');
+        return $this->from(env('FROM_EMAIL'),env('FROM_NAME'))
+                ->subject('Booking Completed')
+                ->view('emails.booking-complete-user');
     }
 }

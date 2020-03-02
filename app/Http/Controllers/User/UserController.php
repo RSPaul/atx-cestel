@@ -14,6 +14,10 @@ use Mail;
 use App\User;
 use App\Bookings;
 use Carbon\Carbon;
+use App\Mail\BookingCanceledUser;
+use App\Mail\BookingCanceledLaundress;
+use App\Mail\BookingCompleteLaundress;
+use App\Mail\BookingCompleteUser;
 
 class UserController extends Controller
 {	
@@ -138,6 +142,7 @@ class UserController extends Controller
 
         $past_bookings = Bookings::where(['user_id' => Auth::user()->id])
                     ->where('bookings.service_day', '<', date('m/d/Y'))
+                    ->orWhere('bookings.status', '=', 'completed')
                     ->join('users', 'users.id', '=', 'bookings.service_laundress')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->get();
@@ -293,6 +298,16 @@ class UserController extends Controller
             /*
             * TODO: SEND EMAILS
             */
+            $laundress = User::where(['id' => $booking->service_laundress])->first();
+            if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
+                //TO Laundress
+                Mail::to($laundress->email)
+                    ->send(new BookingCanceledLaundress(Auth::user(), $laundress, $booking));
+                //TO User
+                Mail::to(Auth::user()->email)
+                    ->send(new BookingCanceledUser(Auth::user(), $laundress, $booking));
+            }
+
             return response()->json(['response' => "Booking is canceled!", "status" => true]); 
         } else{
             return response()->json(['response' => "Booking not found!", "status" => false]);
@@ -333,6 +348,14 @@ class UserController extends Controller
             /*
             * TODO: SEND EMAILS
             */
+            if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
+                //TO Laundress
+                Mail::to($laundress->email)
+                    ->send(new BookingCompleteLaundress(Auth::user(), $laundress, $booking));
+                //TO User
+                Mail::to(Auth::user()->email)
+                    ->send(new BookingCompleteUser(Auth::user(), $laundress, $booking));
+            }
             return response()->json(['response' => "Booking is completed!", "status" => true]); 
         } else {
             return response()->json(['response' => "Booking not found!", "status" => false]);

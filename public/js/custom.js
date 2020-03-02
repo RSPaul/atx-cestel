@@ -2,6 +2,12 @@ $(function () {
       $('#msgError').hide();
       $('#msgSuccess').hide();
 
+      $("input[name='service_type']").each(function() {
+        if($(this).is(':checked')) {
+          $('.next_serv').show();
+        }
+      });
+
       $('#service_day').datepicker({
            autoclose: true,
            startDate: "dateToday"
@@ -224,10 +230,10 @@ $(function () {
         //check validations and restrict the next tab
         if(validateBookingForm(tab)) {
         	$('.tab-pane').removeClass('active');
-          	$('#' + tab).addClass('active');
-          	$('.nav.nav-tabs.nav-tabs-dropdown.horizontal li').removeClass('active');
-          	$('.tab_' + tab).addClass('active');
-          	scrollToDiv(tab);
+        	$('#' + tab).addClass('active');
+        	$('.nav.nav-tabs.nav-tabs-dropdown.horizontal li').removeClass('active');
+        	$('.tab_' + tab).addClass('active');
+        	scrollToDiv(tab);
         }
     };
 
@@ -292,7 +298,7 @@ $(function () {
 	        } else {
 	          message = 'Choose your laundress.';
 	        }
-	        if($('#service_day option:selected').val() != '') {
+	        if($('#service_day').val() != '') {
 	          var service_day = true;
 	        } else {
 	          message = 'Choose your service day.';
@@ -369,6 +375,10 @@ $(function () {
 	          message = 'Please enter service description.';
 	          response = false;
 	        }
+          if($('#zip').val() == '') {
+            message = 'Please enter zip code.';
+            response = false;
+          }
 	    }
 
 	    //show validation message
@@ -380,6 +390,17 @@ $(function () {
 	          $('#bookingValidationError').fadeOut('slow');
 	        },3000);
 	    }
-	    console.log('here ', response);
+
 	    return response;
+    }
+
+    function checkMaxLen(event, max) {
+      if(event.target.value.length > max) {
+        return false;
+      }
+    }
+
+    function startOver() {
+      $('.tab-pane').removeClass('active'); 
+      $('#services').addClass('active');
     }

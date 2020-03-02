@@ -33,8 +33,8 @@ class BookingCreateUser extends Mailable
      */
     public function build()
     {
-				 return $this->from(env('FROM_EMAIL'),env('FROM_NAME'))
-                ->subject('Booking Successful')
-                ->view('emails.booking_create_user');
+        return $this->from(env('FROM_EMAIL'),env('FROM_NAME'))
+            ->subject('Booking Successful')
+            ->view('emails.booking_create_user');
     }
 }

@@ -77,6 +77,7 @@ class HomeController extends Controller {
     public function book(Request $request) {
         if($request->isMethod('post')) {
             $service_type = $request->service_type;
+            $service_address = $request->service_address;
             $service_categories = $request->service_categories;
             $service_beds = $request->service_beds; 
             $service_day = $request->service_day;             
@@ -105,6 +106,7 @@ class HomeController extends Controller {
             $card_security_code = $request->card_security_code; 
 
             $request->session()->put('booking[service_type]', $request->service_type);
+            $request->session()->put('booking[service_address]', $request->service_address);
             $request->session()->put('booking[service_categories]', $request->service_categories);
             $request->session()->put('booking[service_beds]', $request->service_beds); 
             $request->session()->put('booking[service_day]', $request->service_day);             
@@ -133,6 +135,7 @@ class HomeController extends Controller {
             $request->session()->put('booking[card_security_code]', $request->card_security_code); 
         } else {
             $service_type = $request->session()->get('booking[service_type]');
+            $service_address = $request->session()->get('booking[service_address]');
             $service_categories = $request->session()->get('booking[service_categories]');
             $service_beds = $request->session()->get('booking[service_beds]'); 
             $service_day = $request->session()->get('booking[service_day]');             

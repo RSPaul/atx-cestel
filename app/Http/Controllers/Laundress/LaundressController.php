@@ -16,6 +16,9 @@ use App\Bookings;
 use App\PaymentDetails;
 use App\PaymentRequests;
 use Carbon\Carbon;
+use App\Mail\PaymentRequestAdmin;
+use App\Mail\PaymentRequest;
+use App\Mail\BookingDeclinedUser;
 
 class LaundressController extends Controller
 {	
@@ -216,6 +219,13 @@ class LaundressController extends Controller
             $data["status"] = 'declined';
             Bookings::where(['id' => $booking->id ])
                     ->update($data);
+            /*
+            * TODO: SEND EMAIL
+            */
+            $user = User::where(['id' => $booking->user_id ])->first();
+            Mail::to($user->email)
+                ->send(new BookingDeclinedUser($user));
+
         } else {
             return response()->json(['response' => "Booking not found!", "status" => false]);
         }
@@ -226,9 +236,6 @@ class LaundressController extends Controller
         $msg = "";
         $data = $request->all();
         $details = PaymentDetails::where(['user_id' => Auth::user()->id])->first();
-        // echo "<pre>";
-        // print_r($data);
-        // die();
         if($details) {
             
             if($details->account_number != $data['account_number']) {
@@ -381,6 +388,8 @@ class LaundressController extends Controller
                    /*
                    * TODO: SEND MAIL TO ADMIN AND LAUNDRESS
                    */
+                   Mail::to(Auth::user()->email)->send(new PaymentRequest(Auth::user()));
+                   Mail::to(env('ADMIN_EMAIL'))->send(new PaymentRequestAdmin(Auth::user()));
                 }
 
                 return response()->json(['response' => "Request sent successfully!", "status" => true]);

@@ -54,7 +54,7 @@
                   <div class="form-group">
                      <div class="col">
                         <label>Phone Number </label>
-                        <input type="tel" pattern="^\d{4}-\d{3}-\d{4}$" required name="phone" class="form-control" data-error="Use this format for phone no. (xxxx-xxx-xxxx)"/>
+                        <input type="tel" required name="phone" class="form-control" data-error="This phone no. is invalid." onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))"/>
                         <div class="help-block with-errors"></div>
                      </div>
                   </div>

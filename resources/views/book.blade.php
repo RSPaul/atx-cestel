@@ -245,11 +245,11 @@
 		                           </div>
 		                           <div class="form-group">
 		                              <label>Phone</label>
-		                              <input type="text" name="register[phone]"  class="form-control register-details" required/>
+		                              <input type="number" name="register[phone]"  class="form-control register-details" required onkeypress="return checkMaxLen(event, 11)" min="1" />
 		                           </div>
 		                           <div class="form-group">
 		                              <label>Zipcode</label>
-		                              <input type="text" name="register[zip]"  class="form-control register-details" />
+		                              <input type="text" name="register[zip]"  class="form-control register-details" onkeypress="return checkMaxLen(event, 6)"/>
 		                           </div>
 		                           <div class=" btn-rw">	
 		                              <a href="javascript:void(0);" class="btn btn-primary ctn-btn" data-tab="loading">Continue</a>
@@ -360,7 +360,7 @@
 	                        <div class="col2-rw">
 	                           <div class="form-group first">
 	                              <label>Service Address</label>
-	                              <input type="text"  placeholder="1516, S. Brookes Street, Austin, Texas" class="form-control" id="service_address" name="service_address" value="{{$profile->address}}"/>
+	                              <input type="text"  placeholder="1516, S. Brookes Street, Austin, Texas" class="form-control" id="service_address" name="service_address" value="{{Session::get('booking[service_address]')}}"/>
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Zip Code</label>
@@ -400,7 +400,7 @@
 	                           <textarea class="form-control" name="service_job_details">{{Session::get('booking[service_job_details]')}}</textarea>
 	                        </div>
 	                        <div class=" btn-rw">	
-	                           <a href="javascript:void(0);" class="btn btn-primary ctn-btn" data-tab="services">Edit Service</a>
+	                           <a href="javascript:void(0);" class="btn btn-primary " onclick="return startOver();">Edit Service</a>
 	                        </div>
 	                        <h2>Quality is important to us, may need more service details.</h2>
 	                        <div class="bor_bx">
@@ -487,7 +487,7 @@
 	                                          <option value="">--Select State -- </option>
 	                                          <option value="Punjab" selected>Punjab</option>
 	                                       </select>
-	                                       <input type="text" class="form-control" placeholder="Zip" id="zip" name="user_zip" value="{{$profile->zip}}">
+	                                       <input type="text" class="form-control service_zip" placeholder="Zip" id="zip" name="user_zip" value="{{$profile->zip}}">
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group row">
@@ -538,7 +538,7 @@
 	                                      	@endfor
 	                                       </select>
 	                                       <div class="input-group mb-3">
-	                                          <input type="text" class="form-control" placeholder="CVC" name="card_security_code" id="card_security_code">
+	                                          <input type="text" class="form-control" placeholder="CVC" name="card_security_code" id="card_security_code" onkeypress="return checkMaxLen(event, 4)">
 	                                          <div class="input-group-prepend">
 	                                             <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock" aria-hidden="true"></i>
 	                                             </span>

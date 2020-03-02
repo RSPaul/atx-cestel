@@ -69,7 +69,7 @@ Route::post('/request-payment', 'Laundress\LaundressController@requestPayment')-
 Route::get('/admin', 'Admin\AdminController@dashboard')->name('admin_dashboard');
 Route::get('/users/{type}', 'Admin\AdminController@users');
 Route::get('/bookings/{type}', 'Admin\AdminController@bookings');
-Route::get('/bookings/{id}', 'Admin\AdminController@bookingDetails');
+Route::get('/booking/{id}', 'Admin\AdminController@bookingDetails');
 Route::get('/user/verify/{id}', 'Admin\AdminController@verifyUser')->name('verify_user');
 Route::get('/payments/{type}', 'Admin\AdminController@payments')->name('payments');
 Route::get('/payment/{id}', 'Admin\AdminController@viewPayment')->name('view_payment');

@@ -8,22 +8,22 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Auth;
 
-class BookingCreate extends Mailable
+class PaymentRequest extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $booking;
     public $laundress;
-    
+    public $price;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($booking, $laundress)
+    public function __construct($laundress,$price)
     {
-        $this->booking = $booking;
         $this->laundress = $laundress;
+        $this->price = $price;
     }
 
     /**
@@ -33,8 +33,9 @@ class BookingCreate extends Mailable
      */
     public function build()
     {
+        //return $this->view('emails.payment-request');
 		return $this->from(env('FROM_EMAIL'),env('FROM_NAME'))
-            ->subject('Booking Successful')
-            ->view('emails.booking_create');
+                ->subject('Your Payment Request is Sent')
+                ->view('emails.payment-request');
     }
 }

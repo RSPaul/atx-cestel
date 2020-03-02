@@ -17,6 +17,7 @@ class CreateBookingsTable extends Migration
             $table->bigIncrements('id');
             $table->string('user_id');
             $table->string('service_type');
+            $table->text('service_address');
             $table->text('service_categories');
             $table->string('service_beds')->nullable();
             $table->string('service_day');

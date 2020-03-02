@@ -95,7 +95,7 @@
                                  <tr ng-repeat="booking in bookings.today">
                                     <td><b>@{{booking.service_time}}</b></td>
                                     <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
-                                    <td><b>@{{booking.city_state}}</b> @{{booking.address}}
+                                    <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-chevron-right"></a></td>
                                  </tr>
@@ -113,7 +113,7 @@
                                  <tr ng-repeat="booking in bookings.next_week">
                                     <td><b>@{{booking.service_time}}</b></td>
                                     <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
-                                    <td><b>@{{booking.city_state}}</b> @{{booking.address}}
+                                    <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-chevron-right"></a></td>
                                  </tr>
@@ -312,7 +312,7 @@
                                  <tr ng-repeat="booking in bookings.past_bookings">
                                     <td><b>@{{booking.service_time}}</b></td>
                                     <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
-                                    <td><b>@{{booking.city_state}}</b> @{{booking.address}}
+                                    <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> </td>
                                     <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a></td>
@@ -423,7 +423,7 @@
                         
                        <span class="details_schedule">Customer First Name: <b>@{{ schedule.first_name }}</b></span><br /><br />
                        <span class="details_schedule">Customer Last Name: <b>@{{ schedule.last_name }}</b></span><br /><br />
-                       <span class="details_schedule">Customer Address: <b>@{{ schedule.address }}</b></span><br /><br />
+                       <span class="details_schedule">Customer Address: <b>@{{ schedule.service_address }}</b></span><br /><br />
                        <span class="details_schedule">Customer State: <b>@{{ schedule.city_state }}</b></span><br /><br />
                        <span class="details_schedule">Service Type: <b>@{{ schedule.service_type }}</b></span><br /><br />
                        <span class="details_schedule">Service Day: <b>@{{ schedule.service_day }}</b></span><br /><br />
