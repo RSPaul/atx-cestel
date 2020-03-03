@@ -10,12 +10,12 @@
 <section class="bepart_bx">
    <div class="container">
       @if(Session::has('error'))
-      <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
+      <p class="alert {{ Session::get('alert-class', 'alert-danger text-center') }}">
          {{ Session::get('error') }}
       </p>
       @endif
       @if(Session::has('success'))
-      <p class="alert {{ Session::get('alert-class', 'alert-success') }}">
+      <p class="alert {{ Session::get('alert-class', 'alert-success text-center') }}">
          {{ Session::get('success') }}
       </p>
       @endif
@@ -47,14 +47,14 @@
                   <div class="form-group">
                      <div class="col">
                         <label>Living Zip Code</label>
-                        <input type="text" name="zip" class="form-control" data-error="Zip code is required." required />
+                        <input type="text" name="zip" class="form-control" data-error="Zip code is required." required maxlength="6" />
                         <div class="help-block with-errors"></div>
                      </div>
                   </div>
                   <div class="form-group">
                      <div class="col">
                         <label>Phone Number </label>
-                        <input type="tel" required name="phone" class="form-control" data-error="This phone no. is invalid." onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))"/>
+                        <input type="text" required name="phone" class="form-control" data-error="This phone no. is invalid."  maxlength="11" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))"/>
                         <div class="help-block with-errors"></div>
                      </div>
                   </div>
