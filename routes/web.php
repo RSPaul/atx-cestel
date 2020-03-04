@@ -56,6 +56,7 @@ Route::post('/laundress/upload/profile', 'Laundress\LaundressController@uploadPi
 Route::get('/laundress/{tab}', 'Laundress\LaundressController@dashboard')->name('laundress_dashboard');
 Route::get('/laundress-schedule', 'Laundress\LaundressController@schedule')->name('laundress_schedule');
 Route::get('/laundress-view-schedule', 'Laundress\LaundressController@viewscheduleList')->name('viewscheduleList');
+Route::post('/laundress-view-schedule-custom', 'Laundress\LaundressController@viewscheduleListCustom')->name('viewscheduleListCustom');
 Route::get('/earnings-by-week', 'Laundress\LaundressController@earningsByWeek')->name('earningsByWeek');
 Route::post('/decline-booking', 'Laundress\LaundressController@declineBooking')->name('decline_booking');
 Route::post('/update-account', 'Laundress\LaundressController@updateAccount')->name('update_account');

@@ -13,6 +13,38 @@ $(function () {
            startDate: "dateToday"
         });
 
+      var dateFormat = "m/d/Y",
+        from = $( "#from_date_picker" )
+          .datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3
+          })
+          .on( "change", function() {
+            to.datepicker( "option", "minDate", getDate( this ) );
+            //console.log('Yes From');
+          }),
+        to = $( "#to_date_picker" ).datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 3
+        })
+        .on( "change", function() {
+          from.datepicker( "option", "maxDate", getDate( this ) );
+          //console.log('Yes To');
+        });
+   
+      function getDate( element ) {
+        var date;
+        try {
+          date = $.datepicker.parseDate( dateFormat, element.value );
+        } catch( error ) {
+          date = null;
+        }
+   
+        return date;
+      }
+
       
       $.ajaxSetup({
             headers: {

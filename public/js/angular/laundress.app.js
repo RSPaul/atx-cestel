@@ -4,6 +4,7 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
   
   $scope.user = {current_password: '', password: '', confirm_password: ''};
   $scope.bank = {};
+  $scope.custom = {};
   $scope.successMsg = '';
   $scope.errMsg = '';
   $scope.showTodayBookings = true;
@@ -12,6 +13,7 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
   $scope.showTomBookings = true;
   $scope.showWeekBookings = true;
   $scope.showMonthBookings = true;
+  $scope.showCustomBookings = true;
   $scope.totalPayment = 0;
   $scope.showBankAccount = false;
   $scope.payIds = [];
@@ -68,6 +70,17 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
 			  		$scope.errorMessage = '';
 			  	},3000);
 		});
+  }
+
+  $scope.customresultfun = function(){
+    //console.log($scope.custom);
+    $http.post('/laundress-view-schedule-custom',$scope.custom)
+      .then(function (response) {
+        var response = response.data;
+        $scope.customresultbookings = response.customresult;
+      }, function (error) {
+        console.log('error getting schedule ', error);
+    });
   }
 
   /*

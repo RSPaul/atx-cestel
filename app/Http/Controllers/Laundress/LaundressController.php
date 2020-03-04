@@ -117,6 +117,23 @@ class LaundressController extends Controller
         return response()->json(['bookings'=> array('today' => $bookings, 'next_week' => $next_week_bookings, 'all_bookings' => $all_bookings, 'past_bookings' => $past_bookings)]);
     }
 
+    public function viewscheduleListCustom(Request $request){
+             $data = $request->all();
+             $allBooking = array();
+             //print_r($data);
+             $to_date = date( "m/d/Y", strtotime( $data['to_date'] ) );
+             $from_date = date( "m/d/Y", strtotime( $data['from_date'] ) );
+             $allBooking = Bookings::where(['service_laundress' => Auth::user()->id])
+                    ->where(['bookings.status' => 'new'])
+                    ->join('users', 'users.id', '=', 'bookings.user_id')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+                    ->where('bookings.service_day', '>=',  $from_date)
+                    ->where('bookings.service_day', '<=',  $to_date)
+                    ->get();
+                  
+            return response()->json(['customresult' => $allBooking ]);
+
+    }
     public function viewscheduleList(Request $request) {
         $allBooking = array();
         $today_bookings = array();
