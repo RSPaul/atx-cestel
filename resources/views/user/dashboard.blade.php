@@ -393,7 +393,7 @@
 							<input type="file" id="upload" style="visibility:hidden;" accept="image/*" />
 							<br/>
                             <div class="err"></div>
-                     <input type="hidden" name="userType" id="userType" value="laundress">
+                     <input type="hidden" name="userType" id="userType" value="user">
 							<button type="button" class="btn btn-success upload-result" style="display: none;">Upload Image</button>
 						</div>
 					</div>
