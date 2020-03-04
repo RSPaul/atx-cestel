@@ -56,19 +56,12 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
 		.then(function (response) {
 		  	var response = response.data;
 		  	if(response.success) {
-		  		$scope.successMessage = response.message;
-		  	} else {
-		  		$scope.errorMessage = response.message;
-		  	}
-		  	$timeout(function () {
-		  		$scope.successMessage = '';
-		  		$scope.errorMessage = '';
-		  	},3000);
+          swal('Profile Updated', 'Your profile details has been updated.', "success");
+        } else {
+          swal('Error', response.message, "error");
+        }
 		},function(error){
-		        $scope.errorMessage = error.data.message;
-		        $timeout(function () {
-			  		$scope.errorMessage = '';
-			  	},3000);
+		    swal(error.status.toString(), error.data.message, "error");
 		});
   }
 

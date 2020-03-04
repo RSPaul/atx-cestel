@@ -40,6 +40,13 @@ class HomeController extends Controller {
     	$data['status'] = 0;
         $data['user_type'] = 'user';
     	try {
+            /*
+            * Check If Email Exists
+            */
+            $email = User::where(['email' => $data['email']])->first();
+            if($email && $email->id) {
+                return redirect('/register')->with('error', 'Email already exists, please use another email address.');
+            }
         	$user = User::create($data);
             $remember_token = $this->generate_token();
             User::where(['id' => $user->id])
@@ -330,6 +337,13 @@ class HomeController extends Controller {
             $data['user_type'] = 'laundress';
 
             try {
+                /*
+                * Check If Email Exists
+                */
+                $email = User::where(['email' => $data['email']])->first();
+                if($email && $email->id) {
+                    return redirect('/be-part-team')->with('error', 'Email already exists, please use another email address.');
+                }
                 $user = User::create($data);
 
                 /*

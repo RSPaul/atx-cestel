@@ -194,12 +194,16 @@ $(function () {
                   },
                   dataType: 'JSON',
                   success: function(data) {
-                    console.log('data ', data);
                       $("#edit-photo").modal("hide");
                       $(".profile-img img").attr('src', resp)
                       $('#upload-demo').croppie('destroy');
                       $('.upload-result').hide();
                       $('#edit-photo').modal('hide');
+                      if(data.success) {
+                        swal('Profile Updated', 'Your profile picture has been updated.', "success");
+                      } else {
+                        swal('Error', data.message, "error");
+                      }
                   },
                   error: function(err) {
                       swal("Error!", "Please try again", "error");

@@ -173,11 +173,19 @@
                               </div>
                               <div class="form-group">
                                  <label>Email</label>
-                                 <input type="email" name="email" class="form-control"  ng-model="user.email" required/>
+                                 <input type="email" name="email" class="form-control"  ng-model="user.email" disabled readonly required/>
                               </div>
                               <div class="form-group">
                                  <label>Phone Number</label>
-                                 <input type="text" name="phone" class="form-control" ng-model="user.phone" required/>
+                                 <input type="text" name="phone" class="form-control" ng-model="user.phone" maxlength="11" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))"/>
+                              </div>
+                              <div class="form-group">
+                                 <label>Address</label>
+                                 <input type="text" name="address" class="form-control" ng-model="user.address" required/>
+                              </div>
+                              <div class="form-group">
+                                 <label>City/State</label>
+                                 <input type="text" name="city_state" class="form-control" ng-model="user.city_state" required/>
                               </div>
                               <div class="form-group">
                                  <label>Current Password</label>
@@ -385,7 +393,7 @@
 							<input type="file" id="upload" style="visibility:hidden;" accept="image/*" />
 							<br/>
                             <div class="err"></div>
-                     <input type="hidden" name="userType" id="userType" value="laundress">
+                     <input type="hidden" name="userType" id="userType" value="user">
 							<button type="button" class="btn btn-success upload-result" style="display: none;">Upload Image</button>
 						</div>
 					</div>
