@@ -67,13 +67,16 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
 
   $scope.customresultfun = function(){
     //console.log($scope.custom);
-    $http.post('/laundress-view-schedule-custom',$scope.custom)
-      .then(function (response) {
-        var response = response.data;
-        $scope.customresultbookings = response.customresult;
-      }, function (error) {
-        console.log('error getting schedule ', error);
-    });
+    if($scope.custom.to_date){
+      
+      $http.post('/laundress-view-schedule-custom',$scope.custom)
+        .then(function (response) {
+          var response = response.data;
+          $scope.customresultbookings = response.customresult;
+        }, function (error) {
+          console.log('error getting schedule ', error);
+      });
+    }
   }
 
   /*

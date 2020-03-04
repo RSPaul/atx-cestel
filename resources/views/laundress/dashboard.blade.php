@@ -234,7 +234,7 @@
                            <div class="date">
                               <div class="col-date">
                                  <div class='input-group date' id='datetimepicker1'>
-                                    <input type='text' id="from_date_picker" ng-model="custom.from_date" name="from_date" class="form-control" />
+                                    <input type='text' id="from_date_picker" ng-model="custom.from_date" name="from_date" ng-change="customresultfun()" class="form-control" />
                                     <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
@@ -243,13 +243,13 @@
                               <span class="to">to</span>
                               <div class="col-date">
                                  <div class='input-group date' id='datetimepicker2'>
-                                    <input type='text' id="to_date_picker" ng-model="custom.to_date" name="to_date" class="form-control" />
+                                    <input type='text' id="to_date_picker" ng-disabled="!custom.from_date" ng-change="showCustomBookings = false;showTodBookings = true;showTomBookings = true; showWeekBookings = true; showMonthBookings = true; customresultfun()" ng-model="custom.to_date" name="to_date" class="form-control" />
                                     <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
                                  </div>
                               </div>
-                              <input type="button" ng-disabled="!custom.to_date && !custom.from_date" ng-click="showCustomBookings = false;showTodBookings = true;showTomBookings = true; showWeekBookings = true; showMonthBookings = true; customresultfun()" class="btn btn-default" value="Submit">
+                             <!--  <input type="button" ng-disabled="!custom.to_date && !custom.from_date" ng-click="showCustomBookings = false;showTodBookings = true;showTomBookings = true; showWeekBookings = true; showMonthBookings = true; customresultfun()" class="btn btn-default" value="Submit"> -->
                            </div>
                         </div>
                         <div class="row">

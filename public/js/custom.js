@@ -18,7 +18,8 @@ $(function () {
           .datepicker({
             defaultDate: "+1w",
             changeMonth: true,
-            numberOfMonths: 3
+            numberOfMonths: 3,
+            autoclose: true
           })
           .on( "change", function() {
             to.datepicker( "option", "minDate", getDate( this ) );
@@ -27,7 +28,8 @@ $(function () {
         to = $( "#to_date_picker" ).datepicker({
           defaultDate: "+1w",
           changeMonth: true,
-          numberOfMonths: 3
+          numberOfMonths: 3,
+          autoclose: true
         })
         .on( "change", function() {
           from.datepicker( "option", "maxDate", getDate( this ) );
