@@ -41,10 +41,21 @@
   .star-ratings-bottom { 
     z-index: 0; 
   }
-  
+  .help-block strong {
+    color: red;
+  }
+
   .star-ratings-top[style] {
     left: 5px !important;
   }
+  .reset_pass_form {
+    margin-top: 5%;
+  }
+  .page-title-heading{
+    float: left;
+    margin-bottom: 25px;
+    margin-top: 30px;
+}
 
   .modal-backdrop.fade.show 
   {
@@ -60,12 +71,12 @@
 
 @section('content')
 <!-- banner -->
-<section class="inner-page-banner contact-page-banner">
+<section class="inner-page-banner contact-page-banner reset_pass_form">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="page-title-wrap text-center">
-                    <h1 class="page-title-heading">{{ __('Reset Password') }}</h1>
+                    <h3 class="page-title-heading">{{ __('Reset Password') }}</h3>
                     <!--<p class="page-sub-title">For your Next Fine Dining Experience<br/> No Matter Where You Are</p>-->
                 </div>
             </div>
