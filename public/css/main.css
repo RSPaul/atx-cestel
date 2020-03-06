@@ -2499,9 +2499,303 @@ span.details_schedule {
     padding: 20px;
     font-size: 16px;
 }
-.has-error .checkbox, .has-error .checkbox-inline, .has-error .control-label, .has-error .help-block, .has-error .radio, .has-error .radio-inline, .has-error.checkbox label, .has-error.checkbox-inline label, .has-error.radio label, .has-error.radio-inline label, .form-group.has-error.has-danger label {
-    color: #a94442;
+/*new*/
+h1.page-title-heading {
+    font-family: freightdisp_medium;
+    margin-bottom: 10px;
+    font-size: 60px;
+    text-align: left;
 }
-span.info-text {
-    font-size: 12px;
+p.page-sub-title {
+    text-transform: uppercase;
+    font-family: metropolissemi_bold;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-align: left;
+    margin-bottom: 30px;
 }
+.form-border-md {
+    border-left: 2px dashed #4b4b4b;
+    padding-left: 31px;
+    margin-bottom: 70px;
+}
+section.login-main-section {
+    margin-bottom: 70px;
+}
+section.inner-page-banner.login-inner-banner {
+    margin-top: 101px;
+}
+.btn.more-btn {
+    border-color: #93e9be;
+    background: #93e9be;
+    color: #4b4b4b;
+    padding: 10px 21px;
+    font-size: 17px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+}
+.forgot-w3l{
+    text-align: right;
+}
+.dont-do {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+.form-border-md a {
+    color: #000;
+    font-weight: 800;
+}
+.form-group .col {
+    width: 46%;
+    margin-right: 21px !important;
+}
+.navbar-collapse#bs-navbar {
+    display: flex !important;
+    justify-content: flex-end;
+}
+ul#one-page-menu {
+    text-align: right;
+    margin-right: 0px;
+    margin-top: 11px;
+    float: none !important;
+}
+.nav.navbar-nav.navbar-left.btn_nav {
+
+    float: none !important;
+}
+
+/**/
+.clickbook{
+
+}
+.checkboxpoint {
+    /* display: table; */
+    position: relative;
+    /* padding-left: 35px; */
+    /* margin-bottom: 10px; */
+    cursor: pointer;
+    /* font-size: 16px; */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* margin: 0 auto; */
+}
+.form-group .checklist label.checkboxpoint {
+    padding-left: 25px;
+}
+.checklist .checkboxpoint input:checked ~ .checkmark {
+  background-color: #4a4a4a;
+}
+.checklist .checkboxpoint input:checked ~ .checkmark:after {
+  display: block;
+  opacity:1;
+}
+.checklist .checkboxpoint .checkmark:after {
+   left: 8px;
+    top: 4px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    opacity:1;
+}
+.border_bx_acc .checkboxpoint {
+    /* display: table; */
+    position: relative;
+    /* padding-left: 35px; */
+    /* margin-bottom: 10px; */
+    cursor: pointer;
+    /* font-size: 16px; */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* margin: 0 auto; */
+}
+/* Hide the browser's default checkbox */
+.checkboxpoint input {
+  position: relative;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.border_bx_acc .checkmark {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: auto;
+    background-color: transparent;
+    padding: 9px 27px;
+    font-size: 13px;
+    background: transparent;
+    border: #7ecca5 2px solid;
+    color: #2fb371;
+    border-radius: 8px;
+}
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #93e9be;
+    border-radius: 3px;
+}
+
+/* On mouse-over, add a grey background color */
+.border_bx_acc .checkboxpoint:hover input ~ .checkmark {
+    background: #93e9be ;
+    border: #93e9be 2px solid;
+    color: #000;
+}
+
+/* When the checkbox is checked, add a blue background */
+.border_bx_acc .checkboxpoint input:checked ~ .checkmark {
+   background-color: #93e9be;
+    border: #93e9be 2px solid;
+    color: #000;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.border_bx_acc .checkboxpoint input:checked ~ .checkmark:after {
+  display: block;
+  opacity:0;
+}
+
+/* Style the checkmark/indicator */
+.checkboxpoint .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* Style the indicator (dot/circle) */
+.border_bx_acc .radiobox.checkboxpoint .checkmark:after {
+    top: 8px;
+    left: 8px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: white;
+}
+.border_bx_acc  .radiobox.checkboxpoint .checkmark {
+    border-radius: 10px;
+    width: auto;
+    height: auto;
+    position: relative;
+    display: inline-block;
+    padding: 9px 27px;
+    font-size: 13px;
+    background: transparent;
+    border: #7ecca5 2px solid;
+    color: #2fb371;
+}
+.border_bx_acc .radiobox.checkboxpoint .checkmark:hover{
+       background: #93e9be ;
+    border: #93e9be 2px solid;
+    color: #000;
+}
+.border_bx_acc .radiobox.checkboxpoint .checkmark:after{
+opacity: 0;
+}
+.border_bx_acc .radiobox.checkboxpoint input:checked ~ .checkmark {
+    background-color: #93e9be;
+    border: #93e9be 2px solid;
+    color: #000;
+}
+
+.btnbtg .ctn-btn {
+    margin-right: 0px !important;
+}
+.login-btn.login-submit-btn {
+    border-color: #93e9be;
+    background: #93e9be;
+    color: #4b4b4b;
+    padding: 10px 21px;
+    font-size: 17px;
+    margin-right: 10px;
+    border-radius: 10px;
+    border: none;
+}
+.login h3 {
+    font-family: freightdisp_medium;
+    margin-bottom: 18px;
+    margin-top: 0px;
+}
+.forgot-grid a{
+    color:#000;
+}
+.list_opt li span.imgselect {
+    height: 100px;
+    display: block;
+}
+    .list_opt li span.imgselect img {width: auto; height:90px; }
+    .form-group.first{}
+    .form-group.last{}
+  .form-group.first .col {
+    width: 50%;
+    margin-right: 0 !important;
+}
+  .form-group.last .col {
+    margin-right: 0px !important;
+    margin-left: 21px;
+}
+
+@media only screen and (max-width:900px){
+    .info {height: 55px; display: block; }
+    .navbar-collapse#bs-navbar {display: block !important; }
+    #main-navigation .navbar-toggle{display:block; }
+    .navbar-collapse.collapse.in {left: 0; }
+    .list_opt li {flex: 0 0 33%; }
+}
+
+@media only screen and (max-width:480px){
+      .form-group.first .col {
+    width: 100%;
+    margin-right: 0 !important;
+}
+  .form-group.last .col {
+    margin-right: 0px !important;
+    margin-left: 0px;
+}
+  .sub-w3layouts_hub {
+    text-align: center;
+    display: block;
+    margin-bottom: 15px;
+}
+    .forgot-w3l {
+    text-align: center;
+}
+    .navbar-header {
+     float:none; 
+     width:auto; 
+}
+    .list_opt li {
+    flex: 0 0 50%;
+}
+    .form-border-md {border-left: none; padding-left: 0; }
+}
+
+
+

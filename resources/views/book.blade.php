@@ -54,7 +54,7 @@
 	                     </div>
 	                     <div class="fold_bx">
 	                        <div class="row">
-	                           <div class="col-md-4 text-center fold">
+	                           <div class="col-md-4 col-sm-4 col-xs-4 text-center fold clickbook">
 	                              <h4>Petite</h4>
 	                              <div class="hov_bx">
 	                                 <div class="imglist">
@@ -64,14 +64,19 @@
 	                                 </div>
 	                                 <h3>1-3 BASKETS</h3>
 	                                 <div class="memb_info">
-	                                    <img src="{{asset('img/member.png')}}" alt="member"/>		
+	                                   <span><img src="{{asset('img/member.png')}}" alt="member"/></span>
 	                                    <p>Recommended for a family of </p>
 	                                    <h3>2-3 members</h3>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Petite" @if(Session::get('booking[service_type]') == 'Petite') checked @endif/>Select
+	                              <label class="checkboxpoint radiobox">
+  
+ 
+	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Petite" @if(Session::get('booking[service_type]') == 'Petite') checked @endif/> 
+	                               <span class="checkmark"> Select </span>
+</label>
 	                           </div>
-	                           <div class="col-md-4 text-center">
+	                           <div class="col-md-4 col-sm-4 col-xs-4 text-center clickbook">
 	                              <h4>Median</h4>
 	                              <div class="hov_bx">
 	                                 <div class="imglist">
@@ -81,14 +86,17 @@
 	                                 </div>
 	                                 <h3>1-3 BASKETS</h3>
 	                                 <div class="memb_info">
-	                                    <img src="{{asset('img/member.png')}}" alt="member"/>		
+	                                    <span><img src="{{asset('img/member.png')}}" alt="member"/></span>
 	                                    <p>Recommended for a family of </p>
 	                                    <h3>2-3 members</h3>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Median" @if(Session::get('booking[service_type]') == 'Median') checked @endif/>Select
+	                               <label class="checkboxpoint radiobox">
+	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Median" @if(Session::get('booking[service_type]') == 'Median') checked @endif/>
+	                              <span class="checkmark"> Select </span>
+	                          </label>
 	                           </div>
-	                           <div class="col-md-4 text-center">
+	                           <div class="col-md-4 col-sm-4 col-xs-4 text-center clickbook">
 	                              <h4>Grand</h4>
 	                              <div class="hov_bx">
 	                                 <div class="imglist">
@@ -98,12 +106,15 @@
 	                                 </div>
 	                                 <h3>1-3 BASKETS</h3>
 	                                 <div class="memb_info">
-	                                    <img src="{{asset('img/member.png')}}" alt="member"/>		
+	                                     <span><img src="{{asset('img/member.png')}}" alt="member"/></span>		
 	                                    <p>Recommended for a family of </p>
 	                                    <h3>2-3 members</h3>
 	                                 </div>
 	                              </div>
+	                              <label class="checkboxpoint radiobox">
 	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Grand"  @if(Session::get('booking[service_type]') == 'Grand') checked @endif/>
+	                              	<span class="checkmark"> Select </span>
+	                              </label>
 	                           </div>
 	                        </div>
 	                     </div>
@@ -118,30 +129,42 @@
 	                           <div class="col-md-12">
 	                              <ul class="list_opt">
 	                                 <li>
-	                                    <img src="{{asset('img/washing.png')}}" alt="washing"/>
+	                                    <span class="imgselect"><img src="{{asset('img/washing.png')}}" alt="washing"/></span>
 	                                    <h3>Washing</h3>
 	                                    <div class="info">${{env('WASHING_PRICE')}} flat fee </div>
+	                                    <label class="checkboxpoint">
 	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Washing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Washing', Session::get('booking[service_categories]'))) checked @endif />
+	                                    <span class="checkmark"> Select </span>
+	                                </label>
 	                                 </li>
 	                                 <li>
-	                                    <img src="{{asset('img/ironing.png')}}" alt="ironing"/>
+	                                   	<span class="imgselect"> <img src="{{asset('img/ironing.png')}}" alt="ironing"/></span>
 	                                    <h3>Ironing</h3>
 	                                    <div class="info">Number of garments (${{env('IRONING_PRICE')}} per garment) 
 	                                    </div>
-	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Ironing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Ironing', Session::get('booking[service_categories]'))) checked @endif/>
+	                                    <label class="checkboxpoint">
+	                                    	<input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Ironing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Ironing', Session::get('booking[service_categories]'))) checked @endif/>
+	                                    	<span class="checkmark"> Select </span>
+	                                	</label>
 	                                 </li>
 	                                 <li>
-	                                    <img src="{{asset('img/bedmaking.png')}}" alt="bedmaking"/>
+	                                    <span class="imgselect"><img src="{{asset('img/bedmaking.png')}}" alt="bedmaking"/></span>
 	                                    <h3>Bed Making</h3>
 	                                    <div class="info"><input type="text" placeholder="Enter number of beds" name="service_beds" value="{{Session::get('booking[service_beds]')}}" />
 	                                    </div>
-	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="BedMaking" @if(!empty(Session::get('booking[service_categories]')) && in_array('BedMaking', Session::get('booking[service_categories]'))) checked @endif/>
+	                                    <label class="checkboxpoint">
+	                                    	<input type="checkbox" name="service_categories[]" class="btn btn-primary" value="BedMaking" @if(!empty(Session::get('booking[service_categories]')) && in_array('BedMaking', Session::get('booking[service_categories]'))) checked @endif/>
+	                                    	<span class="checkmark"> Select </span>
+	                                	</label>
 	                                 </li>
 	                                 <li>
-	                                    <img src="{{asset('img/organizing.png')}}" alt="washing"/>
+	                                    <span class="imgselect"><img src="{{asset('img/organizing.png')}}" alt="washing"/></span>
 	                                    <h3>Organizing</h3>
 	                                    <div class="info">${{env('ORGANIZING_PRICE')}} per hour </div>
-	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Organizing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Organizing', Session::get('booking[service_categories]'))) checked @endif/>
+	                                     <label class="checkboxpoint">
+	                                    	<input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Organizing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Organizing', Session::get('booking[service_categories]'))) checked @endif/>
+	                                    	<span class="checkmark"> Select  </span>
+	                                	</label>
 	                                 </li>
 	                                 <!-- 	<li>
 	                                    <img src="{{asset('img/packing.png')}}" alt="packing"/>
@@ -155,7 +178,7 @@
 	                              </ul>
 	                           </div>
 	                        </div>
-	                        <div class="text-center">
+	                        <div class="text-center btnbtg">
 	                           <a href="javascript:void(0);" class="btn btn-primary ctn-btn" data-tab="when"/>Continue</a>
 	                        </div>
 	                     </div>
@@ -290,7 +313,10 @@
 	                                    <p>	All ironing items must be created than 96% cotton. A folding package must be purchased with this package </p>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_package" value="p5" @if(Session::get('booking[service_package]') == 'p5') checked @endif>Select
+	                              <label class="checkboxpoint radiobox">
+	                              <input type="radio" name="service_package" value="p5" @if(Session::get('booking[service_package]') == 'p5') checked @endif>
+	                              <span class="checkmark"> Select </span>
+	                          </label>
 	                           </div>
 	                           <div class="col-md-3 text-center fold">
 	                              <h4>Press Package 10</h4>
@@ -304,7 +330,10 @@
 	                                    <p>	All ironing items must be created than 96% cotton. A folding package must be purchased with this package </p>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_package" value="p10" @if(Session::get('booking[service_package]') == 'p10') checked @endif>Select
+	                               <label class="checkboxpoint radiobox">
+	                              <input type="radio" name="service_package" value="p10" @if(Session::get('booking[service_package]') == 'p10') checked @endif>
+	                              <span class="checkmark"> Select </span>
+	                          </label>
 	                           </div>
 	                           <div class="col-md-3 text-center fold">
 	                              <h4>Press Package 15</h4>
@@ -318,7 +347,10 @@
 	                                    <p>	All ironing items must be created than 96% cotton. A folding package must be purchased with this package </p>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_package" value="p15" @if(Session::get('booking[service_package]') == 'p15') checked @endif>Select
+	                               <label class="checkboxpoint radiobox">
+	                              <input type="radio" name="service_package" value="p15" @if(Session::get('booking[service_package]') == 'p15') checked @endif>
+	                               <span class="checkmark"> Select </span>
+	                          </label>
 	                           </div>
 	                           <div class="col-md-3 text-center fold">
 	                              <h4>Press Package 20</h4>
@@ -332,7 +364,10 @@
 	                                    <p>	All ironing items must be created than 96% cotton. A folding package must be purchased with this package </p>
 	                                 </div>
 	                              </div>
-	                              <input type="radio" name="service_package" value="p20" @if(Session::get('booking[service_package]') == 'p20') checked @endif>Select
+	                               <label class="checkboxpoint radiobox">
+	                              <input type="radio" name="service_package" value="p20" @if(Session::get('booking[service_package]') == 'p20') checked @endif>
+	                               <span class="checkmark"> Select </span>
+	                          </label>
 	                           </div>
 	                        </div>
 	                     </div>
