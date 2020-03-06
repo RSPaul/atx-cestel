@@ -3,6 +3,7 @@ var modal = document.getElementById("viewSchedule");
 app.controller('UserCtrl', function($scope, $http, $timeout) {
   
   $scope.user = {current_password: '', password: '', confirm_password: ''};
+  $scope.custom = {};
   $scope.showTodayBookings = true;
   $scope.viewBookings = false;
   $scope.showTodBookings = false;
@@ -53,6 +54,20 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
 		},function(error){
 	      swal(error.status.toString(), error.data.message, "error");
 		});
+  }
+
+   $scope.customresultfun = function(){
+    //console.log($scope.custom);
+    if($scope.custom.to_date){
+      
+      $http.post('/user-view-schedule-custom',$scope.custom)
+        .then(function (response) {
+          var response = response.data;
+          $scope.customresultbookings = response.customresult;
+        }, function (error) {
+          console.log('error getting schedule ', error);
+      });
+    }
   }
 
   /*

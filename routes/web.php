@@ -47,7 +47,7 @@ Route::get('/user-view-schedule', 'User\UserController@viewscheduleList')->name(
 Route::post('/cancel-booking-amount', 'User\UserController@cancelBookingAmount')->name('cancel_booking_amount');
 Route::post('/cancel-booking', 'User\UserController@cancelBooking')->name('cancel_booking');
 Route::post('/complete-booking', 'User\UserController@completeBooking')->name('complete_booking');
-
+Route::post('/user-view-schedule-custom', 'User\UserController@viewscheduleListCustom')->name('viewscheduleListCustom');
 
 /**
 * Laundress Routes

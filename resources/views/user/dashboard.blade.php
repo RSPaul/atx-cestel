@@ -213,14 +213,14 @@
 	              </div>
                    <div role="tabpanel" class="tab-pane @if($tab_id == 'schedule') active @endif" id="schedule">
                         <div class="btn_rw">
-                           <a href="javascript:void(0)" ng-click="showTodBookings = false; showTomBookings = true; showWeekBookings = true; showMonthBookings = true" ng-class="{'active': !showTodBookings}" class="btn btn-wht" id="today">Today</a>
-                           <a href="javascript:void(0)" ng-click="showTomBookings = false; showTodBookings = true; showWeekBookings = true; showMonthBookings = true" ng-class="{'active': !showTomBookings}" class="btn btn-wht">Tommorrow</a>
-                           <a href="javascript:void(0)" ng-click="showWeekBookings = false; showTomBookings = true; showTodBookings = true; showMonthBookings = true" ng-class="{'active': !showWeekBookings}" class="btn btn-wht" id="thisweek">This Week</a>
-                           <a href="javascript:void(0)" ng-click="showMonthBookings = false; showTomBookings = true; showWeekBookings = true; showTodBookings = true" ng-class="{'active': !showMonthBookings}" class="btn btn-wht">This Month</a>
+                           <a href="javascript:void(0)" ng-click="showTodBookings = false; showTomBookings = true; showWeekBookings = true; showMonthBookings = true;showCustomBookings= true" ng-class="{'active': !showTodBookings}" class="btn btn-wht" id="today">Today</a>
+                           <a href="javascript:void(0)" ng-click="showTomBookings = false; showTodBookings = true; showWeekBookings = true; showMonthBookings = true; showCustomBookings= true" ng-class="{'active': !showTomBookings}" class="btn btn-wht">Tommorrow</a>
+                           <a href="javascript:void(0)" ng-click="showWeekBookings = false; showTomBookings = true; showTodBookings = true; showMonthBookings = true;showCustomBookings= true" ng-class="{'active': !showWeekBookings}" class="btn btn-wht" id="thisweek">This Week</a>
+                           <a href="javascript:void(0)" ng-click="showMonthBookings = false; showTomBookings = true; showWeekBookings = true; showTodBookings = true;showCustomBookings= true" ng-class="{'active': !showMonthBookings}" class="btn btn-wht">This Month</a>
                            <div class="date">
                               <div class="col-date">
                                  <div class='input-group date' id='datetimepicker1'>
-                                    <input type='text' class="form-control" />
+                                    <input type='text' id="from_date_picker" ng-model="custom.from_date" name="from_date" ng-change="customresultfun()" class="form-control" />
                                     <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
@@ -229,12 +229,13 @@
                               <span class="to">to</span>
                               <div class="col-date">
                                  <div class='input-group date' id='datetimepicker2'>
-                                    <input type='text' class="form-control" />
+                                    <input type='text' id="to_date_picker" ng-disabled="!custom.from_date" ng-change="showCustomBookings = false;showTodBookings = true;showTomBookings = true; showWeekBookings = true; showMonthBookings = true; customresultfun()" ng-model="custom.to_date" name="to_date" class="form-control" />
                                     <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
                                  </div>
                               </div>
+                             <!--  <input type="button" ng-disabled="!custom.to_date && !custom.from_date" ng-click="showCustomBookings = false;showTodBookings = true;showTomBookings = true; showWeekBookings = true; showMonthBookings = true; customresultfun()" class="btn btn-default" value="Submit"> -->
                            </div>
                         </div>
                         <div class="row">
@@ -285,6 +286,13 @@
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount}}</td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
+                                       </tr>
+                                       <tr ng-repeat="booking in customresultbookings" ng-if="!showCustomBookings">
+                                          <td>@{{booking.service_time}}</td>
+                                          <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_package}}</td>
+                                          <td>@{{booking.service_amount | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                     </table>
