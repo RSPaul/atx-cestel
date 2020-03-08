@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -55,5 +56,20 @@ class VerificationController extends Controller
             'remember_token' => $remember_token
         ]);
 
+    }
+
+    public function verifyEmail($token) {
+        $user = User::where(['remember_token' => $token])->first();
+        if($user && $user->id) {
+            User::where(['id' => $user->id])
+                ->update([
+                    'remember_token' => '',
+                    'status' => 1,
+                    'email_verified_at' => date('Y-m-d h:i:s')
+                ]);
+            return redirect('/login')->with('success', 'Email is verified successfully.');
+        } else {
+            return redirect('/verify')->with('error', 'You verification link has been expired.');
+        }
     }
 }
