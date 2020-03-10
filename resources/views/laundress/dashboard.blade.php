@@ -215,12 +215,12 @@
    	                        </div>
    	                        <div class=" btn-rw">	
    	                           <input type="submit" class="btn btn-lg btn-primary" value="Update">
-   	                           <a href="#" class="btn btn-primary">Fill Out Forms</a>
+   	                           <!-- <a href="#" class="btn btn-primary">Fill Out Forms</a>
    	                           <a href="#" class="btn btn-primary">Upload Forms</a>
-                                 <br>
+                                 <br> -->
                                  <!-- alert messages -->
-                                 <div class="alert alert-success text-center" ng-show="successMessage" ng-bind="successMessage"></div>
-                                 <div class="alert alert-danger text-center" ng-show="errorMessage" ng-bind="errorMessage"></div>
+                                 <!-- <div class="alert alert-success text-center" ng-show="successMessage" ng-bind="successMessage"></div>
+                                 <div class="alert alert-danger text-center" ng-show="errorMessage" ng-bind="errorMessage"></div> -->
    	                        </div>
    	                     </div>
    	                  </form>
@@ -343,7 +343,7 @@
                      <div role="tabpanel" class="tab-pane @if($tab_id == 'payments') active @endif" id="payments">
                         <div class="btn_rw">
                            <a href="javascript:void(0);" class="btn btn-wht" ng-click="showBankAccount = true" ng-class="{'active': showBankAccount}">Account Details</a>
-                           <a href="javascript:void(0);" class="btn btn-wht" ng-click="showBankAccount = false" ng-class="{'active': !showBankAccount}">Payment Details</a>
+                           <a href="javascript:void(0);" class="btn btn-wht" ng-click="showBankAccount = false" ng-class="{'active': !showBankAccount}">Earnings</a>
                         </div>
                         <div class="row" ng-if="showBankAccount">
                            <form ng-submit="updateBankAccount()" novalidate>

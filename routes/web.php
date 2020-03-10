@@ -19,12 +19,15 @@ Route::get('/', function () {
 * Public Routes
 **/
 Route::get('/book', 'HomeController@book');
+Route::get('/get-time-slots/{id}', 'HomeController@getTimeSlots');
 Route::get('/be-part-team', 'HomeController@bePartTeam')->name('viewpartTeam');
 Route::post('/be-part-team', 'HomeController@bePartTeam')->name('partTeam');
 Route::get('/verify', 'Auth\VerificationController@verify');
 Route::get('/verify/email/{token}', 'Auth\VerificationController@verifyEmail');
 Route::get('/email/resend', 'Auth\VerificationController@resend');
 Route::post('/register/user', 'HomeController@register')->name('register_user');
+Route::get('/thank-you/{id}', 'HomeController@thankYou');
+Route::get('/service-reminder/email/{type}', 'HomeController@serviceReminderEmails');
 Auth::routes(['verify' => true]);
 
 /**
@@ -69,10 +72,11 @@ Route::post('/request-payment', 'Laundress\LaundressController@requestPayment')-
 * Admin Routes
 **/
 Route::get('/admin', 'Admin\AdminController@dashboard')->name('admin_dashboard');
-Route::get('/users/{type}', 'Admin\AdminController@users');
-Route::get('/bookings/{type}', 'Admin\AdminController@bookings');
-Route::get('/booking/{id}', 'Admin\AdminController@bookingDetails');
-Route::get('/user/verify/{id}', 'Admin\AdminController@verifyUser')->name('verify_user');
-Route::get('/payments/{type}', 'Admin\AdminController@payments')->name('payments');
-Route::get('/payment/{id}', 'Admin\AdminController@viewPayment')->name('view_payment');
+Route::get('/admin/users/{type}', 'Admin\AdminController@users');
+Route::get('/admin/user/{id}', 'Admin\AdminController@userDetails');
+Route::get('/admin/bookings/{type}', 'Admin\AdminController@bookings');
+Route::get('/admin/booking/{id}', 'Admin\AdminController@bookingDetails');
+Route::get('/admin/user/verify/{id}', 'Admin\AdminController@verifyUser')->name('verify_user');
+Route::get('/admin/payments/{type}', 'Admin\AdminController@payments')->name('payments');
+Route::get('/admin/payment/{id}', 'Admin\AdminController@viewPayment')->name('view_payment');
 Route::get('/admin/confirm-payment/{id}', 'Admin\AdminController@confirmPayment')->name('admin_confirm_ayment');

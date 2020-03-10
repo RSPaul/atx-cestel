@@ -181,11 +181,11 @@
                               </div>
                               <div class="form-group">
                                  <label>Address</label>
-                                 <input type="text" name="address" class="form-control" ng-model="user.address" required/>
+                                 <input type="text" name="address" class="form-control" name="address" ng-model="user.address" required/>
                               </div>
                               <div class="form-group">
                                  <label>City/State</label>
-                                 <input type="text" name="city_state" class="form-control" ng-model="user.city_state" required/>
+                                 <input type="text" name="city_state" class="form-control" name="city_state" ng-model="user.city_state" required/>
                               </div>
                               <div class="form-group">
                                  <label>Current Password</label>
@@ -201,12 +201,12 @@
                               </div>
                               <div class=" btn-rw">   
                                  <input type="submit" class="btn btn-lg btn-primary" value="Update">
-                                 <a href="#" class="btn btn-primary">Fill Out Forms</a>
+                                 <!-- <a href="#" class="btn btn-primary">Fill Out Forms</a>
                                  <a href="#" class="btn btn-primary">Upload Forms</a>
-                                 <br>
+                                 <br> -->
                                  <!-- alert messages -->
-                                 <div class="alert alert-success text-center" ng-show="successMessage" ng-bind="successMessage"></div>
-                                 <div class="alert alert-danger text-center" ng-show="errorMessage" ng-bind="errorMessage"></div>
+                                 <!-- <div class="alert alert-success text-center" ng-show="successMessage" ng-bind="successMessage"></div>
+                                 <div class="alert alert-danger text-center" ng-show="errorMessage" ng-bind="errorMessage"></div> -->
                               </div>
                            </div>
                         </form>
@@ -306,7 +306,7 @@
                         </div>
                      </div>
                   <div role="tabpanel" class="tab-pane table_bx @if($tab_id == 'prevserv') active @endif" id="prevserv">
-                        <div class="col-md-9">
+                        <div class="col-md-12">
                               <table class="table">
                                  <tr>
                                     <th>Time</th>

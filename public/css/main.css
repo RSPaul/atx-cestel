@@ -2796,6 +2796,11 @@ opacity: 0;
 }
     .form-border-md {border-left: none; padding-left: 0; }
 }
-
-
-
+label.checkboxpoint.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+}
+a.btn.btn-primary.ctn-btn.payment-btn {
+    display: none;
+}

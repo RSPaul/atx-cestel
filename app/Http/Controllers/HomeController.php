@@ -81,8 +81,23 @@ class HomeController extends Controller {
         return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
     }
 
+    public function getTimeSlots(Request $request) {
+        $user = User::where(['id' => $request->id])->first();
+        $time_slots = unserialize($user->available);
+        $available_times = array();
+        if(!empty($time_slots)) {            
+            foreach ($time_slots as $key => $slot) {
+                array_push($available_times, array('day' => strtoupper($key), 'slots' => array('from' => $slot['from'], 'to' => $slot['to'])));
+            }
+        }
+        $response = array('success' => true,
+                            'data' => $available_times);
+        return response()->json($response);
+    }
+
     public function book(Request $request) {
         if($request->isMethod('post')) {
+
             $service_type = $request->service_type;
             $service_address = $request->service_address;
             $service_categories = $request->service_categories;
@@ -173,13 +188,13 @@ class HomeController extends Controller {
         
         $price = 0;
         $profile = (object) array('id'=> '', 'first_name' => '', 'last_name' => '', 'address' => '', 'city_state' => '', 'zip' => '', 'phone' => '', 'email' => '');
-        if(isset($service_categories) && sizeof($service_categories)) {
-            foreach($service_categories as $service) {
-                $service_price = env(strtoupper($service) . '_PRICE');
-                $price = $price + $service_price;
-            }
-        }
-        $total_price = $price * $service_quantity;
+        // if(isset($service_categories) && sizeof($service_categories)) {
+        //     foreach($service_categories as $service) {
+        //         $service_price = env(strtoupper($service) . '_PRICE');
+        //         $price = $price + $service_price;
+        //     }
+        // }
+        $total_price = $service_amount;//$price * $service_quantity;
         if (Auth::check()) {
             $profile = User::where(['id' => Auth::user()->id])->first(); 
         }
@@ -188,11 +203,10 @@ class HomeController extends Controller {
 
         // get laundress email
         $laundress_data = User::where(['id' => $service_laundress])->first(); 
-
+        
         if($request->isMethod('post')) {
 
             $success = true;
-            $return_url = '/user/dashboard';
             try {
                 //if user is not logged in create new user
                 if(!Auth::check()) {
@@ -239,6 +253,7 @@ class HomeController extends Controller {
                 $data['user_id'] = $profile->id;
                 $data['status'] = 'new';
                 $data['service_categories'] = serialize($data['service_categories']);
+                $data['service_quantity'] = serialize($data['service_quantity']);
                 $booking = Bookings::create($data);
                 $request->session()->put('booking', null);
                 $message = 'Booking Successful.';
@@ -246,6 +261,8 @@ class HomeController extends Controller {
                 $data['first_name'] = $profile->first_name;
                 $data['last_name'] = $profile->last_name;
                 $data['adress'] = $profile->adress;
+
+                $return_url = '/thank-you/' . $booking->id;
 
                 /*
                 * Transfer the amount to admin account
@@ -360,5 +377,80 @@ class HomeController extends Controller {
             return view('be-part-team');
         }
 
+    }
+
+    public function thankYou(Request $request) {
+        return view('thank-you');
+    }
+
+    public function serviceReminderEmails(Request $request) {
+        $type = $request->type;
+        $now = date('m/d/Y h:i:s');
+        if($type == '1') {
+            //get all bookings after 1 hour from current time
+            echo " send email to all laundress with booking in next 1 hour";
+            $date = date('m/d/Y');
+            $bookings = Bookings::where(['service_day' => $date, 
+                                    'service_reminder_sent' => 0])
+                                    ->get();
+            echo "<pre>";
+            // print_r($bookings);
+            foreach ($bookings as $key => $booking) {
+                //print_r($booking->service_time);
+                //check if service time is 1 hours from now
+                echo "<br>";
+                $date = $booking->service_day;
+                $timeArray = explode('-',$booking->service_time);
+                //print_r($time[0]);
+                if(isset($timeArray[0])) {
+                    // echo date('h:i', strtotime($time[0]));
+                    $time = $timeArray[0];
+                    echo $one_hour_past = date('Y-m-d h:i:s', time() - 3600);
+                    echo "<br>";
+                    echo $service_date = date('Y-m-d h:i:s', strtotime("$date $time"));
+                    if($one_hour_past >=  $service_date) {
+                        /*
+                        * SEND EMAIL
+                        */
+                        echo "send email";
+                        Bookings::where(['id' => $booking->id])
+                                    ->update([
+                                    "service_reminder_sent" => 1]);      
+                    }
+                }
+            }
+            echo "</pre>";
+        } elseif ($type == '24') {
+            //get all bookings after 24 hour from current time
+            echo " send email to all laundress with booking in next 24 hours";
+            $date = date('m/d/Y');
+            $bookings = Bookings::where(['service_day' => $date, 
+                                    'service_reminder_sent' => 0])
+                                    ->get();
+            echo "<pre>";
+            // print_r($bookings);
+            foreach ($bookings as $key => $booking) {
+                //print_r($booking->service_time);
+                //check if service time is 1 hours from now
+                echo "<br>";
+                $date = $booking->service_day;
+                $timeArray = explode('-',$booking->service_time);
+                //print_r($time[0]);
+                if(isset($timeArray[0])) {
+                    // echo date('h:i', strtotime($time[0]));
+                    $time = $timeArray[0];
+                    echo $twenty_four_hour_past = date('Y-m-d h:i:s', time() - (3600 * 24));
+                    echo "<br>";
+                    echo $service_date = date('Y-m-d h:i:s', strtotime("$date $time"));
+                    if($twenty_four_hour_past >=  $service_date) {
+                        /*
+                        * SEND EMAIL
+                        */
+                        echo "send email";
+                    }
+                }
+            }
+            echo "</pre>";
+        }
     }
 }

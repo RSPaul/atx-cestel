@@ -11,31 +11,44 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
   $scope.showWeekBookings = true;
   $scope.showMonthBookings = true;
   
+  $timeout(function () {
+    $scope.getUser();
+  },500);
   /*
   * Get User Profile
   */
-  $http.get('/user-profile/me')
-  .then(function(response) {
-    $scope.user = response.data.data;
-    $scope.user.current_password = '';
-    $scope.user.password =  '';
-    $scope.user.confirm_password = '';
-    $scope.getSchedule();
-    $scope.viewSchedulelist();
-  });
+  $scope.getUser = function () {    
+    $http.get('/user-profile/me')
+    .then(function(response) {
+      $scope.user = response.data.data;
+      $scope.user.current_password = '';
+      $scope.user.password =  '';
+      $scope.user.confirm_password = '';
+      $scope.getSchedule();
+      $scope.viewSchedulelist();
+    });
+  }
 
   /*
   * Update Profile
   */
   $scope.updateProfile = function() {  	
   	if($scope.user.password && ($scope.user.password !== $scope.user.confirm_password)) {
-  		$scope.errorMessage = 'Password and confirm password not matched.';
+  		swal('Error', 'Password and confirm password not matched.', "error");
   	} else if($scope.user.password != '' && ($scope.user.password == $scope.user.confirm_password) && $scope.user.current_password !== '') {
   		$scope.updateProfileAjax();
   	} else if(($scope.user.password == '' || !$scope.user.password) && ($scope.user.confirm_password == '' || !$scope.user.confirm_password) && ($scope.user.current_password == '' || !$scope.user.current_password)){
   		$scope.updateProfileAjax();
-  	} else {
-  		$scope.errorMessage = 'Please enter your current password.';
+  	} else if($scope.user.current_password !=''){
+      if($scope.user.password == '') {
+        swal('Error', 'Please enter your new password.', "error");
+      } else if($scope.user.confirm_password == '') {
+        swal('Error', 'Please enter your confirm password.', "error");
+      } else {
+        $scope.updateProfileAjax();
+      }
+    } else{
+  		swal('Error', 'Please enter your current password.', "error");
   	}
   }
 

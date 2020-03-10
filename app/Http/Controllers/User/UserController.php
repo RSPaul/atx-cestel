@@ -88,14 +88,17 @@ class UserController extends Controller
         $message = 'Profile updated.';
         $success = true;
         try {
-            if($profile['password'] != '' && Hash::make($profile['current_password']) == Auth::user()->password) {
+            if($profile['password'] != '' && Hash::check($profile['current_password'], Auth::user()->password)) {
                 User::where(['id' => Auth::user()->id])
                         ->update([
                             'password' => Hash::make($profile['password'])
                         ]);
+                unset($profile['password']);
+                unset($profile['current_password']);
+                unset($profile['confirm_password']);
                 User::where(['id' => Auth::user()->id])
                             ->update($profile);
-            } else if($profile['password'] == '' || @$profile['password']) {
+            } else if($profile['password'] == '') {
                 unset($profile['password']);
                 unset($profile['current_password']);
                 unset($profile['confirm_password']);

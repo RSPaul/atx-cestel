@@ -76,29 +76,61 @@ $(function () {
       //     }
       //   })
       // }
-
+      $('#service_beds').keyup(function () {
+        if($('#service_beds').val() !== '') {
+          $('#bed_making_span').removeClass('disabled');
+        } else {
+          $('#bed_making_span').addClass('disabled');
+        }
+      });
 
       var totalPrice = 0;
       var basicPrice = 0;
+      var totalGarments = 0;
       //change price when service category checked
       $("input[name='service_categories[]']").change(function() {
         var category = $(this).val().toUpperCase() + '_PRICE';
+        var serviceName = $(this).val();
         var envPrice = parseFloat($('#'+category).val()).toFixed(2);
-        var quantity = parseFloat($('#service_quantity').val()).toFixed(2);
-        var checkPrice = parseFloat(envPrice * quantity);
+        var quantity = $('#service_quantity_' + serviceName.toLowerCase()).val();
+        // var checkPrice = parseFloat(envPrice * quantity);
         if($(this).is(":checked")) {
-          totalPrice = parseFloat(parseFloat(totalPrice) + parseFloat(checkPrice)).toFixed(2);          
-          basicPrice = parseFloat(parseFloat(basicPrice) + parseFloat(envPrice)).toFixed(2);
+
+          if(serviceName === 'Washing' || serviceName === 'Organizing') {
+            totalPrice = parseFloat(parseFloat(totalPrice) + parseFloat(envPrice)).toFixed(2);          
+            basicPrice = parseFloat(parseFloat(basicPrice) + parseFloat(envPrice)).toFixed(2);
+          } else {
+            totalPrice = parseFloat(parseFloat(totalPrice) + parseFloat(envPrice * quantity)).toFixed(2);
+
+            basicPrice = parseFloat(parseFloat(basicPrice) + parseFloat(parseFloat(envPrice))).toFixed(2);
+          }
+          totalGarments = totalGarments + parseInt(quantity);
+
         } else {
-          totalPrice = parseFloat(parseFloat(totalPrice) - parseFloat(checkPrice)).toFixed(2);
-          basicPrice = parseFloat(parseFloat(basicPrice) - parseFloat(envPrice)).toFixed(2);
+
+          if(serviceName === 'Washing' || serviceName === 'Organizing') {
+            totalPrice = parseFloat(parseFloat(totalPrice) - parseFloat(envPrice)).toFixed(2);          
+            basicPrice = parseFloat(parseFloat(basicPrice) - parseFloat(envPrice)).toFixed(2);
+          } else {
+            totalPrice = parseFloat(parseFloat(totalPrice) - parseFloat(envPrice * quantity)).toFixed(2);
+            basicPrice = parseFloat(parseFloat(basicPrice) - parseFloat(parseFloat(envPrice))).toFixed(2);
+          }
+          totalGarments = totalGarments - parseInt(quantity);
         }
 
         $('.total_price').val(totalPrice);
         $('#main_price').val(basicPrice);
+        $('#total_graments').val(totalGarments);
+
       });
 
-
+      $('.no_of_garments').keyup(function () {
+        if($(this).val() !== '' && parseInt($(this).val()) >= 1) {
+          $(this).parent().next().removeClass('disabled');
+        } else {
+          $(this).parent().next().addClass('disabled');
+        }
+      });
       //signup from booking page
       $('#bookingSubmit').click(function(e) {
           e.preventDefault();
@@ -217,6 +249,7 @@ $(function () {
       $('#service_laundress').change(function(){
         if($(this).val()) {
           $('#service_laundress_selected').val($('#service_laundress option:selected').html());
+          getTimeSlots($(this).val());
         }
       });
 
@@ -259,7 +292,8 @@ $(function () {
           } else if($(this).attr('name') == 'register[first_name]') {
             $('.service_contact_name').val($(this).val());
           } else if($(this).attr('name') == 'register[last_name]') {
-            //$('.service_contact_name').val(name);
+          } else if($(this).attr('name') == 'register[address]') {
+            $('.service_address').val($(this).val());
           }
       });
 
@@ -293,7 +327,6 @@ $(function () {
             success:function(data) {    
                 
                 if(data && data.auth) {       
-                    console.log(data);
                     updateUserDetails(data.user);
                     $('.not-logged').hide();
                     $('.logged-in').show();
@@ -324,9 +357,19 @@ $(function () {
       	var response = false;
       	var message = '';
 	    if(tabId == 'when') {
-	      	//console.log($("input[name='service_type']").is(":checked") , $("input[name='service_categories[]']").is(":checked"), tabId);
 	        if($("input[name='service_type']").is(":checked") && $("input[name='service_categories[]']").is(":checked")) {
-	          response = true;
+            //check if quantity is added for checked services
+            response = true;
+            $("input[name='service_categories[]']").each(function () {
+              if($(this).is(":checked")) {
+                let qty = 'service_quantity_' + $(this).val().toLowerCase();
+                if($('#'+qty).val() == '') {
+                  response = false;
+                   message = 'Please enter no. of graments for ' + $(this).val();
+                }
+              }
+            });
+	          // response = true;
 	        } else {
 	          message = 'Select your add on service.';
 	        }
@@ -362,7 +405,7 @@ $(function () {
 	            // message = 'Please enter valid email address.';
 	          }
 	        });
-	        if(registerCount == 6) {
+	        if(registerCount == 7) {
 	          response = true;
 	        }
 	        //if user is logged in
@@ -377,8 +420,13 @@ $(function () {
 	        }
 	    } else if(tabId == 'payment') {
 	        response = true;
-	        if($('#user_address').val() == '') {
-	          message = 'Please enter biliing address';
+          
+	        if($('#service_address').val() == '') {
+            message = 'Please enter service address.';
+            response = false;
+          }
+          if($('#user_address').val() == '') {
+	          message = 'Please enter biliing address.';
 	          response = false;
 	        }
 	        if($('#user_city').val() == '') {
@@ -441,4 +489,29 @@ $(function () {
     function startOver() {
       $('.tab-pane').removeClass('active'); 
       $('#services').addClass('active');
+      $('a.btn.btn-primary.ctn-btn.payment-btn').show();
+      $('.tab_detail').removeClass('active');
+      $('.tab_services').addClass('active');
+    }
+
+    function getTimeSlots(lId) {
+      $.ajax({
+          url: '/get-time-slots/' + lId,
+          type:'GET',
+          success:function(response) {    
+              if(response.data && response.data.length) {
+                let html = '';
+                for(let i = 0; i < response.data.length; i++) {
+                  html = html + '<option value="'+ response.data[i].slots.from +' - '+ response.data[i].slots.to +'">'+ response.data[i].day +' - From '+ response.data[i].slots.from +' To ' + response.data[i].slots.to +'</option>';
+                }
+                $('#service_time').html(html);
+              } else {
+                $('#service_time').html('<option value="" disabled>Choose Laundress First</option>');
+                swal("Nothing Availble", "This service provider is not available right now. ");
+              }
+          },
+          error: function (error) {
+              console.log("error",error);
+          }
+      });
     }

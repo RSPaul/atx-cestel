@@ -194,4 +194,10 @@ class AdminController extends Controller
             return response()->json(['response' => "No Request found!", 'success' => false]);
         }        
     }
+
+    public function userDetails(Request $request) {
+        $id = $request->id;
+        $user = User::where(['id' => $id])->first();
+        return view('admin.view-user')->with([ "user" => $user]);
+    }
 }

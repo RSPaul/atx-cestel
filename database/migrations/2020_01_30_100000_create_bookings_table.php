@@ -19,7 +19,7 @@ class CreateBookingsTable extends Migration
             $table->string('service_type');
             $table->text('service_address');
             $table->text('service_categories');
-            $table->string('service_beds')->nullable();
+            $table->text('service_quantity');
             $table->string('service_day');
             $table->string('service_time');
             $table->string('service_laundress');
@@ -32,6 +32,8 @@ class CreateBookingsTable extends Migration
             $table->text('service_description')->nullable();
             $table->text('transfer_group')->nullable();
             $table->string('status');
+            $table->text('payment_request')->nullable();
+            $table->text('service_reminder_sent')->nullable();
             $table->timestamps();
         });
     }

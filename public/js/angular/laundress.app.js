@@ -18,34 +18,47 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
   $scope.showBankAccount = false;
   $scope.payIds = [];
 
+  $timeout(function () {
+    $scope.getUser();
+  },500);
   /*
   * Get User Profile
   */
-  $http.get('/user-profile/me')
-  .then(function(response) {
-    $scope.user = response.data.data;
-    $scope.user.current_password = '';
-    $scope.user.password =  '';
-    $scope.user.confirm_password = '';
-    $scope.getSchedule();
-    $scope.viewSchedulelist();
-    $scope.getWeekEarnings();
-    $scope.getBankDetails();
-  });
+  $scope.getUser = function () {    
+    $http.get('/user-profile/me')
+    .then(function(response) {
+      $scope.user = response.data.data;
+      $scope.user.current_password = '';
+      $scope.user.password =  '';
+      $scope.user.confirm_password = '';
+      $scope.getSchedule();
+      $scope.viewSchedulelist();
+      $scope.getWeekEarnings();
+      $scope.getBankDetails();
+    });
+  };
 
   /*
   * Update Profile
   */
-  $scope.updateProfile = function() {  	
-  	if($scope.user.password && ($scope.user.password !== $scope.user.confirm_password)) {
-  		$scope.errorMessage = 'Password and confirm password not matched.';
-  	} else if($scope.user.password != '' && ($scope.user.password == $scope.user.confirm_password) && $scope.user.current_password !== '') {
-  		$scope.updateProfileAjax();
-  	} else if(($scope.user.password == '' || !$scope.user.password) && ($scope.user.confirm_password == '' || !$scope.user.confirm_password) && ($scope.user.current_password == '' || !$scope.user.current_password)){
-  		$scope.updateProfileAjax();
-  	} else {
-  		$scope.errorMessage = 'Please enter your current password.';
-  	}
+  $scope.updateProfile = function() {   
+    if($scope.user.password && ($scope.user.password !== $scope.user.confirm_password)) {
+      swal('Error', 'Password and confirm password not matched.', "error");
+    } else if($scope.user.password != '' && ($scope.user.password == $scope.user.confirm_password) && $scope.user.current_password !== '') {
+      $scope.updateProfileAjax();
+    } else if(($scope.user.password == '' || !$scope.user.password) && ($scope.user.confirm_password == '' || !$scope.user.confirm_password) && ($scope.user.current_password == '' || !$scope.user.current_password)){
+      $scope.updateProfileAjax();
+    } else if($scope.user.current_password !=''){
+      if($scope.user.password == '') {
+        swal('Error', 'Please enter your new password.', "error");
+      } else if($scope.user.confirm_password == '') {
+        swal('Error', 'Please enter your confirm password.', "error");
+      } else {
+        $scope.updateProfileAjax();
+      }
+    } else{
+      swal('Error', 'Please enter your current password.', "error");
+    }
   }
 
   /*
@@ -153,6 +166,7 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
   }
 
   $scope.updateBankAccount = function () {
+    console.log('$scope.bank ', $scope.bank);
     $http.post('/update-account', $scope.bank)
     .then(function (response) {
       var data = response.data;
@@ -171,7 +185,7 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
     $http.get('/get-account')
     .then(function (response) {
       var data = response.data;
-      $scope.bank = data.message;
+      $scope.bank = (data.message && data.message.bank_name !== '') ? data.message : {};
       $scope.payments = data.bookings;
       $scope.payments.map(p => {
         if(p.payment_request === '0') {

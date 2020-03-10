@@ -40,7 +40,7 @@
               <td>{{$payment->email}}</td>
               <td>{{$payment->phone}}</td>
               <td>{{round($payment->amount, 2)}}</td>
-              <td><a href="/payment/{{$payment->id}}">View</a></td>
+              <td><a href="/admin/payment/{{$payment->id}}">View</a></td>
             </tr>
             @endforeach
           </tbody>

@@ -96,15 +96,15 @@
                   <div class="form-group">
                      <div class="col-1">
                         <label>Monday</label>
-                        <select name="available[monday_from][]" class="time" required data-error="Select your time availability.">
+                        <select name="available[monday][from]" class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="7:00 AM">7:00 AM</option>
                            <option value="8:00 AM">8:00 AM</option>
                         </select>
-                        <select name="available[monday_to][]" class="time" required data-error="Select your time availability.">
+                        <select name="available[monday][to]" class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="5:00 PM">5:00 PM</option>
-                           <option value="6:00 AM">6:00 AM</option>
+                           <option value="6:00 PM">6:00 PM</option>
                         </select>
                      	<div class="help-block with-errors"></div>
                      </div>
@@ -112,15 +112,15 @@
                   <div class="form-group">
                      <div class="col-1">
                         <label>TUESDAY</label>
-                        <select name="available[tuesday_from][]" class="time" required data-error="Select your time availability.">
+                        <select name="available[tuesday][from]" class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="7:00 AM">7:00 AM</option>
                            <option value="8:00 AM">8:00 AM</option>
                         </select>
-                        <select name="available[tuesday_to][]" class="time" required data-error="Select your time availability.">
+                        <select name="available[tuesday][to]" class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="5:00 PM">5:00 PM</option>
-                           <option value="6:00 AM">6:00 AM</option>
+                           <option value="6:00 PM">6:00 PM</option>
                         </select>
                         <div class="help-block with-errors"></div>
                      </div>
@@ -128,15 +128,15 @@
                   <div class="form-group">
                      <div class="col-1">
                         <label>WEDNESDAY</label>
-                        <select name="available[wednesday_from][]" class="time" required data-error="Select your time availability.">
+                        <select name="available[wednesday][from]" class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="7:00 AM">7:00 AM</option>
                            <option value="8:00 AM">8:00 AM</option>
                         </select>
-                        <select name="available[wednesday_to][]" class="time" required data-error="Select your time availability.">
+                        <select name="available[wednesday][to]" class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="5:00 PM">5:00 PM</option>
-                           <option value="6:00 AM">6:00 AM</option>
+                           <option value="6:00 PM">6:00 PM</option>
                         </select>
                         <div class="help-block with-errors"></div>
                      </div>
@@ -146,15 +146,15 @@
                   <div class="form-group">
                      <div class="col-1">
                         <label>THURSDAY</label>
-                        <select name="available[thursday_from][]" class="time" required data-error="Select your time availability.">
+                        <select name="available[thursday][from]" class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="7:00 AM">7:00 AM</option>
                            <option value="8:00 AM">8:00 AM</option>
                         </select>
-                        <select name="available[thursday_to][]" class="time" required data-error="Select your time availability.">
+                        <select name="available[thursday][to]" class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="5:00 PM">5:00 PM</option>
-                           <option value="6:00 AM">6:00 AM</option>
+                           <option value="6:00 PM">6:00 PM</option>
                         </select>
                         <div class="help-block with-errors"></div>
                      </div>
@@ -162,15 +162,15 @@
                   <div class="form-group">
                      <div class="col-1">
                         <label>FRIDAY</label>
-                        <select name="available[friday_from][]" class="time" required data-error="Select your time availability.">
+                        <select name="available[friday][from]" class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="7:00 AM">7:00 AM</option>
                            <option value="8:00 AM">8:00 AM</option>
                         </select>
-                        <select name="available[friday_to][]"class="time" required data-error="Select your time availability.">
+                        <select name="available[friday][to]"class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="5:00 PM">5:00 PM</option>
-                           <option value="6:00 AM">6:00 AM</option>
+                           <option value="6:00 PM">6:00 PM</option>
                         </select>
                         <div class="help-block with-errors"></div>
                      </div>
@@ -178,15 +178,15 @@
                   <div class="form-group">
                      <div class="col-1">
                         <label>SATURDAY</label>
-                        <select name="available[saturday_from][]" class="time" required data-error="Select your time availability.">
+                        <select name="available[saturday][from]" class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="7:00 AM">7:00 AM</option>
                            <option value="8:00 AM">8:00 AM</option>
                         </select>
-                        <select name="available[saturday_to][]" class="time" required data-error="Select your time availability.">
+                        <select name="available[saturday][to]" class="time" required data-error="Select your time availability.">
                            <option value="">Choose Time</option>
                            <option value="5:00 PM">5:00 PM</option>
-                           <option value="6:00 AM">6:00 AM</option>
+                           <option value="6:00 PM">6:00 PM</option>
                         </select>
                         <div class="help-block with-errors"></div>
                      </div>

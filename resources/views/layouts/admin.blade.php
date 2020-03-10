@@ -55,8 +55,8 @@
                </a>
                <div id="users" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                   <div class="bg-white py-2 collapse-inner rounded">
-                     <a class="collapse-item" href="/users/user">Users</a>
-                     <a class="collapse-item" href="/users/laundress">Laundress</a>
+                     <a class="collapse-item" href="/admin/users/user">Users</a>
+                     <a class="collapse-item" href="/admin/users/laundress">Laundress</a>
                   </div>
                </div>
             </li>
@@ -68,10 +68,10 @@
                </a>
                <div id="bookings" class="collapse" aria-labelledby="headingPages" data-parent="#bookings">
                   <div class="bg-white py-2 collapse-inner rounded">
-                     <a class="collapse-item" href="/bookings/all">All</a>
-                     <a class="collapse-item" href="/bookings/completed">Customer Completed</a>
-                     <a class="collapse-item" href="/bookings/paid">Paid</a>
-                     <a class="collapse-item" href="/bookings/declined">Declined</a>
+                     <a class="collapse-item" href="/admin/bookings/all">All</a>
+                     <a class="collapse-item" href="/admin/bookings/completed">Customer Completed</a>
+                     <a class="collapse-item" href="/admin/bookings/paid">Paid</a>
+                     <a class="collapse-item" href="/admin/bookings/declined">Declined</a>
                   </div>
                </div>
                
@@ -83,9 +83,9 @@
                </a>
                <div id="payments" class="collapse" aria-labelledby="headingPages" data-parent="#payments">
                   <div class="bg-white py-2 collapse-inner rounded">
-                     <a class="collapse-item" href="/payments/all">All</a>
-                     <a class="collapse-item" href="/payments/new">New Request</a>
-                     <a class="collapse-item" href="/payments/paid">Paid Request</a>
+                     <a class="collapse-item" href="/admin/payments/all">All</a>
+                     <a class="collapse-item" href="/admin/payments/new">New Request</a>
+                     <a class="collapse-item" href="/admin/payments/paid">Paid Request</a>
                   </div>
                </div>
                

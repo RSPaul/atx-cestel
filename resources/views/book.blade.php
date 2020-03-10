@@ -73,8 +73,7 @@
   
  
 	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Petite" @if(Session::get('booking[service_type]') == 'Petite') checked @endif/> 
-	                               <span class="checkmark"> Select </span>
-</label>
+	                               <span class="checkmark"> Select </span></label>
 	                           </div>
 	                           <div class="col-md-4 col-sm-4 col-xs-4 text-center clickbook">
 	                              <h4>Median</h4>
@@ -131,39 +130,50 @@
 	                                 <li>
 	                                    <span class="imgselect"><img src="{{asset('img/washing.png')}}" alt="washing"/></span>
 	                                    <h3>Washing</h3>
-	                                    <div class="info">${{env('WASHING_PRICE')}} flat fee </div>
-	                                    <label class="checkboxpoint">
+	                                    <div class="info">${{env('WASHING_PRICE')}} flat fee <br>
+	                                    	<?php 
+	                                    	// echo "<pre>";
+	                                    	// print_r(Session::get('booking[service_quantity]'));
+	                                    	// echo "</pre>";
+	                                    	?>
+                                    	<input type="number" placeholder="Number of garments" name="service_quantity[washing]" id="service_quantity_washing" value="{{Session::get('booking[service_quantity][washing]')}}" onkeypress="return checkMaxLen(event, 4)" min="1" class="no_of_garments" />
+	                                    </div>
+	                                    <label class="checkboxpoint @if(!empty(Session::get('booking[service_categories]')) && in_array('Washing', Session::get('booking[service_categories]'))) @else disabled @endif" title="Enter the no. of garments first.">
 	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Washing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Washing', Session::get('booking[service_categories]'))) checked @endif />
-	                                    <span class="checkmark"> Select </span>
+	                                    <span class="checkmark "> Select </span>
 	                                </label>
 	                                 </li>
 	                                 <li>
 	                                   	<span class="imgselect"> <img src="{{asset('img/ironing.png')}}" alt="ironing"/></span>
 	                                    <h3>Ironing</h3>
-	                                    <div class="info">Number of garments (${{env('IRONING_PRICE')}} per garment) 
+	                                    <div class="info">${{env('IRONING_PRICE')}} per garment 
+                                    	<input type="number" placeholder="Number of garments" name="service_quantity[ironing]" id="service_quantity_ironing" value="{{Session::get('booking[service_quantity][ironing]')}}" onkeypress="return checkMaxLen(event, 4)" min="1" class="no_of_garments"/>
 	                                    </div>
-	                                    <label class="checkboxpoint">
+	                                    <label class="checkboxpoint  @if(!empty(Session::get('booking[service_categories]')) && in_array('Ironing', Session::get('booking[service_categories]'))) @else disabled @endif" title="Enter the no. of garments first.">
 	                                    	<input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Ironing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Ironing', Session::get('booking[service_categories]'))) checked @endif/>
-	                                    	<span class="checkmark"> Select </span>
+	                                    	<span class="checkmark "> Select </span>
 	                                	</label>
 	                                 </li>
 	                                 <li>
 	                                    <span class="imgselect"><img src="{{asset('img/bedmaking.png')}}" alt="bedmaking"/></span>
 	                                    <h3>Bed Making</h3>
-	                                    <div class="info"><input type="text" placeholder="Enter number of beds" name="service_beds" value="{{Session::get('booking[service_beds]')}}" />
+	                                    <div class="info">Price (${{env('BEDMAKING_PRICE')}} per bed) 
+	                                    <input type="number" placeholder="Number of beds" name="service_quantity[beds]" id="service_quantity_bedmaking" value="{{Session::get('booking[service_quantity][beds]')}}" onkeypress="return checkMaxLen(event, 4)" min="1" class="no_of_garments"/>
 	                                    </div>
-	                                    <label class="checkboxpoint">
+	                                    <label class="checkboxpoint @if(!empty(Session::get('booking[service_categories]')) && in_array('BedMaking', Session::get('booking[service_categories]'))) @else disabled @endif" title="Enter the no. of beds first.">
 	                                    	<input type="checkbox" name="service_categories[]" class="btn btn-primary" value="BedMaking" @if(!empty(Session::get('booking[service_categories]')) && in_array('BedMaking', Session::get('booking[service_categories]'))) checked @endif/>
-	                                    	<span class="checkmark"> Select </span>
+	                                    	<span class="checkmark "> Select </span>
 	                                	</label>
 	                                 </li>
 	                                 <li>
 	                                    <span class="imgselect"><img src="{{asset('img/organizing.png')}}" alt="washing"/></span>
 	                                    <h3>Organizing</h3>
-	                                    <div class="info">${{env('ORGANIZING_PRICE')}} per hour </div>
-	                                     <label class="checkboxpoint">
+	                                    <div class="info">${{env('ORGANIZING_PRICE')}} per hour <br>
+                                    	<input type="number" placeholder="Number of garments" name="service_quantity[organizing]" id="service_quantity_organizing" value="{{Session::get('booking[service_quantity][organizing]')}}" onkeypress="return checkMaxLen(event, 4)" min="1" class="no_of_garments"/>
+	                                    </div>
+	                                     <label class="checkboxpoint @if(!empty(Session::get('booking[service_categories]')) && in_array('Organizing', Session::get('booking[service_categories]'))) @else disabled @endif" title="Enter the no. of garments first.">
 	                                    	<input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Organizing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Organizing', Session::get('booking[service_categories]'))) checked @endif/>
-	                                    	<span class="checkmark"> Select  </span>
+	                                    	<span class="checkmark "> Select  </span>
 	                                	</label>
 	                                 </li>
 	                                 <!-- 	<li>
@@ -180,6 +190,7 @@
 	                        </div>
 	                        <div class="text-center btnbtg">
 	                           <a href="javascript:void(0);" class="btn btn-primary ctn-btn" data-tab="when"/>Continue</a>
+	                           <a href="javascript:void(0);" class="btn btn-primary ctn-btn payment-btn" data-tab="detail"/>Proceed to Payment</a>
 	                        </div>
 	                     </div>
 	                  </div>
@@ -224,8 +235,9 @@
 	                              <div class="form-group">
 	                                 <img src="{{asset('img/day.png')}}" alt="day"/>
 	                                 <select name="service_time" id="service_time" required>
-	                                    <option value="8:00AM - 7:00PM"  @if(Session::get('booking[service_time]') == '8:00AM - 7:00PM') "selected='selected'" @endif>8:00AM - 7:00PM</option>
-	                                    <option value="9:00AM - 10:00PM"  @if(Session::get('booking[service_time]') == '9:00AM - 10:00PM') "selected='selected'" @endif>9:00AM - 10:00PM</option>
+	                                 	<option value="" disabled>Choose Laundress First</option>
+	                                    <!-- <option value="8:00AM - 7:00PM"  @if(Session::get('booking[service_time]') == '8:00AM - 7:00PM') "selected='selected'" @endif>8:00AM - 7:00PM</option>
+	                                    <option value="9:00AM - 10:00PM"  @if(Session::get('booking[service_time]') == '9:00AM - 10:00PM') "selected='selected'" @endif>9:00AM - 10:00PM</option> -->
 	                                 </select>
 	                              </div>
 	                           </div>
@@ -269,6 +281,10 @@
 		                           <div class="form-group">
 		                              <label>Phone</label>
 		                              <input type="number" name="register[phone]"  class="form-control register-details" required onkeypress="return checkMaxLen(event, 11)" min="1" />
+		                           </div>
+		                           <div class="form-group">
+		                              <label>Address</label>
+		                              <input type="text" name="register[address]"  class="form-control register-details" required />
 		                           </div>
 		                           <div class="form-group">
 		                              <label>Zipcode</label>
@@ -395,7 +411,7 @@
 	                        <div class="col2-rw">
 	                           <div class="form-group first">
 	                              <label>Service Address</label>
-	                              <input type="text"  placeholder="1516, S. Brookes Street, Austin, Texas" class="form-control" id="service_address" name="service_address" value="{{Session::get('booking[service_address]')}}"/>
+	                              <input type="text"  placeholder="1516, S. Brookes Street, Austin, Texas" class="form-control service_address" id="service_address" name="service_address" value="{{Session::get('booking[service_address]')}}"/>
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Zip Code</label>
@@ -423,7 +439,7 @@
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Quantity</label>
-	                              <input type="number"  placeholder="2-shirt pressed" class="form-control" name="service_quantity" value="{{Session::get('booking[service_quantity]') || 1}}" id="service_quantity" min="1" />
+	                              <input type="number"  placeholder="2-shirt pressed" class="form-control" name="service_quantity_total" value="{{Session::get('booking[service_quantity]') || 1}}" id="total_graments" min="1" readonly/>
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Total</label>
@@ -506,7 +522,7 @@
 	                                 <div class="form-group row">
 	                                    <label for="staticEmail" class="col-sm-3 col-form-label">*Address</label>
 	                                    <div class="col-sm-9">
-	                                       <input type="text" class="form-control" id="user_address" name="user_address" value="{{$profile->address}}">
+	                                       <input type="text" class="form-control service_address" id="user_address" name="user_address" value="{{$profile->address}}">
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group row">

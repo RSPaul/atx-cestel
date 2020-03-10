@@ -23,7 +23,7 @@
               <th>Phone</th>
               <th>City/State</th>
               <th>Zip</th>
-              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tfoot>
@@ -34,7 +34,7 @@
               <th>Phone</th>
               <th>City/State</th>
               <th>Zip</th>
-              <th>Status</th>
+              <th>Action</th>
             </tr>
           </tfoot>
           <tbody>
@@ -46,7 +46,18 @@
               <td>{{$user->phone}}</td>
               <td>{{$user->city_State}}</td>
               <td>{{$user->zip}}</td>
-              <td> @if($user->status == 0) <a href="javascript:void(0);" data-id="{{$user->id}}" class="btn btn-danger btn-circle btn-sm verify-user" title="Not Verified"> <i class="fas fa-exclamation-triangle" ></i> </a> @else <a class="btn btn-success btn-circle btn-sm" disabled title="Verified"> <i class="fas fa-check"></i></a> @endif  </td>
+              <td> 
+                @if($user->status == 0) 
+                  <a href="javascript:void(0);" data-id="{{$user->id}}" class="btn btn-danger btn-circle btn-sm verify-user" title="Not Verified"> <i class="fas fa-exclamation-triangle" ></i> </a> 
+                  <a class="btn btn-success btn-circle btn-sm" href="/admin/user/{{$user->id}}" title="View Details"> <i class="fas fa-eye"></i>
+                  </a>
+                @else 
+                  <a class="btn btn-success btn-circle btn-sm" disabled title="Verified"> <i class="fas fa-check"></i>
+                  </a>
+                  <a class="btn btn-success btn-circle btn-sm" href="/admin/user/{{$user->id}}" title="View Details"> <i class="fas fa-eye"></i>
+                  </a>                  
+                @endif  
+              </td>
             </tr>
             @endforeach
           </tbody>
