@@ -185,6 +185,7 @@
 	                                    <input type="hidden" value="{{ env('IRONING_PRICE') }}" id="IRONING_PRICE">
 	                                    <input type="hidden" value="{{ env('ORGANIZING_PRICE') }}" id="ORGANIZING_PRICE">
 	                                    <input type="hidden" value="{{ env('BEDMAKING_PRICE') }}" id="BEDMAKING_PRICE">
+	                                    <input type="hidden" value="{{ env('SERVICE_TAX') }}" id="SERVICE_TAX">
 	                              </ul>
 	                           </div>
 	                        </div>
@@ -475,18 +476,33 @@
 	                        </div>
 	                        <div class="alert alert-danger" id="msgError"></div>
 	                        <div class="alert alert-success" id="msgSuccess"></div>
+	                        <?php 
+	                        	$salex_tax = env('SERVICE_TAX');
+	                       		$salex_tax_value = ( $salex_tax / 100 ) * $total_price;
+	                        ?> 
 	                        <div class="form_payment">
 	                           <div class="row">
 	                              <div class="col-md-6">
 	                                 <h3>Payment Details</h3>
 	                                 <div class="form-group row">
-	                                    <label for="staticEmail" class="col-sm-3 col-form-label"><i>*</i> Amount</label>
+	                                    <label for="staticEmail" class="col-sm-3 col-form-label"><i>*</i> Service Tax (<?php echo env('SERVICE_TAX');?> %)</label>
+	                                    <div class="col-sm-9">
+	                                       <div class="input-group mb-3">
+	                                       	 <div class="input-group-prepend">
+	                                             <span class="input-group-text" id="basic-addon1">$</span>
+	                                          </div>
+	                                          <input type="text" class="form-control sales_tax_price" placeholder="Service Tax" aria-label="Service Tax" aria-describedby="basic-addon1" name="service_tax" value="<?php echo $salex_tax_value; ?>" readonly>
+	                                       </div>
+	                                    </div>
+	                                 </div>
+	                                 <div class="form-group row">
+	                                    <label for="staticEmail" class="col-sm-3 col-form-label"><i>*</i> Total Amount</label>
 	                                    <div class="col-sm-9">
 	                                       <div class="input-group mb-3">
 	                                          <div class="input-group-prepend">
 	                                             <span class="input-group-text" id="basic-addon1">$</span>
 	                                          </div>
-	                                          <input type="text" class="form-control total_price" placeholder="Amount" aria-label="Username" aria-describedby="basic-addon1" name="service_amount" value="{{$total_price}}" readonly>
+	                                          <input type="text" class="form-control total_price_tax" placeholder="Amount" aria-label="Username" aria-describedby="basic-addon1" name="service_amount" value="{{$total_price}}" readonly>
 	                                       </div>
 	                                    </div>
 	                                 </div>

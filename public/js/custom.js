@@ -119,6 +119,13 @@ $(function () {
         }
 
         $('.total_price').val(totalPrice);
+        var totalTax = $('#SERVICE_TAX').val();
+        //console.log(totalPrice);
+        var totaltaxprice = ( totalTax / 100 ) * totalPrice;
+        var finalpriceval = parseFloat( totaltaxprice ) + parseFloat(totalPrice );
+        //console.log('Tax Price ---> ', totaltaxprice,' Tot ---> ',finalpriceval);     
+        $('.total_price_tax').val(finalpriceval);
+        $('.sales_tax_price').val(totaltaxprice);
         $('#main_price').val(basicPrice);
         $('#total_graments').val(totalGarments);
 
@@ -169,6 +176,7 @@ $(function () {
       //change total price
       $('#service_quantity').on('input', function() {
         $('.total_price').val($(this).val() * $('#main_price').val())
+        $('.total_price_tax').val($(this).val() * $('#main_price').val())
       })
 
       //open profile image modal
