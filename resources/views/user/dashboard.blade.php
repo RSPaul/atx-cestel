@@ -365,7 +365,8 @@
                     <span class="details_schedule">Service Time: <b>@{{ schedule.service_time }}</b></span><br /><br />
                     <span class="details_schedule">Service Laundress: <b>@{{ schedule.service_laundress }}</b></span><br /><br />
                     <span class="details_schedule">Service Package: <b>@{{ schedule.service_package }}</b></span><br /><br />
-                    <span class="details_schedule">Service Amount: <b>@{{ schedule.service_amount }}</b></span><br /><br />
+                    <span class="details_schedule">Service Tax: $<b>@{{ schedule.service_tax }}</b></span><br /><br />
+                    <span class="details_schedule">Service Amount: $<b>@{{ schedule.service_amount }}</b></span><br /><br />
                     <span class="details_schedule">Service Job Details: <b>@{{ schedule.service_job_details }}</b></span><br /><br />
                     <span class="details_schedule">Service Folding Details: <b>@{{ schedule.service_folding_details }}</b></span><br /><br />
                     <span class="details_schedule">Service Hanging Details: <b>@{{ schedule.service_hanging_details }}</b></span><br /><br />

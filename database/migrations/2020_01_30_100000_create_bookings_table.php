@@ -25,6 +25,7 @@ class CreateBookingsTable extends Migration
             $table->string('service_laundress');
             $table->string('service_package');
             $table->string('service_amount');
+            $table->string('service_tax');
             $table->text('service_job_details')->nullable();
             $table->text('service_folding_details')->nullable();
             $table->text('service_hanging_details')->nullable();

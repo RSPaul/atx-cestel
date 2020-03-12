@@ -32,6 +32,7 @@
               <th>Service Date</th>
               <th>Service Time</th>
               <th>Service Package</th>
+              <th>Service Tax</th>
               <th>Amount</th>
               <th>Provider Share</th>
               <th>Admin Share</th>
@@ -44,6 +45,7 @@
               <td>{{$booking->service_day}}</td>
               <td>{{$booking->service_time}}</td>  
               <td>{{$booking->service_package}}</td>
+              <td>{{round($booking->service_tax, 2)}}</td>
               <td>{{round($booking->service_amount, 2)}}</td>
               <td>{{round($booking->service_amount * 90 / 100, 2)}}</td>
               <td>{{round($booking->service_amount * 10 / 100, 2)}}</td>

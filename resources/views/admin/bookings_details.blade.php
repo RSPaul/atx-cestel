@@ -22,7 +22,7 @@
             <p>Service Type: <b>{{$booking->service_type}}</b></p>
             <p>Service Categories: <b>{{implode(',',unserialize($booking->service_categories))}}</b></p>
             <p>Package: <b>{{$booking->service_package}}</b></p>
-
+            <p>Service Tax: <b>{{$booking->service_tax}}</b></p>
             <p>Price: <b>{{$booking->service_amount}}</b></p>
             <p>Notes: <b>{{$booking->service_description}}</b></p>
             <p>Job Details: <b>{{$booking->service_job_details}}</b></p>
