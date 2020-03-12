@@ -138,6 +138,13 @@ $(function () {
           $(this).parent().next().addClass('disabled');
         }
       });
+      $('.no_of_garments').change(function () {
+        if($(this).val() !== '' && parseInt($(this).val()) >= 1) {
+          $(this).parent().next().removeClass('disabled');
+        } else {
+          $(this).parent().next().addClass('disabled');
+        }
+      });
       //signup from booking page
       $('#bookingSubmit').click(function(e) {
           e.preventDefault();
