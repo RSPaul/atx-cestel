@@ -131,6 +131,21 @@ $(function () {
 
       });
 
+      $('input[type=radio][name=service_payment_type_val]').change(function() {
+          if ($(this).val() == 'recurring') {
+              $('.if_recurring').show();
+              $('.service_payment_type').val('weekly');
+          }
+          else {
+              $('.if_recurring').hide();
+              $('.service_payment_type').val('OneTime');
+          }
+      });
+      $('#payment_type').change(function(){
+         $('.service_payment_type').val($(this).val());
+      });
+
+
       $('.no_of_garments').keyup(function () {
         if($(this).val() !== '' && parseInt($(this).val()) >= 1) {
           $(this).parent().next().removeClass('disabled');

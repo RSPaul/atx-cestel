@@ -186,6 +186,7 @@
 	                                    <input type="hidden" value="{{ env('ORGANIZING_PRICE') }}" id="ORGANIZING_PRICE">
 	                                    <input type="hidden" value="{{ env('BEDMAKING_PRICE') }}" id="BEDMAKING_PRICE">
 	                                    <input type="hidden" value="{{ env('SERVICE_TAX') }}" id="SERVICE_TAX">
+	                                    <input class="service_payment_type" name="service_payment_type" type="hidden" value="OneTime" />
 	                              </ul>
 	                           </div>
 	                        </div>
@@ -515,8 +516,18 @@
 	                                 <div class="form-group row">
 	                                    <label for="inputPassword" class="col-sm-3 col-form-label"><i>*</i> Payment Type</label>
 	                                    <div class="col-sm-9">
-	                                       <label><input name="service_payment_type" checked type="radio" value="one_time" /> One Time</label>
-	                                       <label><input name="service_payment_type" type="radio" value="recurring" /> Recurring</label>
+	                                       <label><input name="service_payment_type_val" checked type="radio" value="OneTime" /> One Time</label>
+	                                       <label><input name="service_payment_type_val" type="radio" value="recurring" /> Recurring</label>
+	                                    </div>
+	                                 </div>
+	                                 <div class="form-group row if_recurring" style="display: none;">
+	                                    <label for="inputPassword" class="col-sm-3 col-form-label"><i>*</i> Type</label>
+	                                    <div class="col-sm-9">
+	                                       <select class="form-control" name="payment_type" id="payment_type">
+	                                          <option value="weekly" selected>Weekly</option>
+	                                          <option value="bi-weekly">Bi-weekly</option>
+	                                          <option value="monthly">Monthly</option>
+	                                       </select>
 	                                    </div>
 	                                 </div>
 	                                 <h3>Your Information</h3>
