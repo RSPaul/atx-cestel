@@ -240,8 +240,10 @@ class LaundressController extends Controller
             * TODO: SEND EMAIL
             */
             $user = User::where(['id' => $booking->user_id ])->first();
-            Mail::to($user->email)
-                ->send(new BookingDeclinedUser($user));
+            if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
+                Mail::to($user->email)
+                    ->send(new BookingDeclinedUser($user));
+            }
 
         } else {
             return response()->json(['response' => "Booking not found!", "status" => false]);
@@ -405,8 +407,10 @@ class LaundressController extends Controller
                    /*
                    * TODO: SEND MAIL TO ADMIN AND LAUNDRESS
                    */
-                   Mail::to(Auth::user()->email)->send(new PaymentRequest(Auth::user()));
-                   Mail::to(env('ADMIN_EMAIL'))->send(new PaymentRequestAdmin(Auth::user()));
+                   if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
+                        Mail::to(Auth::user()->email)->send(new PaymentRequest(Auth::user()));
+                        Mail::to(env('ADMIN_EMAIL'))->send(new PaymentRequestAdmin(Auth::user()));
+                    }
                 }
 
                 return response()->json(['response' => "Request sent successfully!", "status" => true]);

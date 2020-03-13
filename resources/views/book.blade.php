@@ -70,8 +70,7 @@
 	                                 </div>
 	                              </div>
 	                              <label class="checkboxpoint radiobox">
-  
- 
+
 	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Petite" @if(Session::get('booking[service_type]') == 'Petite') checked @endif/> 
 	                               <span class="checkmark"> Select </span></label>
 	                           </div>
@@ -475,8 +474,8 @@
 	                           </p>
 	                           <textarea class="form-control" name="service_washing_details">{{Session::get('booking[service_washing_details]')}}</textarea>
 	                        </div>
-	                        <div class="alert alert-danger" id="msgError"></div>
-	                        <div class="alert alert-success" id="msgSuccess"></div>
+	                        <div class="alert alert-danger text-center" id="msgError"></div>
+	                        <div class="alert alert-success text-center" id="msgSuccess"></div>
 	                        <?php 
 	                        	$salex_tax = env('SERVICE_TAX');
 	                       		$salex_tax_value = ( $salex_tax / 100 ) * $total_price;
@@ -594,7 +593,7 @@
 	                                    <label for="staticEmail" class="col-sm-3 col-form-label">*Card Number</label>
 	                                    <div class="col-sm-9">
 	                                       <div class="input-group mb-3">
-	                                          <input type="text" class="form-control" placeholder="Card Number" name="card_number" id="card_number">
+	                                          <input type="text" class="form-control" placeholder="Card Number" name="card_number" id="card_number" value="{{Session::get('booking[card_number]')}}">
 	                                          <div class="input-group-prepend">
 	                                             <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock" aria-hidden="true"></i>
 	                                             </span>
@@ -607,12 +606,14 @@
 	                                    <div class="col-sm-9 three_col">
 	                                       <select class="form-control" name="card_expiry_month">
 	                                       	@for($i = 1; $i<12;$i++)
-	                                          <option value="{{$i}}">{{$i}}</option>
+	                                          <option value="{{$i}}" 
+	                                          >{{$i}}</option>
 	                                        @endfor
 	                                       </select>
 	                                       <select class="form-control" name="card_expiry_year">
 	                                       	@for($i = 2021; $i<2050;$i++)
-	                                          <option value="{{$i}}">{{$i}}</option>
+	                                          <option value="{{$i}}" 
+	                                          >{{$i}}</option>
 	                                      	@endfor
 	                                       </select>
 	                                       <div class="input-group mb-3">
