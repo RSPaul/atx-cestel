@@ -32,7 +32,8 @@ class CreateBookingsTable extends Migration
             $table->text('service_washing_details')->nullable();
             $table->text('service_description')->nullable();
             $table->text('transfer_group')->nullable();
-            $table->string('service_payment_type');   
+            $table->string('service_payment_type');
+            $table->string('next_payment_date');   
             $table->string('status');
             $table->text('payment_request')->nullable();
             $table->text('service_reminder_sent')->nullable();

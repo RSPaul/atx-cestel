@@ -252,6 +252,15 @@ class HomeController extends Controller {
                 $data = $request->all();
                 $data['user_id'] = $profile->id;
                 $data['status'] = 'new';
+                if($data['service_payment_type'] == 'weekly'){
+                    $data['next_payment_date'] = date( "m/d/Y", strtotime( "$service_day +7 day" ) );
+                }else if($data['service_payment_type'] == 'bi-weekly'){
+                    $data['next_payment_date'] = date( "m/d/Y", strtotime( "$service_day +14 day" ) );
+                }else if ($data['service_payment_type'] == 'monthly'){
+                    $data['next_payment_date'] = date( "m/d/Y", strtotime( "$service_day +1 month" ) );
+                }else{
+                    $data['next_payment_date'] = '';
+                }
                 $data['service_categories'] = serialize($data['service_categories']);
                 $data['service_quantity'] = serialize($data['service_quantity']);
                 $booking = Bookings::create($data);
@@ -453,4 +462,45 @@ class HomeController extends Controller {
             echo "</pre>";
         }
     }
+
+   public function cronPayment(){
+    
+        $date = date('m/d/Y');   
+        $bookings = Bookings::where(['bookings.status' => 'new'])
+                    ->join('users', 'users.id', '=', 'bookings.user_id')
+                    ->select(DB::raw('bookings.id,bookings.service_amount,bookings.transfer_group,bookings.next_payment_date,bookings.service_payment_type, users.email, users.customer_id,bookings.user_id'))
+                    ->where('bookings.service_payment_type', '!=', 'OneTime' )
+                    ->get();
+
+        foreach ($bookings as $key => $value) {
+                        # code...
+            if($date == $value['next_payment_date']){
+                //echo "Yes";
+               // echo "<pre>";print_r($value);
+                $newdate = $value['next_payment_date'];
+                if($value['service_payment_type'] == 'weekly'){
+                    $next_payment_date = date( "m/d/Y", strtotime( "$newdate +7 day" ) );
+                }else if($value['service_payment_type'] == 'bi-weekly'){
+                    $next_payment_date = date( "m/d/Y", strtotime( "$newdate +14 day" ) );
+                }else if ($value['service_payment_type'] == 'monthly'){
+                    $next_payment_date = date( "m/d/Y", strtotime( "$newdate +1 month" ) );
+                }else{
+                    $next_payment_date = '';
+                }
+                //echo $next_payment_date;
+                Bookings::where(['id'=> $value['id']])
+                           ->update(['next_payment_date' => $next_payment_date]);
+
+                UserPayments::create([
+                        'user_id' => $value['user_id'],
+                        'booking_id' => $value['id']
+                ]);
+
+                echo "Payment Deducted for user Id ==> ". $value['user_id']." of Amount ". $value['service_amount']."<br />";
+            }else{
+               // echo "No";
+            }
+            
+        }           
+   } 
 }

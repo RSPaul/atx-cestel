@@ -28,6 +28,8 @@ Route::get('/email/resend', 'Auth\VerificationController@resend');
 Route::post('/register/user', 'HomeController@register')->name('register_user');
 Route::get('/thank-you/{id}', 'HomeController@thankYou');
 Route::get('/service-reminder/email/{type}', 'HomeController@serviceReminderEmails');
+Route::get('/check-payments', 'HomeController@cronPayment');
+
 Auth::routes(['verify' => true]);
 
 /**
