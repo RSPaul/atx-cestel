@@ -11,6 +11,11 @@ $(function () {
       $('#service_day').datepicker({
            autoclose: true,
            startDate: "dateToday"
+        })
+        .on( "change", function() {
+          $('#service_day_selected').val(this.value);
+          // to.datepicker( "option", "minDate", getDate( this ) );
+          //console.log('Yes From');
         });
 
       var dateFormat = "m/d/Y",
@@ -121,9 +126,9 @@ $(function () {
         $('.total_price').val(totalPrice);
         var totalTax = $('#SERVICE_TAX').val();
         //console.log(totalPrice);
-        var totaltaxprice = ( totalTax / 100 ) * totalPrice;
-        var finalpriceval = parseFloat( totaltaxprice ) + parseFloat(totalPrice );
-        //console.log('Tax Price ---> ', totaltaxprice,' Tot ---> ',finalpriceval);     
+        var totaltaxprice = parseFloat(( totalTax / 100 ) * totalPrice).toFixed(2);
+        var finalpriceval = parseFloat( (parseFloat(totaltaxprice)  + parseFloat(totalPrice)) ).toFixed(2);
+        // console.log('Tax Price ---> ', totaltaxprice,' Tot ---> ',finalpriceval, ' totalTax ', totalTax , ' totalPrice ', totalPrice, ' finalpriceval ', finalpriceval);     
         $('.total_price_tax').val(finalpriceval);
         $('.sales_tax_price').val(totaltaxprice);
         $('#main_price').val(basicPrice);
@@ -175,12 +180,21 @@ $(function () {
                    success: function(response){
                       btn.text('Submit Payment');
                       console.log(response); // show response from the php script.
-                      $('#msgSuccess').html(response.message);
-                      $('#msgSuccess').show();
-                      scrollToDiv('msgSuccess');
-                      setTimeout(function() {
-                        window.location.href = response.return_url;
-                      },3000);
+                      if(response.success) {
+                        $('#msgSuccess').html(response.message);
+                        $('#msgSuccess').show();
+                        scrollToDiv('msgSuccess');
+                        setTimeout(function() {
+                          window.location.href = response.return_url;
+                        },3000);
+                      } else {
+                        scrollToDiv('msgError');
+                        $('#msgError').show();
+                        $('#msgError').html(response.message);
+                        setTimeout(function() {
+                          $('#msgError').fadeOut('slow');
+                        },3000);
+                      }
                    },
                    error: function(error) {
                     scrollToDiv('msgError');
@@ -196,10 +210,10 @@ $(function () {
 
       });
       //change total price
-      $('#service_quantity').on('input', function() {
-        $('.total_price').val($(this).val() * $('#main_price').val())
-        $('.total_price_tax').val($(this).val() * $('#main_price').val())
-      })
+      // $('#service_quantity').on('input', function() {
+      //   $('.total_price').val($(this).val() * $('#main_price').val())
+      //   $('.total_price_tax').val($(this).val() * $('#main_price').val())
+      // })
 
       //open profile image modal
       $(".choose-file-btn").click(function() { 
@@ -289,11 +303,11 @@ $(function () {
         }
       });
 
-      $('#service_day').change(function(){
-        if($(this).val()) {
-          $('#service_day_selected').val($('#service_day option:selected').html());
-        }
-      });
+      // $('#service_day').change(function(){
+      //   if($(this).val()) {
+      //     $('#service_day_selected').val($('#service_day option:selected').html());
+      //   }
+      // });
 
       //login modal
       $(".submit_log").click(function(e) {
@@ -386,7 +400,7 @@ $(function () {
       	$('#bookingValidationError').hide();
       	var response = false;
       	var message = '';
-	    if(tabId == 'when') {
+	    if(tabId == 'when' || tabId == 'contact' || tabId == 'loading' || tabId == 'detail' || tabId == 'payment') {
 	        if($("input[name='service_type']").is(":checked") && $("input[name='service_categories[]']").is(":checked")) {
             //check if quantity is added for checked services
             response = true;
@@ -403,7 +417,7 @@ $(function () {
 	        } else {
 	          message = 'Select your add on service.';
 	        }
-	    } else if(tabId == 'contact') {
+	    } else if(tabId == 'contact' || tabId == 'loading' || tabId == 'detail' || tabId == 'payment') {
 	        if($('#service_laundress option:selected').val() != '') {
 	          var service_laundress = true;
 	        } else {
@@ -423,7 +437,7 @@ $(function () {
 	        if(service_laundress && service_day && service_time) {
 	          response = true;
 	        }
-	    } else if(tabId == 'loading') {
+	    } else if(tabId == 'loading' || tabId == 'detail' || tabId == 'payment') {
 	        var registerCount = 0;
 	        $('.register-details').each(function() {
 	          message = 'Please enter all required details.';
@@ -442,7 +456,7 @@ $(function () {
 	        if($('#isLoggedIn').val() == '1') {
 	          response = true;
 	        }
-	    } else if(tabId == 'detail') {
+	    } else if(tabId == 'detail' || tabId == 'payment') {
 	        if($("input[name='service_package']").is(":checked")) {
 	          response = true;
 	        } else {
