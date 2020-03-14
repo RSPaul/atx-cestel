@@ -8,7 +8,7 @@
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Type: {{$booking['service_type']}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Categories: {{implode(',',unserialize($booking['service_categories']))}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Quantity: 
-<?php foreach($booking['service_beds'] as $key => $value){
+<?php foreach($booking['service_quantity'] as $key => $value){
 	if($value != ''){
 		echo $key." :".$value."<br />";
 	}
