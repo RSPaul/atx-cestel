@@ -2804,3 +2804,6 @@ label.checkboxpoint.disabled {
 a.btn.btn-primary.ctn-btn.payment-btn {
     display: none;
 }
+.vanilla-rotate {
+    display: none;
+}

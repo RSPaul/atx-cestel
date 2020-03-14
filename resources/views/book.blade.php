@@ -617,7 +617,7 @@
 	                                      	@endfor
 	                                       </select>
 	                                       <div class="input-group mb-3">
-	                                          <input type="text" class="form-control" placeholder="CVC" name="card_security_code" id="card_security_code" onkeypress="return checkMaxLen(event, 4)">
+	                                          <input type="password" class="form-control" placeholder="CVC" name="card_security_code" id="card_security_code" onkeypress="return checkMaxLen(event, 4)">
 	                                          <div class="input-group-prepend">
 	                                             <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock" aria-hidden="true"></i>
 	                                             </span>

@@ -73,7 +73,7 @@
 				   <li><a href="#"><i class="fa fa-instagram"></i></a></li>
 				 </ul>
 			   </div>
-               <div class="copyright">Copyright 2019 The Cesta</div>
+               <div class="copyright">Copyright 2020 The Cesta</div>
               </div>
 			  
 			  

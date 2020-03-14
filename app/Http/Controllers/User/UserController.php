@@ -266,6 +266,7 @@ class UserController extends Controller
 
         $data = array();
         if($booking) {
+            $laundress = User::where(['id' => $booking->service_laundress])->first();
             $data["status"] = 'canceled';
             Bookings::where(['id' => $booking->id ])
                     ->update($data);
@@ -342,6 +343,7 @@ class UserController extends Controller
             ->where('bookings.user_id', Auth::user()->id)
             ->first();
         if($booking) {
+            $laundress = User::where(['id' => $booking->service_laundress])->first();
             $data = array();
             $data["status"] = 'completed';
             Bookings::where(['id' => $booking->id ])

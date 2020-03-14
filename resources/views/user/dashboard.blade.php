@@ -9,7 +9,7 @@
          </div>
          <div class="avatar-info">
             <h3>{{$profile->first_name}} {{$profile->last_name}}</h3>
-            <p>The Cleaning Company</p>
+            <!-- <p>The Cleaning Company</p> -->
             <div class="line_bx">
                <h2><span class="dotted"></span> My Account</h2>
             </div>
@@ -78,13 +78,15 @@
                               <table class="table">
                                  <tr>
                                     <th>Time</th>
+                                    <th>Date</th>
                                     <th>Services</th>
                                     <th>Location</th>
                                     <th>Provider</th>
                                  </tr>
                                  <tr ng-repeat="booking in bookings.today">
                                     <td><b>@{{booking.service_time}}</b></td>
-                                    <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
+                                    <td><b>@{{booking.service_day}}</b></td>
+                                    <td><b>@{{booking.service_type}}</b></td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-chevron-right"></a></td>
@@ -96,13 +98,15 @@
                               <table class="table">
                                  <tr>
                                     <th>Time</th>
+                                    <th>Date</th>
                                     <th>Services</th>
                                     <th>Location</th>
                                     <th>Provider</th>
                                  </tr>
                                  <tr ng-repeat="booking in bookings.next_week">
                                     <td><b>@{{booking.service_time}}</b></td>
-                                    <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
+                                    <td><b>@{{booking.service_day}}</b></td>
+                                    <td><b>@{{booking.service_type}}</b></td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-chevron-right"></a></td>
@@ -310,6 +314,7 @@
                               <table class="table">
                                  <tr>
                                     <th>Time</th>
+                                    <th>Date</th>
                                     <th>Services</th>
                                     <th>Location</th>
                                     <th>Provider</th>
@@ -317,7 +322,8 @@
                                  </tr>
                                  <tr ng-repeat="booking in bookings.past_bookings">
                                     <td><b>@{{booking.service_time}}</b></td>
-                                    <td><b>@{{booking.service_type}} - 7 to 9 Baskets</b><br/>Travel: Leave at 8:45AM</td>
+                                    <td><b>@{{booking.service_day}}</b></td>
+                                    <td><b>@{{booking.service_type}}</b></td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> </td>
@@ -398,6 +404,10 @@
                     <div class="col-md-12">
                         <div class="text-center">
                             <div id="upload-demo" style="width:300px;"></div>
+                            <div class="col-md-12 col-sm-12 col-lg-12 marg-15">
+                                <button class="vanilla-rotate btn btn-success" data-deg="-90">Rotate Left</button>
+                                <button class="vanilla-rotate btn btn-success" data-deg="90">Rotate Right</button>
+                            </div>
 							<button type="button" class="choose-file-btn">Choose Image</button>
 							<input type="file" id="upload" style="visibility:hidden;" accept="image/*" />
 							<br/>

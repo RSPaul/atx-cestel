@@ -239,6 +239,7 @@ $(function () {
           $('.upload-result').show();
           $uploadCrop = $('#upload-demo').croppie({
               enableExif: true,
+              enableOrientation: true,
               viewport: {
                   width: 200,
                   height: 200
@@ -254,9 +255,13 @@ $(function () {
               $uploadCrop.croppie('bind', {
                   url: e.target.result
               }).then(function() {
+                $('.vanilla-rotate').show();
               });
           }
           reader.readAsDataURL(this.files[0]);
+      });
+      $('.vanilla-rotate').on('click', function(ev) {
+        $uploadCrop.croppie('rotate', parseInt($(this).data('deg')));
       });
       $('.upload-result').on('click', function(ev) {
           $uploadCrop.croppie('result', {
@@ -400,7 +405,7 @@ $(function () {
       	$('#bookingValidationError').hide();
       	var response = false;
       	var message = '';
-	    if(tabId == 'when' || tabId == 'contact' || tabId == 'loading' || tabId == 'detail' || tabId == 'payment') {
+	    if(tabId == 'when') {
 	        if($("input[name='service_type']").is(":checked") && $("input[name='service_categories[]']").is(":checked")) {
             //check if quantity is added for checked services
             response = true;
@@ -417,7 +422,8 @@ $(function () {
 	        } else {
 	          message = 'Select your add on service.';
 	        }
-	    } else if(tabId == 'contact' || tabId == 'loading' || tabId == 'detail' || tabId == 'payment') {
+	    } else if(tabId == 'contact') {
+          response = false;
 	        if($('#service_laundress option:selected').val() != '') {
 	          var service_laundress = true;
 	        } else {
@@ -437,8 +443,9 @@ $(function () {
 	        if(service_laundress && service_day && service_time) {
 	          response = true;
 	        }
-	    } else if(tabId == 'loading' || tabId == 'detail' || tabId == 'payment') {
+	    } else if(tabId == 'loading') {
 	        var registerCount = 0;
+          response = false;
 	        $('.register-details').each(function() {
 	          message = 'Please enter all required details.';
 	          if($(this).val() != '') {
@@ -456,7 +463,8 @@ $(function () {
 	        if($('#isLoggedIn').val() == '1') {
 	          response = true;
 	        }
-	    } else if(tabId == 'detail' || tabId == 'payment') {
+	    } else if(tabId == 'detail') {
+          response = false;
 	        if($("input[name='service_package']").is(":checked")) {
 	          response = true;
 	        } else {
@@ -539,6 +547,7 @@ $(function () {
     }
 
     function getTimeSlots(lId) {
+      $('#service_time').html('<option value="" disabled>Please wait..</option>');
       $.ajax({
           url: '/get-time-slots/' + lId,
           type:'GET',
