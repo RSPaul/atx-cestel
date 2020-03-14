@@ -6,11 +6,16 @@
 
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Type: {{$booking['service_type']}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Categories: {{implode(',',unserialize($booking['service_categories']))}}</p>
-<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Beds: {{$booking['service_beds']}}</p>
+<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Quantity: 
+<?php foreach($booking['service_beds'] as $key => $value){
+	if($value != ''){
+		echo $key." :".$value."<br />";
+	}
+}
+?>
+</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Day: {{$booking['service_day']}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Time: {{$booking['service_time']}}</p>
-
-<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Laundress: {{$booking['service_laundress']}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Package: {{$booking['service_package']}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Amount: {{$booking['service_amount']}}</p>
 

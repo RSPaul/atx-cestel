@@ -200,7 +200,7 @@
                                  <input type="password" name="confirm" class="form-control" ng-model="user.confirm_password"/>
                               </div>
                               <div class=" btn-rw">   
-                                 <input type="submit" class="btn btn-lg btn-primary" value="Update">
+                                 <input type="submit" class="btn btn-lg btn-primary" ng-disabled="!user.first_name || !user.last_name || !user.email || !user.phone || !user.address || !user.city_state" value="Update">
                                  <!-- <a href="#" class="btn btn-primary">Fill Out Forms</a>
                                  <a href="#" class="btn btn-primary">Upload Forms</a>
                                  <br> -->
