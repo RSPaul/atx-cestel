@@ -400,7 +400,7 @@ class HomeController extends Controller {
                 * TODO: SEND MAIL TO ADMIN AND USER
                 */
                 if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
-                    Mail::to([$user_data['email'], env('ADMIN_EMAIL')])->send(new WelcomeEmail($user_data));
+                    Mail::to([$data['email'], env('ADMIN_EMAIL')])->send(new WelcomeEmail($data));
                 }
                 return redirect('/be-part-team')->with('success', 'Account created successfully. Once Admin approves you will notified via email');
 

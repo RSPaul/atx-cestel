@@ -65,7 +65,7 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
 		  		swal('Error', response.message, "error");
 		  	}
 		},function(error){
-	      swal(error.status.toString(), error.data.message, "error");
+	      swal("Error", error.data.message, "error");
 		});
   }
 
@@ -145,7 +145,7 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
             $scope.viewSchedulelist();
             swal('Booking Canceled.', "This booking has been canceled", "success");
           }, function (error) {
-            swal(error.status.toString(), error.data.message, "error");
+            swal("Error", error.data.message, "error");
           });
         }
       });
@@ -170,7 +170,7 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
             $scope.viewSchedulelist();
             swal('Booking Completed.', "This booking has been completed", "success");
           }, function (error) {
-            swal(error.status.toString(), error.data.message, "error");
+            swal("Error", error.data.message, "error");
           });
         }
       });

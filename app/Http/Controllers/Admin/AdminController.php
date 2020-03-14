@@ -80,7 +80,7 @@ class AdminController extends Controller
             $status = ['declined'];
         }
         $bookings = Bookings::whereIn('status', $status)->get();
-        return view('admin.bookings')->with([ "bookings" => $bookings]);
+        return view('admin.bookings')->with([ "bookings" => $bookings, 'type' => $type]);
 
     }
 

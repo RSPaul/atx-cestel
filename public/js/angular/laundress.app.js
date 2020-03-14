@@ -74,7 +74,7 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
           swal('Error', response.message, "error");
         }
 		},function(error){
-		    swal(error.status.toString(), error.data.message, "error");
+		    swal("Error", error.data.message, "error");
 		});
   }
 
@@ -159,24 +159,24 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
           $scope.viewSchedulelist();
           swal('Booking Declined.', "This booking has been declined.", "success");
         }, function (error) {
-          swal(error.status.toString(), error.data.message, "error");
+          swal("Error", error.data.message, "error");
         });
       }
     });
   }
 
   $scope.updateBankAccount = function () {
-    console.log('$scope.bank ', $scope.bank);
     $http.post('/update-account', $scope.bank)
     .then(function (response) {
       var data = response.data;
       if(response.status) {
+        $scope.getBankDetails();
         swal("Success", "Bank details has been updated.", "success");
       } else {
         swal("Error", data.message, "error");
       }      
     }, function (error) {
-      swal(error.status.toString(), error.data.message, "error");
+      swal("Error", error.data.message, "error");
     });
   }
 
@@ -189,7 +189,7 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
       $scope.payments = data.bookings;
       $scope.payments.map(p => {
         if(p.payment_request === '0') {
-          $scope.totalPayment = $scope.totalPayment + parseFloat(p.service_amount);
+          $scope.totalPayment = parseFloat($scope.totalPayment + parseFloat(p.service_amount)).toFixed(2);
           $scope.payIds.push(p.id);
         }
       })
@@ -219,7 +219,7 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
             swal("Error", data.message, "error");
           }
         }, function (error) {
-          swal(error.status.toString(), error.data.message, "error");
+          swal("Error", error.data.message, "error");
         });
       }
     });

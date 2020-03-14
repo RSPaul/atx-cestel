@@ -89,6 +89,7 @@
                                  <tr>
                                     <th>Time</th>
                                     <th>Date</th>
+                                    <th>Payment Type</th>
                                     <th>Services</th>
                                     <th>Location</th>
                                     <th>Customer</th>
@@ -96,6 +97,7 @@
                                  <tr ng-repeat="booking in bookings.today">
                                     <td><b>@{{booking.service_time}}</b></td>
                                     <td><b>@{{booking.service_day}}</b></td>
+                                    <td><b>@{{booking.service_payment_type}}</b></td>
                                     <td><b>@{{booking.service_type}}</b></td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
@@ -109,6 +111,7 @@
                                  <tr>
                                     <th>Time</th>
                                     <th>Date</th>
+                                    <th>Payment Type</th>
                                     <th>Services</th>
                                     <th>Location</th>
                                     <th>Customer</th>
@@ -116,6 +119,7 @@
                                  <tr ng-repeat="booking in bookings.next_week">
                                     <td><b>@{{booking.service_time}}</b></td>
                                     <td><b>@{{booking.service_day}}</b></td>
+                                    <td><b>@{{booking.service_payment_type}}</b></td>
                                     <td><b>@{{booking.service_type}}</b></td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
@@ -275,6 +279,7 @@
                                           <td>Service Time</td>
                                           <td>Service Date</td>
                                           <td>Service Type</td>
+                                          <td>Payment Type</td>
                                           <td>Service Package</td>
                                           <td>Service Amount</td>
                                           <td>Action</td>
@@ -283,9 +288,10 @@
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_day}}</td>
                                           <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount | currency}}</td>
-                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.tom_bookings" ng-if="!showTomBookings">
                                           <td>@{{booking.service_time}}</td>
@@ -293,14 +299,14 @@
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount | currency}}</td>
-                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.week_bookings" ng-if="!showWeekBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount | currency}}</td>
-                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.month_bookings" ng-if="!showMonthBookings">
                                           <td>@{{booking.service_time}}</td>
@@ -308,7 +314,7 @@
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount | currency}}</td>
-                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-repeat="booking in customresultbookings" ng-if="!showCustomBookings">
                                           <td>@{{booking.service_time}}</td>
@@ -316,7 +322,7 @@
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount | currency}}</td>
-                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)"><i class="fa fa-trash"></i> </a> </td>
+                                          <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                     </table>
                                  </div>
@@ -334,6 +340,7 @@
                                  <tr>
                                     <th>Time</th>
                                     <th>Date</th>
+                                    <th>Payment Type</th>
                                     <th>Services</th>
                                     <th>Location</th>
                                     <th>Customer</th>
@@ -346,7 +353,7 @@
                                     <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> </td>
-                                    <td><a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-eye"></i></a></td>
+                                    <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a></td>
                                  </tr>
                               </table>
                            </div>
@@ -390,6 +397,7 @@
                                     <tr>
                                        <th>Time</th>
                                        <th>Date</th>
+                                       <th>Payment Type</th>
                                        <th>Services</th>
                                        <th>Total Amount</th>
                                        <th>Your Share</th>
@@ -399,7 +407,8 @@
                                     </tr>
                                     <tr ng-repeat="booking in payments">
                                        <td><b>@{{booking.service_time}}</b></td>
-                                       <td>><b>@{{booking.service_day}}></b></td>
+                                       <td><b>@{{booking.service_day}}</b></td>
+                                       <td><b>@{{booking.service_payment_type}}</b></td>
                                        <td><b>@{{booking.service_type}}</b></td>
                                        <td><b>@{{booking.service_amount | currency}}
                                        </td>
@@ -426,7 +435,7 @@
                                     </tr>
                                  </table>
                                  <h5 ng-if="!bank.account_id">Add Account details to send request for Payment.</h5>
-                                 <a href="javascript:void(0);" class="btn btn-primary" ng-click="requestPayment()" ng-if="totalPayment > 0">Request Payment $@{{totalPayment}}</a>
+                                 <a href="javascript:void(0);" class="btn btn-primary" ng-click="requestPayment()" ng-if="totalPayment > 0 && bank.account_id">Request Payment $@{{totalPayment}}</a>
                                  <a href="javascript:void(0);" class="btn btn-primary" ng-if="totalPayment == 0" disabled>Request Payment $@{{totalPayment}}</a>
                               </div>
                            </div>

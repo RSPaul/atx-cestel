@@ -21,6 +21,7 @@
               <th>Service Date</th>
               <th>Service Time</th>
               <th>Service Package</th>
+              <th>Service Tax</th>
               <th>Amount</th>
               <th>Provider Share</th>
               <th>Admin Share</th>

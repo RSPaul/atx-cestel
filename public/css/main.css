@@ -2807,3 +2807,7 @@ a.btn.btn-primary.ctn-btn.payment-btn {
 .vanilla-rotate {
     display: none;
 }
+a.disabled.ng-scope {
+    opacity: 0.5;
+    pointer-events: none;
+}

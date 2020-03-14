@@ -7,7 +7,14 @@
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Laundrer Name: {{$laundress->first_name}}, {{$laundress->last_name}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Type: {{$data->service_type}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Categories: {{implode(',',unserialize($data->service_categories))}}</p>
-<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Beds: {{$data->service_beds}}</p>
+<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Quantity: 
+<?php foreach($booking['service_quantity'] as $key => $value){
+	if($value != ''){
+		echo $key." :".$value."<br />";
+	}
+}
+?>
+</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Day: {{$data->service_day}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Time: {{$data->service_time}}</p>
 
