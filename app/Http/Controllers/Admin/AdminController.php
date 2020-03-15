@@ -54,11 +54,15 @@ class AdminController extends Controller
             */
             $user = User::where(['id' => $request->id])->first();
             if($status == 1) {
-                Mail::to($user->email)
-                    ->send(new UserVerified($user));
+                if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
+                    Mail::to($user->email)
+                        ->send(new UserVerified($user));
+                }
             } else {
-                Mail::to($user->email)
-                    ->send(new UserRevoked($user));
+                if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
+                    Mail::to($user->email)
+                        ->send(new UserRevoked($user));
+                }
             }
         }catch(Exception $e) {
             $response = array('success' => false,
@@ -165,8 +169,10 @@ class AdminController extends Controller
                     /*
                     * TODO: SEND MAIL TO ADMIN AND LAUNDRESS
                     */
-                    Mail::to($chef->email)->send(new PaymentAcceptLaundress($chef));
-                    Mail::to(env('ADMIN_EMAIL'))->send(new PaymentAcceptAdmin($chef));
+                    if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
+                        Mail::to($chef->email)->send(new PaymentAcceptLaundress($chef));
+                        Mail::to(env('ADMIN_EMAIL'))->send(new PaymentAcceptAdmin($chef));
+                    }
                     
                     return response()->json(['response' => "Paid successfully!", 'success' => true]);
 

@@ -4,13 +4,13 @@
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">You have successfully booked your laundrer. </p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Below are the booking details:</p>
 
-<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Laundrer Name: {{$laundress->first_name}}, {{$laundress->last_name}}</p>
+<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Laundrer Name: {{$laundress->first_name}} {{$laundress->last_name}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Type: {{$data->service_type}}</p>
 <p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Categories: {{implode(',',unserialize($data->service_categories))}}</p>
-<p style="color:#3d4852;font-size: 16px;line-height:1.5em;">Service Quantity: 
-<?php foreach($booking['service_quantity'] as $key => $value){
+<p style="color:#3d4852;font-size: 16px;line-height:1.5em;"><b>Service Quantity:</b> 
+<?php foreach(unserialize($booking['service_quantity']) as $key => $value){
 	if($value != ''){
-		echo $key." :".$value."<br />";
+		echo "<br />" . $key." :".$value."<br />";
 	}
 }
 ?>

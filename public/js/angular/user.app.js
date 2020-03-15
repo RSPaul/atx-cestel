@@ -10,6 +10,7 @@ app.controller('UserCtrl', function($scope, $http, $timeout) {
   $scope.showTomBookings = true;
   $scope.showWeekBookings = true;
   $scope.showMonthBookings = true;
+  $scope.showCustomBookings = true;
   
   $timeout(function () {
     $scope.getUser();

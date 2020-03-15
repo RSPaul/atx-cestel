@@ -412,7 +412,7 @@
 	                        <div class="col2-rw">
 	                           <div class="form-group first">
 	                              <label>Service Address</label>
-	                              <input type="text"  placeholder="1516, S. Brookes Street, Austin, Texas" class="form-control service_address" id="service_address" name="service_address" value="{{Session::get('booking[service_address]')}}"/>
+	                              <input type="text"  placeholder="1516, S. Brookes Street, Austin, Texas" class="form-control service_address" id="service_address" name="service_address" value="{{ empty(Session::get('booking[service_address]')) ? $profile->address : Session::get('booking[service_address]') }}"/>
 	                           </div>
 	                           <div class="form-group">
 	                              <label>Zip Code</label>

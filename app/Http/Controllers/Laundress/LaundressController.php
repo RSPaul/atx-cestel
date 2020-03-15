@@ -408,7 +408,7 @@ class LaundressController extends Controller
                    * TODO: SEND MAIL TO ADMIN AND LAUNDRESS
                    */
                    if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
-                        Mail::to(Auth::user()->email)->send(new PaymentRequest(Auth::user()));
+                        Mail::to(Auth::user()->email)->send(new PaymentRequest(Auth::user(),round($payment, 2)));
                         Mail::to(env('ADMIN_EMAIL'))->send(new PaymentRequestAdmin(Auth::user()));
                     }
                 }

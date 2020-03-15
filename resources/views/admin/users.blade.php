@@ -44,7 +44,7 @@
               <td>{{$user->last_name}}</td>
               <td>{{$user->email}}</td>
               <td>{{$user->phone}}</td>
-              <td>{{$user->city_State}}</td>
+              <td>{{($user->user_type == 'laundress' && $user->city_State == '') ? 'NA' :  $user->city_State}}</td>
               <td>{{$user->zip}}</td>
               <td> 
                 @if($user->status == 0) 

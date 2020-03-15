@@ -2811,3 +2811,6 @@ a.disabled.ng-scope {
     opacity: 0.5;
     pointer-events: none;
 }
+td.full-width.text-center {
+    width: 100% !important;
+}

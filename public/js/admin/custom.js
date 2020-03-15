@@ -20,13 +20,14 @@ $(document).ready(function() {
 		  if (willDelete) {
 		   	let id = $(this).data('id');
 		  	$.ajax({
-		  		url: "/user/verify/" + id,
+		  		url: "/admin/user/verify/" + id,
 		  		type: 'GET',
 		  		success: function(resposne) {
 		  			if(resposne.success) {
 		  				btn.removeClass('btn-danger');
 		  				btn.addClass('btn-success');
 		  				btn.html('<i class="fas fa-check"></i>');
+		  				swal("Verified", "User is verified.", "success");	
 		  			} else {
 		  				swal("Error!", resposne.message, "error");	
 		  			}

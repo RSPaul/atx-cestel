@@ -22,7 +22,7 @@
 				<!-- //social icons -->
 			</div>
 		
-			<p class="copyright" style="font-size:13px;float:left;width:100%;text-align:center;">© Copyrights 2019 Cesta All rights reserved.</p>
+			<p class="copyright" style="font-size:13px;float:left;width:100%;text-align:center;">© Copyrights 2020 Cesta All rights reserved.</p>
 		</div>  
 	</div>
  </body>

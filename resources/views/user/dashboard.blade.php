@@ -93,6 +93,9 @@
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-chevron-right"></a></td>
                                  </tr>
+                                 <tr ng-if="!bookings.today.length">
+                                    <td class="full-width text-center">No bookings available.</td>
+                                 </tr>
                               </table>
                            </div>
                            <!-- next week bookings -->
@@ -114,6 +117,9 @@
                                     <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> <a href="javascript:void(0);" ng-click="viewBooking(booking)"><i class="fa fa-chevron-right"></a></td>
+                                 </tr>
+                                 <tr ng-if="!bookings.next_week.length">
+                                    <td class="full-width text-center">No bookings available.</td>
                                  </tr>
                               </table>
                            </div>
@@ -277,12 +283,18 @@
                                           <td>@{{booking.service_amount}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Cancel Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
+                                       <tr ng-if="!schedulebookings.today_bookings.length && !showTodBookings">
+                                          <td class="full-width text-center">No bookings available.</td>
+                                       </tr>
                                        <tr ng-repeat="booking in schedulebookings.tom_bookings" ng-if="!showTomBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Cancel Booking"><i class="fa fa-trash"></i> </a> </td>
+                                       </tr>
+                                       <tr ng-if="!schedulebookings.tom_bookings.length && !showTomBookings">
+                                          <td class="full-width text-center">No bookings available.</td>
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.week_bookings" ng-if="!showWeekBookings">
                                           <td>@{{booking.service_time}}</td>
@@ -291,6 +303,9 @@
                                           <td>@{{booking.service_amount}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Cancel Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
+                                       <tr ng-if="!schedulebookings.week_bookings.length && !showWeekBookings">
+                                          <td class="full-width text-center">No bookings available.</td>
+                                       </tr>
                                        <tr ng-repeat="booking in schedulebookings.month_bookings" ng-if="!showMonthBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
@@ -298,12 +313,18 @@
                                           <td>@{{booking.service_amount}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Cancel Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
+                                       <tr ng-if="!schedulebookings.month_bookings.length && !showMonthBookings">
+                                          <td class="full-width text-center">No bookings available.</td>
+                                       </tr>
                                        <tr ng-repeat="booking in customresultbookings" ng-if="!showCustomBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Cancel Booking"><i class="fa fa-trash"></i> </a> </td>
+                                       </tr>
+                                       <tr ng-if="!customresultbookings.length && !showCustomBookings">
+                                          <td class="full-width text-center">No bookings available.</td>
                                        </tr>
                                     </table>
                                  </div>
@@ -346,6 +367,9 @@
                                           <i class="fa fa-check"></i> 
                                        </a> 
                                        </td>
+                                 </tr>
+                                 <tr ng-if="!bookings.past_bookings.length">
+                                    <td class="full-width text-center">No bookings available.</td>
                                  </tr>
                               </table>
                            </div>

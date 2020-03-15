@@ -24,7 +24,9 @@
             <p>User Type: <b>{{$user->user_type}}</b></p>
 
             <p>Address: <b>{{$user->address}}</b></p>
-            <p>City/State: <b>{{$user->city_state}}</b></p>
+            @if($user->user_type == 'user')
+              <p>City/State: <b>{{$user->city_state}}</b></p>
+            @endif
             <p>Zip: <b>{{$user->zip}}</b></p>
             <p>Phone: <b>{{$user->phone}}</b></p>
         </div>
