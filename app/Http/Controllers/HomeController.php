@@ -416,7 +416,13 @@ class HomeController extends Controller {
     }
 
     public function thankYou(Request $request) {
-        return view('thank-you');
+        //$booking = Bookings::where(['id' => $request->id])->first();
+
+        $booking = Bookings::where('bookings.id', '=', $request->id)
+                    ->join('users', 'users.id', '=', 'bookings.service_laundress')
+                    ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
+                    ->get();
+        return view('thank-you')->with([ "bookings" => $booking ]);
     }
 
     public function serviceReminderEmails(Request $request) {
