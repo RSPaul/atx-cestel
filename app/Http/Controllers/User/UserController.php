@@ -122,6 +122,8 @@ class UserController extends Controller
     public function schedule(Request $request) {
         $next_week_bookings = array();
         $all_bookings = array();
+        $currentdate = date('m/d/Y');
+        $thisWeekDate = date( "m/d/Y", strtotime( "$currentdate +7 day" ) );
 
         $bookings = Bookings::where(['user_id' => Auth::user()->id])
                     ->where(['bookings.status' => 'new'])
@@ -135,6 +137,7 @@ class UserController extends Controller
                     ->join('users', 'users.id', '=', 'bookings.service_laundress')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->where('bookings.service_day', '>', date('m/d/Y'))
+                    ->where('bookings.service_day', '<', $thisWeekDate)
                     ->get();
 
         $all_bookings = Bookings::where(['user_id' => Auth::user()->id])
@@ -348,11 +351,12 @@ class UserController extends Controller
             $data["status"] = 'completed';
             Bookings::where(['id' => $booking->id ])
                     ->update($data);
+
             try {
                 $charge = \Stripe\Charge::create([
                     'currency' => 'USD',
                     'customer' => Auth::user()->customer_id,
-                    'amount' =>  (int) $booking->service_amount * 2,
+                    'amount' =>  (float) $booking->service_amount * 100,
                     "transfer_group" => $booking->transfer_group,
                 ]);
             } catch (\Stripe\Error\RateLimit $e) {

@@ -201,7 +201,9 @@ class HomeController extends Controller {
         if (Auth::check()) {
             $profile = User::where(['id' => Auth::user()->id])->first(); 
         }
-        $laundress = User::where(['user_type' => 'laundress'])->get(); 
+        $laundress = User::where(['user_type' => 'laundress'])
+                        ->where('id' ,'!=', Auth::user()->id)
+                        ->get(); 
         
 
         // get laundress email

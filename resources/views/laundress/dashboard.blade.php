@@ -306,6 +306,7 @@
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_day}}</td>
                                           <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
@@ -315,7 +316,9 @@
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.week_bookings" ng-if="!showWeekBookings">
                                           <td>@{{booking.service_time}}</td>
+                                          <td>@{{booking.service_day}}</td>
                                           <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
@@ -327,6 +330,7 @@
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_day}}</td>
                                           <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
@@ -338,6 +342,7 @@
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_day}}</td>
                                           <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
@@ -359,17 +364,17 @@
                         <div class="col-md-12">
                               <table class="table">
                                  <tr>
-                                    <th>Time</th>
-                                    <th>Date</th>
+                                    <th>Service Time</th>
+                                    <th>Service Date</th>
                                     <th>Payment Type</th>
-                                    <th>Services</th>
+                                    <th>Service Type</th>
                                     <th>Location</th>
                                     <th>Customer</th>
                                     <th>Action</th>
                                  </tr>
                                  <tr ng-repeat="booking in bookings.past_bookings">
                                     <td><b>@{{booking.service_time}}</b></td>
-                                    <td><b>@{{booking.service_day}}></b></td>
+                                    <td><b>@{{booking.service_day}}</b></td>
                                     <td><b>@{{booking.service_payment_type}}</b></td>
                                     <td><b>@{{booking.service_type}}</b></td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
@@ -495,7 +500,6 @@
                        <span class="details_schedule">Service Type: <b>@{{ schedule.service_type }}</b></span><br /><br />
                        <span class="details_schedule">Service Day: <b>@{{ schedule.service_day }}</b></span><br /><br />
                        <span class="details_schedule">Service Time: <b>@{{ schedule.service_time }}</b></span><br /><br />
-                       <span class="details_schedule">Service Laundress: <b>@{{ schedule.service_laundress }}</b></span><br /><br />
                        <span class="details_schedule">Service Package: <b>@{{ schedule.service_package }}</b></span><br /><br />
                        <span class="details_schedule">Service Amount: <b>@{{ schedule.service_amount | currency }}</b></span><br /><br />
                        <span class="details_schedule">Service Job Details: <b>@{{ schedule.service_job_details }}</b></span><br /><br />

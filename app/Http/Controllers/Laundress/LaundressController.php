@@ -87,6 +87,8 @@ class LaundressController extends Controller
     public function schedule(Request $request) {
         $next_week_bookings = array();
         $all_bookings = array();
+        $currentdate = date('m/d/Y');
+        $thisWeekDate = date( "m/d/Y", strtotime( "$currentdate +7 day" ) ); 
 
         $bookings = Bookings::where(['service_laundress' => Auth::user()->id])
                     ->where(['bookings.status' => 'new'])
@@ -100,6 +102,7 @@ class LaundressController extends Controller
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->where('bookings.service_day', '>', date('m/d/Y'))
+                    ->where('bookings.service_day', '<', $thisWeekDate)
                     ->get();
 
         $all_bookings = Bookings::where(['service_laundress' => Auth::user()->id])
@@ -409,7 +412,7 @@ class LaundressController extends Controller
                    */
                    if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
                         Mail::to(Auth::user()->email)->send(new PaymentRequest(Auth::user(),round($payment, 2)));
-                        Mail::to(env('ADMIN_EMAIL'))->send(new PaymentRequestAdmin(Auth::user()));
+                        Mail::to(env('ADMIN_EMAIL'))->send(new PaymentRequestAdmin(Auth::user(),round($payment, 2)));
                     }
                 }
 

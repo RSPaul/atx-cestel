@@ -289,6 +289,7 @@
                                        <tr ng-repeat="booking in schedulebookings.tom_bookings" ng-if="!showTomBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Cancel Booking"><i class="fa fa-trash"></i> </a> </td>
@@ -299,6 +300,7 @@
                                        <tr ng-repeat="booking in schedulebookings.week_bookings" ng-if="!showWeekBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Cancel Booking"><i class="fa fa-trash"></i> </a> </td>
@@ -309,6 +311,7 @@
                                        <tr ng-repeat="booking in schedulebookings.month_bookings" ng-if="!showMonthBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Cancel Booking"><i class="fa fa-trash"></i> </a> </td>
@@ -319,6 +322,7 @@
                                        <tr ng-repeat="booking in customresultbookings" ng-if="!showCustomBookings">
                                           <td>@{{booking.service_time}}</td>
                                           <td>@{{booking.service_type}}</td>
+                                          <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
                                           <td>@{{booking.service_amount | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Cancel Booking"><i class="fa fa-trash"></i> </a> </td>
@@ -340,10 +344,10 @@
                         <div class="col-md-12">
                               <table class="table">
                                  <tr>
-                                    <th>Time</th>
-                                    <th>Date</th>
+                                    <th>Service Time</th>
+                                    <th>Service Date</th>
                                     <th>Payment Type</th>
-                                    <th>Services</th>
+                                    <th>Service Type</th>
                                     <th>Location</th>
                                     <th>Provider</th>
                                     <th>Action</th>
@@ -401,7 +405,6 @@
                     <span class="details_schedule">Service Type: <b>@{{ schedule.service_type }}</b></span><br /><br />
                     <span class="details_schedule">Service Day: <b>@{{ schedule.service_day }}</b></span><br /><br />
                     <span class="details_schedule">Service Time: <b>@{{ schedule.service_time }}</b></span><br /><br />
-                    <span class="details_schedule">Service Laundress: <b>@{{ schedule.service_laundress }}</b></span><br /><br />
                     <span class="details_schedule">Service Package: <b>@{{ schedule.service_package }}</b></span><br /><br />
                     <span class="details_schedule">Service Tax: $<b>@{{ schedule.service_tax }}</b></span><br /><br />
                     <span class="details_schedule">Service Amount: $<b>@{{ schedule.service_amount }}</b></span><br /><br />
