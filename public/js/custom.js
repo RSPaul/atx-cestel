@@ -556,6 +556,9 @@ $(function () {
                 let html = '';
                 for(let i = 0; i < response.data.length; i++) {
                   html = html + '<option value="'+ response.data[i].slots.from +' - '+ response.data[i].slots.to +'">'+ response.data[i].day +' - From '+ response.data[i].slots.from +' To ' + response.data[i].slots.to +'</option>';
+                  if(i == 0) {
+                    $('#service_time_selected').val(response.data[i].day +' - From '+ response.data[i].slots.from +' To ' + response.data[i].slots.to);
+                  }
                 }
                 $('#service_time').html(html);
               } else {

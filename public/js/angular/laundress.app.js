@@ -189,7 +189,9 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
       $scope.payments = data.bookings;
       $scope.payments.map(p => {
         if(p.payment_request === '0') {
-          $scope.totalPayment = parseFloat($scope.totalPayment + parseFloat(p.service_amount)).toFixed(2);
+          let basePrice = parseFloat(p.service_amount - p.service_tax);
+          let providerShare = (basePrice * 90) / 100;
+          $scope.totalPayment = parseFloat(parseFloat($scope.totalPayment) + parseFloat(providerShare)).toFixed(2);
           $scope.payIds.push(p.id);
         }
       })

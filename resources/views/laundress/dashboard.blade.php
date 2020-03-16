@@ -430,6 +430,7 @@
                                        <th>Payment Type</th>
                                        <th>Services</th>
                                        <th>Total Amount</th>
+                                       <th>Service Tax</th>
                                        <th>Your Share</th>
                                        <th>Admin Share</th>
                                        <th>Status</th>
@@ -442,8 +443,10 @@
                                        <td><b>@{{booking.service_type}}</b></td>
                                        <td><b>@{{booking.service_amount | currency}}
                                        </td>
-                                       <td><b>@{{(booking.service_amount * 90 / 100) | currency }}</td>
-                                       <td><b>@{{(booking.service_amount * 10 / 100) | currency }}</td>
+                                       <td><b>@{{booking.service_tax | currency}}
+                                       </td>
+                                       <td><b>@{{((booking.service_amount - booking.service_tax ) * 90 / 100) | currency }}</td>
+                                       <td><b>@{{((booking.service_amount - booking.service_tax ) * 10 / 100) | currency }}</td>
                                        <td ng-if="booking.payment_request === '0'">
                                           Not Requested
                                        </td>
