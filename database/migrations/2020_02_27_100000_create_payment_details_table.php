@@ -23,6 +23,7 @@ class CreatePaymentDetailsTable extends Migration
             $table->string('account');
             $table->string('bank_name');
             $table->string('last4');
+            $table->text('request_data');
             $table->timestamps();
         });
     }

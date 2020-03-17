@@ -353,6 +353,7 @@ class UserController extends Controller
                     ->update($data);
 
             try {
+                Stripe::setApiKey(env('STRIPE_PUBLISH'));
                 $charge = \Stripe\Charge::create([
                     'currency' => 'USD',
                     'customer' => Auth::user()->customer_id,

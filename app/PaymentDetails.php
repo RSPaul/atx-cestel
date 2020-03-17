@@ -12,6 +12,6 @@ class PaymentDetails extends Authenticatable
     protected $table = 'payment_details';
     
    protected $fillable = [
-		'user_id', 'account_type', 'routing_number', 'account_number', 'account_id', 'account', 'bank_name', 'last4'
+		'user_id', 'account_type', 'routing_number', 'account_number', 'account_id', 'account', 'bank_name', 'last4', 'request_data'
     ];
 }

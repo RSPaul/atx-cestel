@@ -24,7 +24,8 @@ class LaundressController extends Controller
 {	
 	public function __construct() {
         $this->middleware(['auth','verified', 'laundress'],  ['except' => ['get']]);
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        // Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(env('STRIPE_PUBLISH'));
     }
 
     public function profile(Request $request) {
@@ -265,8 +266,32 @@ class LaundressController extends Controller
                     'account_number' => 'required|string|unique:payment_details',
                 ]);
             }
-
+            $extra_data = unserialize($details->extra_data);
             try {
+                //create file
+                if($data['front'] && $data['front'] !='' && $this->is_base64($data['back'])) {
+                    $fp = fopen($data['front'], 'r');
+                    $document_front = \Stripe\File::create([
+                      'purpose' => 'identity_document',
+                      'file' => $fp
+                    ]);                    
+                    $document_front_id = $document_front->id;
+                    $data['document_front_id'] = $document_front_id;
+                } else  {
+                    $document_front_id = $extra_data['document_front_id'];
+                }
+                if($data['back'] && $data['back'] !='' && $this->is_base64($data['back'])) {
+                    $fp = fopen($data['back'], 'r');
+                    $document_back = \Stripe\File::create([
+                      'purpose' => 'identity_document',
+                      'file' => $fp
+                    ]);                    
+                    $document_back_id = $document_back->id;
+                } else {
+                    $document_back_id = $extra_data['document_back_id'];
+                    $data['document_back_id'] = $document_back_id;
+                }
+
                 $account = \Stripe\Account::update(
                   $details->account,
                   [
@@ -278,18 +303,51 @@ class LaundressController extends Controller
                         'account_number' => $data['account_number'],
                         'account_holder_name' => Auth::user()->name,
                     ],
+                    'individual' => [
+                        'first_name' => Auth::user()->first_name,
+                        'last_name' => Auth::user()->last_name,
+                        'email' => Auth::user()->email,
+                        'phone' => $data['phone'],
+                        'id_number' => $data['id_number'],
+                        'ssn_last_4' => $data['ssn_last_4'],
+                        'address' => [
+                            'line1' => $data['line1'],
+                            'line2' => $data['line2'],
+                            'city' => $data['city'],
+                            'state' => $data['state'],
+                            'country' => $data['country'],
+                            'postal_code' => $data['postal_code'],
+                        ],
+                        'dob' => [
+                            'day' => $data['day'],
+                            'month' => $data['month'],
+                            'year' => $data['year'],
+                        ],
+                        'verification' => [
+                            'document' => [
+                                'front' => ($data['front'] && $data['front'] !='') ? $document_front_id : '',
+                                'back' => ($data['back'] && $data['back'] !='') ? $document_back_id : ''
+                            ]
+                        ]
+                    ],
+                    'business_profile' => [
+                        'url' => $data['url'],
+                        'mcc' => $data['mcc']
+                    ],
                   ]
                 );
                 $data['account_id'] = $account->external_accounts->data[0]->id;
                 $data['account'] = $account->external_accounts->data[0]->account;
                 $data['bank_name'] = $account->external_accounts->data[0]->bank_name;
                 $data['last4'] = $account->external_accounts->data[0]->last4;
-                
+                $data['request_data'] = serialize($data);
+
                 $details = PaymentDetails::find($details->id);
                 $details->account_id = $account->external_accounts->data[0]->id;
                 $details->account = $account->external_accounts->data[0]->account;
                 $details->bank_name = $account->external_accounts->data[0]->bank_name;
                 $details->last4 = $account->external_accounts->data[0]->last4;
+                $details->request_data = $data['request_data'];
 
                 $details->save();
 
@@ -319,17 +377,77 @@ class LaundressController extends Controller
 
             try {
 
+                //create file
+                if($data['front'] && $data['front'] !='' && $this->is_base64($data['back'])) {
+                    $fp = fopen($data['front'], 'r');
+                    $document_front = \Stripe\File::create([
+                      'purpose' => 'identity_document',
+                      'file' => $fp
+                    ]);                    
+                    $document_front_id = $document_front->id;
+                    $data['document_front_id'] = $document_front_id;
+                } else  {
+                    $document_front_id = $extra_data['document_front_id'];
+                }
+                if($data['back'] && $data['back'] !='' && $this->is_base64($data['back'])) {
+                    $fp = fopen($data['back'], 'r');
+                    $document_back = \Stripe\File::create([
+                      'purpose' => 'identity_document',
+                      'file' => $fp
+                    ]);                    
+                    $document_back_id = $document_back->id;
+                } else {
+                    $document_back_id = $extra_data['document_back_id'];
+                    $data['document_back_id'] = $document_back_id;
+                }
+
                 $account = \Stripe\Account::create([
                     'country' => 'US',
                     'type' => 'custom',
-                    'requested_capabilities' => ["transfers"],
+                    'requested_capabilities' => ["transfers", "card_payments"],
+                    'business_type' => 'individual',
+                    'individual' => [
+                        'first_name' => Auth::user()->first_name,
+                        'last_name' => Auth::user()->last_name,
+                        'email' => Auth::user()->email,
+                        'phone' => $data['phone'],
+                        'id_number' => $data['id_number'],
+                        'ssn_last_4' => $data['ssn_last_4'],
+                        'address' => [
+                            'line1' => $data['line1'],
+                            'line2' => $data['line2'],
+                            'city' => $data['city'],
+                            'state' => $data['state'],
+                            'country' => $data['country'],
+                            'postal_code' => $data['postal_code'],
+                        ],
+                        'dob' => [
+                            'day' => $data['day'],
+                            'month' => $data['month'],
+                            'year' => $data['year'],
+                        ],
+                        'verification' => [
+                            'document' => [
+                                'front' => ($data['front'] && $data['front'] !='') ? $document_front_id: '',
+                                'back' => ($data['back'] && $data['back'] !='') ? $document_back_id : ''
+                            ]
+                        ]
+                    ],
+                    'business_profile' => [
+                        'url' => $data['url'],
+                        'mcc' => $data['mcc']
+                    ],
                     'external_account'=> [
                         'object' => 'bank_account',
                         'country' => 'US',
                         'currency' => 'usd',
                         'routing_number' => $data['routing_number'],
                         'account_number' => $data['account_number'],
-                        'account_holder_name' => Auth::user()->name,
+                        'account_holder_name' => Auth::user()->first_name.' '. Auth::user()->last_name,
+                    ],
+                    'tos_acceptance' => [
+                        'date' => time(),
+                        'ip' => $_SERVER['REMOTE_ADDR']
                     ]
                 ]);
 
@@ -339,6 +457,7 @@ class LaundressController extends Controller
                 $data['account'] = $account->external_accounts->data[0]->account;
                 $data['bank_name'] = $account->external_accounts->data[0]->bank_name;
                 $data['last4'] = $account->external_accounts->data[0]->last4;
+                $data['request_data'] = serialize($data);
 
                 $details = new PaymentDetails($data);
                 $details->save();
@@ -372,7 +491,7 @@ class LaundressController extends Controller
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
             ->orderBy('bookings.id', 'desc')
             ->get();
-        return response()->json(['message' => $details, "status" => true, 'bookings' => $bookings]);
+        return response()->json(['message' => $details, "status" => true, 'bookings' => $bookings, 'extra_data' => unserialize($details->request_data)]);
     }
 
     public function requestPayment(Request $request) {
@@ -424,4 +543,26 @@ class LaundressController extends Controller
         }
     }
 
+    public function uploadImage(Request $request) {
+        try {
+            $data = $request->image;
+            list($type, $data) = explode(';', $data);
+            list(, $data)      = explode(',', $data);
+            $data = base64_decode($data);
+            $image_name = time().'.png';
+            $path = public_path() . "/uploads/profiles/" . $image_name;
+
+            file_put_contents($path, $data);
+
+            return response()->json(['path' => $path, "status" => true]);
+
+        } catch (Exception $e) {
+            $msg = $e->getMessage();
+            return response()->json(['message' => $msg, "status" => false]);
+        }
+    }
+
+    public function is_base64($s) {
+      return (bool) preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $s);
+    }
 }

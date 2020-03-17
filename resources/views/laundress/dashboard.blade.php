@@ -398,27 +398,129 @@
                         <div class="row" ng-if="showBankAccount">
                            <form ng-submit="updateBankAccount()" novalidate>
                               <div class="col-md-12">
-                                 <div class="col-md-6">
+                                 <div class="col-md-4">
                                     <div class="form-group">
                                        <label>Name</label>
                                        <input type="text" name="bank_name" ng-model="bank.bank_name" class="form-control" required>
                                     </div>
                                  </div>
-                                 <div class="col-md-6">
+                                 <div class="col-md-4">
                                     <div class="form-group">
                                        <label>Routing Number</label>
                                        <input type="text" name="routing_number" ng-model="bank.routing_number" class="form-control" required>
                                     </div>
                                  </div>
-                                 <div class="col-md-6">
+                                 <div class="col-md-4">
                                     <div class="form-group">
                                        <label>Account Number</label>
                                        <input type="text" name="account_number" ng-model="bank.account_number" class="form-control" required>
                                     </div>
                                  </div>
+                                 <div class="col-md-4">
+                                    <label>DOB</label>
+                                    <div class="form-group">
+                                       <div class="col-md-4">
+                                          <input type="text" name="day" ng-model="bank.day" class="form-control" required placeholder="DD">
+                                       </div>
+                                       <div class="col-md-4">
+                                          <input type="text" name="month" ng-model="bank.month" class="form-control" required placeholder="MM">
+                                       </div>
+                                       <div class="col-md-4">
+                                          <input type="text" name="year" ng-model="bank.year" class="form-control" required placeholder="YYYY">
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>Address Line 1</label>
+                                       <input type="text" name="line1" ng-model="bank.line1" class="form-control" required>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>Address Line 2</label>
+                                       <input type="text" name="line2" ng-model="bank.line2" class="form-control" required>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>Phone</label>
+                                       <input type="text" name="phone" ng-model="bank.phone" class="form-control" required>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>City</label>
+                                       <input type="text" name="city" ng-model="bank.city" class="form-control" required>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>State</label>
+                                       <input type="text" name="state" ng-model="bank.state" class="form-control" required>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>Country</label>
+                                       <select name="country" ng-model="bank.country" class="form-control" required>
+                                          <option value="">Select</option>
+                                          <option value="In">India</option>
+                                          <option value="US">Unites States</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>Zip</label>
+                                       <input type="text" name="postal_code" ng-model="bank.postal_code" class="form-control" required>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>Industry</label>
+                                       <select name="mcc" ng-model="bank.mcc" class="form-control" required>
+                                          <option value="">Select</option>
+                                          <option value="1520">General Contractors-Residential and Commercial</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>Website</label>
+                                       <input type="text" name="url" ng-model="bank.url" class="form-control" required>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>SSN</label>
+                                       <input type="text" name="id_number" ng-model="bank.id_number" class="form-control" required>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>SSN Last 4</label>
+                                       <input type="text" name="ssn_last_4" ng-model="bank.ssn_last_4" class="form-control" required>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>Photo ID - Front</label>
+                                       <input type="file" name="front_pic" class="form-control" required  ng-upload-change="fileNameChanged($event, 'front')">
+                                       <input type="hidden" id="front" name="front" >
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                       <label>Photo ID - Back</label>
+                                       <input type="file" name="back_pic" class="form-control" required ng-upload-change="fileNameChanged($event, 'back')">
+                                       <input type="hidden" id="back" name="back" >
+                                    </div>
+                                 </div>
                               </div>
                               <div class="col-md-12 text-center mt-4">
-                                 <input type="submit" name="submit" value="Submit" class="btn btn-primary" ng-disabled="!bank.bank_name || !bank.routing_number || !bank.account_number">
+                                 <!-- <input type="submit" name="submit" value="Submit" class="btn btn-primary" > -->
+                                 <input type="submit" name="submit" value="@{{accUpdateBtn}}" class="btn btn-primary" ng-disabled="!bank.bank_name || !bank.routing_number || !bank.account_number || !bank.year || !bank.day || !bank.month || !bank.line1 || !bank.line2 || !bank.phone || !bank.city || !bank.state || !bank.country || !bank.postal_code || !bank.mcc || !bank.url || !bank.id_number || !bank.ssn_last_4">
                               </div>
                            </form>
                         </div>

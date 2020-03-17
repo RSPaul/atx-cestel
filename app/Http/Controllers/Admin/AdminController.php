@@ -25,7 +25,8 @@ class AdminController extends Controller
 {
     public function __construct() {
         $this->middleware(['auth','verified', 'admin']);
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        // Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(env('STRIPE_PUBLISH'));
     }
 
     public function dashboard(Request $request) {
@@ -148,7 +149,7 @@ class AdminController extends Controller
                 $account = $pay_details->account;
                 try {
 
-                     $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                     $rn = substr(str_shuffle(str_repeat($pool, 5)), 0, 10);
                     $transfer_group = 'ORDER-'.$pays->id . '-' . $pays->laundress_id . '-'.$rn;
 

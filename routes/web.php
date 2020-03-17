@@ -39,6 +39,7 @@ Auth::routes(['verify' => true]);
 Route::get('/user-profile/{id}', 'User\UserController@get')->name('user_by_id');
 Route::post('/user/upload/profile', 'User\UserController@uploadPicture')->name('upload_profile_picture');
 Route::post('/update-profile', 'User\UserController@updateProile')->name('update_proile');
+Route::post('/upload-image', 'Laundress\LaundressController@uploadImage')->name('uploadImage');
 
 /**
 * User Routes
