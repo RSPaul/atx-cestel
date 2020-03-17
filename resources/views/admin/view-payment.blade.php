@@ -48,8 +48,8 @@
               <td>{{$booking->service_package}}</td>
               <td>{{round($booking->service_tax, 2)}}</td>
               <td>{{round($booking->service_amount, 2)}}</td>
-              <td>{{round($booking->service_amount * 90 / 100, 2)}}</td>
-              <td>{{round($booking->service_amount * 10 / 100, 2)}}</td>
+              <td>{{round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2)}}</td>
+              <td>{{round(($booking->service_amount - $booking->service_tax) * 10 / 100, 2)}}</td>
             </tr>
             @endforeach
           </tbody>

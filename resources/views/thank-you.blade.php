@@ -37,7 +37,6 @@
          </span><br /><br />
          <span class="details_schedule">Service Day: <b>{{ $bookings[0]->service_day }}</b></span><br /><br />
          <span class="details_schedule">Service Time: <b>{{ $bookings[0]->service_time }}</b></span><br /><br />
-         <span class="details_schedule">Service Laundress: <b>{{ $bookings[0]->service_laundress }}</b></span><br /><br />
          <span class="details_schedule">Service Package: <b>{{ $bookings[0]->service_package }}</b></span><br /><br />
          <span class="details_schedule">Service Tax: $<b>{{ $bookings[0]->service_tax }}</b></span><br /><br />
          <span class="details_schedule">Service Amount: $<b>{{ $bookings[0]->service_amount -  $bookings[0]->service_tax }} </b></span><br /><br />

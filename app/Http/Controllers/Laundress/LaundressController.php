@@ -185,8 +185,8 @@ class LaundressController extends Controller
     public function earningsByWeek(Request $request) {
         $now = Carbon::now();
         $now->startOfWeek(Carbon::MONDAY);
-        $weekStartDate = $now->startOfWeek()->format('d/m/Y');
-        $weekEndDate = $now->endOfWeek()->format('d/m/Y');
+        $weekStartDate = $now->startOfWeek()->format('m/d/Y');
+        $weekEndDate = $now->endOfWeek()->format('m/d/Y');
 
         $bookings = Bookings::where(['service_laundress' => Auth::user()->id])
                         ->whereBetween('service_day', [$weekStartDate, $weekEndDate])
@@ -201,19 +201,19 @@ class LaundressController extends Controller
         foreach($bookings as $booking) {
             $categories = unserialize($booking->service_categories);
             if(in_array('Washing', $categories)) {
-                array_push($washing, $booking->service_amount);
+                array_push($washing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
             }
             if(in_array('Ironing', $categories)) {
-                array_push($iorning, $booking->service_amount);
+                array_push($iorning, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
             }
             if(in_array('BedMaking', $categories)) {
-                array_push($bedMaking, $booking->service_amount);
+                array_push($bedMaking, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
             }
             if(in_array('Organizing', $categories)) {
-                array_push($organizing, $booking->service_amount);
+                array_push($organizing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
             }
             if(in_array('Packing', $categories)) {
-                array_push($packing, $booking->service_amount);
+                array_push($packing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
             }
         }
         $weekEarnings = array(
@@ -223,7 +223,7 @@ class LaundressController extends Controller
                             array('name'=> 'Organizing', 'amount' => array_sum($organizing)),
                             array('name'=> 'Packing', 'amount' => array_sum($packing))
                         );
-        $totalEarning = array_sum($washing) + array_sum($iorning) + array_sum($bedMaking) + array_sum($packing);
+        $totalEarning = array_sum($washing) + array_sum($iorning) + array_sum($bedMaking) + array_sum($organizing) + array_sum($packing);
         return response()->json(['weekEarnings' => $weekEarnings, 'totalEarning' => $totalEarning, 'weekStart' => $now->startOfWeek()->format('m/d'), 'weekEnd' => $now->endOfWeek()->format('m/d')]);
     }
 
@@ -390,7 +390,7 @@ class LaundressController extends Controller
                 $pids = array();
                 foreach ($bookings as $key => $book) {
                     if($book->status == "completed") {
-                        $payment = $payment + ($book->service_amount * 90 / 100);
+                        $payment = $payment + (($book->service_amount - $book->service_tax) * 90 / 100);
                         array_push($pids, $book->id);
                     }
                 }
