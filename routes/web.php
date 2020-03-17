@@ -19,6 +19,7 @@ Route::get('/', function () {
 * Public Routes
 **/
 Route::get('/book', 'HomeController@book');
+Route::get('/refreshToken', 'HomeController@refreshToken')->name('refresh-token');
 Route::get('/get-time-slots/{id}', 'HomeController@getTimeSlots');
 Route::get('/be-part-team', 'HomeController@bePartTeam')->name('viewpartTeam');
 Route::post('/be-part-team', 'HomeController@bePartTeam')->name('partTeam');

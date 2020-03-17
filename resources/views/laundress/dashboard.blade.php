@@ -370,6 +370,7 @@
                                     <th>Service Type</th>
                                     <th>Location</th>
                                     <th>Customer</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                  </tr>
                                  <tr ng-repeat="booking in bookings.past_bookings">
@@ -379,7 +380,8 @@
                                     <td><b>@{{booking.service_type}}</b></td>
                                     <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
-                                    <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> </td>
+                                    <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> </td><td ng-if="booking.status == 'new'" ><b>Active</b> </td>
+                                    <td ng-if="booking.status != 'new'" ><b>@{{booking.status}}</b></td>
                                     <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a></td>
                                  </tr>
                                  <tr ng-if="!bookings.past_bookings.length">

@@ -383,6 +383,26 @@ $(function () {
                     $('#login-modal').modal('hide');
                 }
                 $('.submit_log').text('LOGIN');
+
+                $.ajax({
+                  url: "/refreshToken",
+                  type: 'get',
+                  dataType: 'json',
+                  success: function (result) {
+
+                      $('meta[name="csrf-token"]').attr('content', result.token);
+                      $('input[name="_token"]').val(result.token);
+                      $.ajaxSetup({
+                          headers: {
+                               'X-CSRF-TOKEN': result.token
+                          }
+                      });
+
+                   },
+                   error: function (xhr, status, error) {
+                       console.log(xhr);
+                   }
+                });
             },
             error: function (data) {
                 $(".invalid-feedback").show();

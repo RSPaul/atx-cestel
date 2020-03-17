@@ -85,6 +85,15 @@ class HomeController extends Controller {
         return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
     }
 
+    public function refreshToken(Request $request)
+    {
+         session()->regenerate();
+         return response()->json([
+            "token"=>csrf_token()],
+          200);
+
+    }
+
     public function getTimeSlots(Request $request) {
         $user = User::where(['id' => $request->id])->first();
         $time_slots = unserialize($user->available);

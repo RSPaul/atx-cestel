@@ -367,14 +367,15 @@
                                     <td><b>@{{booking.city_state}}</b> @{{booking.service_address}}
                                     </td>
                                     <td><b>@{{booking.first_name}} @{{booking.last_name}}</b> </td>
-                                    <td><b>@{{booking.status}}</b> </td>
+                                    <td ng-if="booking.status == 'new'" ><b>Active</b> </td>
+                                    <td ng-if="booking.status != 'new'" ><b>@{{booking.status}}</b> </td>
                                     <td>
                                        <a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking">
                                           <i class="fa fa-eye"></i>
                                        </a> 
-                                       <a href="javascript:void(0);" ng-if="booking.status === 'completed'" class="disabled">
+<!--                                        <a href="javascript:void(0);" ng-if="booking.status === 'completed'" class="disabled">
                                           <i class="fa fa-check"></i> 
-                                       </a> 
+                                       </a>  -->
                                        <a href="javascript:void(0);" ng-click="completeBooking(booking)" ng-if="booking.status !== 'completed'" title="Mark Booking Complete">
                                           <i class="fa fa-check"></i> 
                                        </a> 
