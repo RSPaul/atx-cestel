@@ -202,15 +202,14 @@ class HomeController extends Controller {
             $profile = User::where(['id' => Auth::user()->id])->first(); 
         }
         $laundress = User::where(['user_type' => 'laundress'])
-                        ->where('id' ,'!=', Auth::user()->id)
                         ->get(); 
         
 
-        // get laundress email
-        $laundress_data = User::where(['id' => $service_laundress])->first(); 
         
         if($request->isMethod('post')) {
 
+            // get laundress email
+            $laundress_data = User::where(['id' => $service_laundress])->first(); 
             $success = true;
             try {
                 //if user is not logged in create new user
