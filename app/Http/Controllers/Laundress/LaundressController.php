@@ -24,8 +24,8 @@ class LaundressController extends Controller
 {	
 	public function __construct() {
         $this->middleware(['auth','verified', 'laundress'],  ['except' => ['get']]);
-        // Stripe::setApiKey(env('STRIPE_SECRET'));
-        Stripe::setApiKey(env('STRIPE_PUBLISH'));
+         Stripe::setApiKey(env('STRIPE_SECRET'));
+        //Stripe::setApiKey(env('STRIPE_PUBLISH'));
     }
 
     public function profile(Request $request) {
@@ -269,7 +269,7 @@ class LaundressController extends Controller
             $extra_data = unserialize($details->extra_data);
             try {
                 //create file
-                if($data['front'] && $data['front'] !='' && $this->is_base64($data['back'])) {
+                if($data['front'] && $data['front'] !='' && ($data['document_front_id'] == '' || !$data['document_front_id'])) {
                     $fp = fopen($data['front'], 'r');
                     $document_front = \Stripe\File::create([
                       'purpose' => 'identity_document',
@@ -278,17 +278,18 @@ class LaundressController extends Controller
                     $document_front_id = $document_front->id;
                     $data['document_front_id'] = $document_front_id;
                 } else  {
-                    $document_front_id = $extra_data['document_front_id'];
+                    $document_front_id = $data['document_front_id'];
                 }
-                if($data['back'] && $data['back'] !='' && $this->is_base64($data['back'])) {
+                if($data['back'] && $data['back'] !='' && ($data['document_back_id'] == '' || !$data['document_back_id'])) {
                     $fp = fopen($data['back'], 'r');
                     $document_back = \Stripe\File::create([
                       'purpose' => 'identity_document',
                       'file' => $fp
                     ]);                    
                     $document_back_id = $document_back->id;
+                    $data['document_back_id'] = $document_back_id;
                 } else {
-                    $document_back_id = $extra_data['document_back_id'];
+                    $document_back_id = $data['document_back_id'];
                     $data['document_back_id'] = $document_back_id;
                 }
 
@@ -308,8 +309,8 @@ class LaundressController extends Controller
                         'last_name' => Auth::user()->last_name,
                         'email' => Auth::user()->email,
                         'phone' => $data['phone'],
-                        'id_number' => $data['id_number'],
-                        'ssn_last_4' => $data['ssn_last_4'],
+                        //'id_number' => $data['id_number'],
+                       // 'ssn_last_4' => $data['ssn_last_4'],
                         'address' => [
                             'line1' => $data['line1'],
                             'line2' => $data['line2'],
@@ -322,13 +323,13 @@ class LaundressController extends Controller
                             'day' => $data['day'],
                             'month' => $data['month'],
                             'year' => $data['year'],
-                        ],
-                        'verification' => [
-                            'document' => [
-                                'front' => ($data['front'] && $data['front'] !='') ? $document_front_id : '',
-                                'back' => ($data['back'] && $data['back'] !='') ? $document_back_id : ''
-                            ]
-                        ]
+                        ]//,
+                        // 'verification' => [
+                        //     'document' => [
+                        //         'front' => ($data['front'] && $data['front'] !='') ? $document_front_id : '',
+                        //         'back' => ($data['back'] && $data['back'] !='') ? $document_back_id : ''
+                        //     ]
+                        // ]
                     ],
                     'business_profile' => [
                         'url' => $data['url'],
@@ -378,7 +379,7 @@ class LaundressController extends Controller
             try {
 
                 //create file
-                if($data['front'] && $data['front'] !='' && $this->is_base64($data['back'])) {
+                if($data['front'] && $data['front'] !='' && ($data['document_front_id'] == '' || !$data['document_front_id'])) {
                     $fp = fopen($data['front'], 'r');
                     $document_front = \Stripe\File::create([
                       'purpose' => 'identity_document',
@@ -387,17 +388,18 @@ class LaundressController extends Controller
                     $document_front_id = $document_front->id;
                     $data['document_front_id'] = $document_front_id;
                 } else  {
-                    $document_front_id = $extra_data['document_front_id'];
+                    $document_front_id = $data['document_front_id'];
                 }
-                if($data['back'] && $data['back'] !='' && $this->is_base64($data['back'])) {
+                if($data['back'] && $data['back'] !='' && ($data['document_back_id'] == '' || !$data['document_back_id'])) {
                     $fp = fopen($data['back'], 'r');
                     $document_back = \Stripe\File::create([
                       'purpose' => 'identity_document',
                       'file' => $fp
                     ]);                    
                     $document_back_id = $document_back->id;
+                    $data['document_back_id'] = $document_back_id;
                 } else {
-                    $document_back_id = $extra_data['document_back_id'];
+                    $document_back_id = $data['document_back_id'];
                     $data['document_back_id'] = $document_back_id;
                 }
 

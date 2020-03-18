@@ -407,13 +407,13 @@
                                  <div class="col-md-4">
                                     <div class="form-group">
                                        <label>Routing Number</label>
-                                       <input type="text" name="routing_number" ng-model="bank.routing_number" class="form-control" required>
+                                       <input type="number" name="routing_number" ng-model="bank.routing_number" class="form-control" required>
                                     </div>
                                  </div>
                                  <div class="col-md-4">
                                     <div class="form-group">
                                        <label>Account Number</label>
-                                       <input type="text" name="account_number" ng-model="bank.account_number" class="form-control" required>
+                                       <input type="number" name="account_number" ng-model="bank.account_number" class="form-control" required>
                                     </div>
                                  </div>
                                  <div class="col-md-4">
@@ -445,7 +445,7 @@
                                  <div class="col-md-4">
                                     <div class="form-group">
                                        <label>Phone</label>
-                                       <input type="text" name="phone" ng-model="bank.phone" class="form-control" required>
+                                       <input type="number" name="phone" ng-model="bank.phone" class="form-control" required>
                                     </div>
                                  </div>
                                  <div class="col-md-4">
@@ -494,13 +494,13 @@
                                  <div class="col-md-4">
                                     <div class="form-group">
                                        <label>SSN</label>
-                                       <input type="text" name="id_number" ng-model="bank.id_number" class="form-control" required>
+                                       <input type="text" name="id_number"  ng-model="bank.id_number" class="form-control" required>
                                     </div>
                                  </div>
                                  <div class="col-md-4">
                                     <div class="form-group">
                                        <label>SSN Last 4</label>
-                                       <input type="text" name="ssn_last_4" ng-model="bank.ssn_last_4" class="form-control" required>
+                                       <input type="text" name="ssn_last_4"  ng-model="bank.ssn_last_4" class="form-control" required>
                                     </div>
                                  </div>
                                  <div class="col-md-4">
@@ -520,7 +520,7 @@
                               </div>
                               <div class="col-md-12 text-center mt-4">
                                  <!-- <input type="submit" name="submit" value="Submit" class="btn btn-primary" > -->
-                                 <input type="submit" name="submit" value="@{{accUpdateBtn}}" class="btn btn-primary" ng-disabled="!bank.bank_name || !bank.routing_number || !bank.account_number || !bank.year || !bank.day || !bank.month || !bank.line1 || !bank.line2 || !bank.phone || !bank.city || !bank.state || !bank.country || !bank.postal_code || !bank.mcc || !bank.url || !bank.id_number || !bank.ssn_last_4">
+                                 <input type="submit" name="submit" value="@{{accUpdateBtn}}" class="btn btn-primary" ng-disabled="!bank.bank_name || !bank.routing_number || !bank.account_number || !bank.year || !bank.day || !bank.month || !bank.line1 || !bank.line2 || !bank.phone || !bank.city || !bank.state || !bank.country || !bank.postal_code || !bank.mcc || !bank.url || !bank.id_number || !bank.ssn_last_4 || !bank.front || !bank.back">
                               </div>
                            </form>
                         </div>
