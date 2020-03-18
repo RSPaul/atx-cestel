@@ -396,6 +396,7 @@
                            <a href="javascript:void(0);" class="btn btn-wht" ng-click="showBankAccount = false" ng-class="{'active': !showBankAccount}">Earnings</a>
                         </div>
                         <div class="row" ng-if="showBankAccount">
+                           <div class="alert alert-danger" ng-if="!bank.bank_name || !bank.routing_number || !bank.account_number || !bank.year || !bank.day || !bank.month || !bank.line1 || !bank.line2 || !bank.phone || !bank.city || !bank.state || !bank.country || !bank.postal_code || !bank.mcc || !bank.url || !bank.id_number || !bank.ssn_last_4 || !bank.front || !bank.back">All Fields are required.</div>
                            <form ng-submit="updateBankAccount()" novalidate>
                               <div class="col-md-12">
                                  <div class="col-md-4">
@@ -407,13 +408,13 @@
                                  <div class="col-md-4">
                                     <div class="form-group">
                                        <label>Routing Number</label>
-                                       <input type="number" name="routing_number" ng-model="bank.routing_number" class="form-control" required>
+                                       <input type="text" name="routing_number" ng-model="bank.routing_number" class="form-control" required>
                                     </div>
                                  </div>
                                  <div class="col-md-4">
                                     <div class="form-group">
                                        <label>Account Number</label>
-                                       <input type="number" name="account_number" ng-model="bank.account_number" class="form-control" required>
+                                       <input type="text" name="account_number" ng-model="bank.account_number" class="form-control" required>
                                     </div>
                                  </div>
                                  <div class="col-md-4">
@@ -445,7 +446,7 @@
                                  <div class="col-md-4">
                                     <div class="form-group">
                                        <label>Phone</label>
-                                       <input type="number" name="phone" ng-model="bank.phone" class="form-control" required>
+                                       <input type="text" name="phone" ng-model="bank.phone" class="form-control" required>
                                     </div>
                                  </div>
                                  <div class="col-md-4">
