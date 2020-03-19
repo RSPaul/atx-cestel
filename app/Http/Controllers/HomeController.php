@@ -113,6 +113,16 @@ class HomeController extends Controller {
         // print_r($request->session()->get('booking'));die();
         if($request->isMethod('post')) {
 
+            //check if booking with laundress account
+            if(Auth::check()) {
+                if(Auth::user()->user_type == 'laundress') {
+                    $response = array('success' => false,
+                              'message' => 'You can not book with provider account, please login with customer account.');
+                    return response()->json($response);
+                    die();
+                }
+            }
+
             $service_type = $request->service_type;
             $service_address = $request->service_address;
             $service_categories = $request->service_categories;

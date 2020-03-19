@@ -36,11 +36,15 @@
               <li><a href="{{ route('viewpartTeam') }}" title="Login">Join Team</a></li>
               @endif
 		          @guest
-              <li><a href="{{ route('login') }}" title="Login">Login</a>
+              <li class="ajax-menu-login"><a href="{{ route('login') }}" title="Login">Login</a>
               </li>
               @else
                 <li><a href="/user/profile" class="">Profile</a></li>
               @endif
+
+              <li class="ajax-menu login"><a href="{{ route('login') }}" title="Login">Login</a>
+              </li>
+              <li class="ajax-menu profile"><a href="/user/profile" class="">Profile</a></li>
 			  
               
             </ul>

@@ -8,6 +8,15 @@ $(function () {
         }
       });
 
+      $("input[name='service_type']").click(function() {
+         $(this).next().toggleClass('active');
+      });
+
+      // $("span.checkmark.service_categories").click(function() {
+      //   // console.log($(this).next());
+      //    $(this).toggleClass('active');
+      // });
+
       $('#service_day').datepicker({
            autoclose: true,
            startDate: "dateToday"
@@ -94,6 +103,7 @@ $(function () {
       var totalGarments = 0;
       //change price when service category checked
       $("input[name='service_categories[]']").change(function() {
+        $(this).next().toggleClass('active');
         var category = $(this).val().toUpperCase() + '_PRICE';
         var serviceName = $(this).val();
         var envPrice = parseFloat($('#'+category).val()).toFixed(2);
@@ -350,6 +360,7 @@ $(function () {
     function activeTab(tab){
         //check validations and restrict the next tab
         if(validateBookingForm(tab)) {
+          $('#bookingValidationError').hide();
         	$('.tab-pane').removeClass('active');
         	$('#' + tab).addClass('active');
         	$('.nav.nav-tabs.nav-tabs-dropdown.horizontal li').removeClass('active');
@@ -381,6 +392,9 @@ $(function () {
                     $('.logged-in').show();
                     activeTab('loading');
                     $('#login-modal').modal('hide');
+                    $('.ajax-menu').hide();
+                    $('.ajax-menu-login').hide();
+                    $('.ajax-menu.profile').show();
                 }
                 $('.submit_log').text('LOGIN');
 
@@ -544,9 +558,9 @@ $(function () {
 	        $('#bookingValidationError p').html(message);
 	        $('#bookingValidationError').show();
 	        scrollToDiv('bookingValidationError');
-	        setTimeout(function () {
-	          $('#bookingValidationError').fadeOut('slow');
-	        },3000);
+	        // setTimeout(function () {
+	        //   $('#bookingValidationError').fadeOut('slow');
+	        // },3000);
 	    }
 
 	    return response;
@@ -564,6 +578,7 @@ $(function () {
       $('a.btn.btn-primary.ctn-btn.payment-btn').show();
       $('.tab_detail').removeClass('active');
       $('.tab_services').addClass('active');
+      $('#bookingValidationError').hide();
     }
 
     function getTimeSlots(lId) {

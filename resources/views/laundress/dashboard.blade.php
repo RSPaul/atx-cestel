@@ -529,8 +529,8 @@
                               <div class="col-md-12" >
                                  <table class="table">
                                     <tr>
-                                       <th>Time</th>
-                                       <th>Date</th>
+                                       <!-- <th>Time</th> -->
+                                       <th>Booking Date</th>
                                        <th>Payment Type</th>
                                        <th>Services</th>
                                        <th>Total Amount</th>
@@ -541,7 +541,7 @@
                                        <th>Action</th>
                                     </tr>
                                     <tr ng-repeat="booking in payments">
-                                       <td><b>@{{booking.service_time}}</b></td>
+                                       <!-- <td><b>@{{booking.service_time}}</b></td> -->
                                        <td><b>@{{booking.service_day}}</b></td>
                                        <td><b>@{{booking.service_payment_type}}</b></td>
                                        <td><b>@{{booking.service_type}}</b></td>

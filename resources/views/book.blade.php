@@ -72,7 +72,7 @@
 	                              <label class="checkboxpoint radiobox">
 
 	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Petite" @if(Session::get('booking[service_type]') == 'Petite') checked @endif/> 
-	                               <span class="checkmark"> Select </span></label>
+	                               <span class="checkmark"> Select &nbsp;<i class="fa fa-check"></i></span></label>
 	                           </div>
 	                           <div class="col-md-4 col-sm-4 col-xs-4 text-center clickbook">
 	                              <h4>Median</h4>
@@ -91,7 +91,7 @@
 	                              </div>
 	                               <label class="checkboxpoint radiobox">
 	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Median" @if(Session::get('booking[service_type]') == 'Median') checked @endif/>
-	                              <span class="checkmark"> Select </span>
+	                              <span class="checkmark"> Select &nbsp;<i class="fa fa-check"></i></span>
 	                          </label>
 	                           </div>
 	                           <div class="col-md-4 col-sm-4 col-xs-4 text-center clickbook">
@@ -111,7 +111,7 @@
 	                              </div>
 	                              <label class="checkboxpoint radiobox">
 	                              <input type="radio" name="service_type" class="btn btn-primary sel" value="Grand"  @if(Session::get('booking[service_type]') == 'Grand') checked @endif/>
-	                              	<span class="checkmark"> Select </span>
+	                              	<span class="checkmark"> Select &nbsp;<i class="fa fa-check"></i></span>
 	                              </label>
 	                           </div>
 	                        </div>
@@ -139,7 +139,7 @@
 	                                    </div>
 	                                    <label class="checkboxpoint @if(!empty(Session::get('booking[service_categories]')) && in_array('Washing', Session::get('booking[service_categories]'))) @else disabled @endif" title="Enter the no. of garments first.">
 	                                    <input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Washing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Washing', Session::get('booking[service_categories]'))) checked @endif />
-	                                    <span class="checkmark "> Select </span>
+	                                    <span class="checkmark "> Select &nbsp;<i class="fa fa-check"></i></span>
 	                                </label>
 	                                 </li>
 	                                 <li>
@@ -150,7 +150,7 @@
 	                                    </div>
 	                                    <label class="checkboxpoint  @if(!empty(Session::get('booking[service_categories]')) && in_array('Ironing', Session::get('booking[service_categories]'))) @else disabled @endif" title="Enter the no. of garments first.">
 	                                    	<input type="checkbox" name="service_categories[]" class="btn btn-primary" value="Ironing" @if(!empty(Session::get('booking[service_categories]')) && in_array('Ironing', Session::get('booking[service_categories]'))) checked @endif/>
-	                                    	<span class="checkmark "> Select </span>
+	                                    	<span class="checkmark "> Select &nbsp;<i class="fa fa-check"></i></span>
 	                                	</label>
 	                                 </li>
 	                                 <li>
@@ -161,7 +161,7 @@
 	                                    </div>
 	                                    <label class="checkboxpoint @if(!empty(Session::get('booking[service_categories]')) && in_array('BedMaking', Session::get('booking[service_categories]'))) @else disabled @endif" title="Enter the no. of beds first.">
 	                                    	<input type="checkbox" name="service_categories[]" class="btn btn-primary" value="BedMaking" @if(!empty(Session::get('booking[service_categories]')) && in_array('BedMaking', Session::get('booking[service_categories]'))) checked @endif/>
-	                                    	<span class="checkmark "> Select </span>
+	                                    	<span class="checkmark "> Select &nbsp;<i class="fa fa-check"></i></span>
 	                                	</label>
 	                                 </li>
 	                                 <li>
@@ -332,7 +332,7 @@
 	                              </div>
 	                              <label class="checkboxpoint radiobox">
 	                              <input type="radio" name="service_package" value="p5" @if(Session::get('booking[service_package]') == 'p5') checked @endif>
-	                              <span class="checkmark"> Select </span>
+	                              <span class="checkmark"> Select &nbsp;<i class="fa fa-check"></i></span>
 	                          </label>
 	                           </div>
 	                           <div class="col-md-3 text-center fold">
@@ -349,7 +349,7 @@
 	                              </div>
 	                               <label class="checkboxpoint radiobox">
 	                              <input type="radio" name="service_package" value="p10" @if(Session::get('booking[service_package]') == 'p10') checked @endif>
-	                              <span class="checkmark"> Select </span>
+	                              <span class="checkmark"> Select &nbsp;<i class="fa fa-check"></i></span>
 	                          </label>
 	                           </div>
 	                           <div class="col-md-3 text-center fold">
@@ -366,7 +366,7 @@
 	                              </div>
 	                               <label class="checkboxpoint radiobox">
 	                              <input type="radio" name="service_package" value="p15" @if(Session::get('booking[service_package]') == 'p15') checked @endif>
-	                               <span class="checkmark"> Select </span>
+	                               <span class="checkmark"> Select &nbsp;<i class="fa fa-check"></i></span>
 	                          </label>
 	                           </div>
 	                           <div class="col-md-3 text-center fold">
@@ -383,7 +383,7 @@
 	                              </div>
 	                               <label class="checkboxpoint radiobox">
 	                              <input type="radio" name="service_package" value="p20" @if(Session::get('booking[service_package]') == 'p20') checked @endif>
-	                               <span class="checkmark"> Select </span>
+	                               <span class="checkmark"> Select &nbsp;<i class="fa fa-check"></i></span>
 	                          </label>
 	                           </div>
 	                        </div>

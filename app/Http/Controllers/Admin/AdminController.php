@@ -143,6 +143,7 @@ class AdminController extends Controller
 
             $error = "";
             $pay_details = PaymentDetails::where(['user_id' => $pays->laundress_id])->first();
+            $laundress = User::where(['id' => $pays->laundress_id])->first();
             if($pay_details) {
                
                 $price = $pays->amount;
@@ -171,8 +172,8 @@ class AdminController extends Controller
                     * TODO: SEND MAIL TO ADMIN AND LAUNDRESS
                     */
                     if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
-                        Mail::to($pay_details->email)->send(new PaymentAcceptLaundress($pay_details));
-                        Mail::to(env('ADMIN_EMAIL'))->send(new PaymentAcceptAdmin($pay_details));
+                        Mail::to($laundress->email)->send(new PaymentAcceptLaundress($laundress, $price));
+                        Mail::to(env('ADMIN_EMAIL'))->send(new PaymentAcceptAdmin($laundress, $price));
                     }
                     
                     return response()->json(['response' => "Paid successfully!", 'success' => true]);
