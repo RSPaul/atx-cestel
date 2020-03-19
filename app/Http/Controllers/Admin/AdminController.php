@@ -152,7 +152,7 @@ class AdminController extends Controller
                     $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                     $rn = substr(str_shuffle(str_repeat($pool, 5)), 0, 10);
                     $transfer_group = 'ORDER-'.$pays->id . '-' . $pays->laundress_id . '-'.$rn;
-
+                    Stripe::setApiKey(env('STRIPE_SECRET'));
                     $laundress = User::find($pays->laundress_id);
                     $charge =  \Stripe\Transfer::create([
                       "amount" => $price * 100,
@@ -171,8 +171,8 @@ class AdminController extends Controller
                     * TODO: SEND MAIL TO ADMIN AND LAUNDRESS
                     */
                     if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
-                        Mail::to($chef->email)->send(new PaymentAcceptLaundress($chef));
-                        Mail::to(env('ADMIN_EMAIL'))->send(new PaymentAcceptAdmin($chef));
+                        Mail::to($pay_details->email)->send(new PaymentAcceptLaundress($pay_details));
+                        Mail::to(env('ADMIN_EMAIL'))->send(new PaymentAcceptAdmin($pay_details));
                     }
                     
                     return response()->json(['response' => "Paid successfully!", 'success' => true]);

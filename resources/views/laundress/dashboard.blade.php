@@ -466,7 +466,6 @@
                                        <label>Country</label>
                                        <select name="country" ng-model="bank.country" class="form-control" required>
                                           <option value="">Select</option>
-                                          <option value="In">India</option>
                                           <option value="US">Unites States</option>
                                        </select>
                                     </div>
