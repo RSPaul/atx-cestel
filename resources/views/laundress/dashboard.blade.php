@@ -574,7 +574,7 @@
                                  </table>
                                  <h5 ng-if="!bank.account_id">Add Account details to send request for Payment.</h5>
                                  <a href="javascript:void(0);" class="btn btn-primary" ng-click="requestPayment()" ng-if="totalPayment > 0 && bank.account_id">Request Payment $@{{totalPayment}}</a>
-                                 <a href="javascript:void(0);" class="btn btn-primary" ng-if="totalPayment == 0" disabled>Request Payment $@{{totalPayment}}</a>
+                                 <a href="javascript:void(0);" class="btn btn-primary" ng-if="totalPayment == 0 || !bank.account_id" disabled>Request Payment $@{{totalPayment}}</a>
                               </div>
                            </div>
                         </div>

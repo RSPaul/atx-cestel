@@ -219,8 +219,9 @@ app.controller('laundressUserCtrl', function($scope, $http, $timeout) {
     .then(function (response) {
       var data = response.data;
       $scope.bank = (data.message && data.message.bank_name !== '') ? data.extra_data : {};
-      console.log('data ',  $scope.bank);
       $scope.payments = data.bookings;
+      console.log('data ',  $scope.bank,' Paymen ',$scope.payments);
+
       $scope.payments.map(p => {
         if(p.payment_request === '0') {
           let basePrice = parseFloat(p.service_amount - p.service_tax);

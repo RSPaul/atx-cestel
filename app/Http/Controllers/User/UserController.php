@@ -148,7 +148,6 @@ class UserController extends Controller
 
         $past_bookings = Bookings::where(['user_id' => Auth::user()->id])
                     ->where('bookings.service_day', '<', date('m/d/Y'))
-                    ->orWhere('bookings.status', '=', 'completed')
                     ->join('users', 'users.id', '=', 'bookings.service_laundress')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->get();
@@ -353,7 +352,7 @@ class UserController extends Controller
                     ->update($data);
 
             try {
-                Stripe::setApiKey(env('STRIPE_PUBLISH'));
+                Stripe::setApiKey(env('STRIPE_SECRET'));
                 $charge = \Stripe\Charge::create([
                     'currency' => 'USD',
                     'customer' => Auth::user()->customer_id,

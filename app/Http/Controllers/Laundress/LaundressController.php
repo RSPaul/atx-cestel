@@ -269,7 +269,7 @@ class LaundressController extends Controller
             $extra_data = unserialize($details->extra_data);
             try {
                 //create file
-                if($data['front'] && $data['front'] !='' && ($data['document_front_id'] == '' || !$data['document_front_id'])) {
+                if($data['front'] && $data['front'] !='' ) {
                     $fp = fopen($data['front'], 'r');
                     $document_front = \Stripe\File::create([
                       'purpose' => 'identity_document',
@@ -280,7 +280,7 @@ class LaundressController extends Controller
                 } else  {
                     $document_front_id = $data['document_front_id'];
                 }
-                if($data['back'] && $data['back'] !='' && ($data['document_back_id'] == '' || !$data['document_back_id'])) {
+                if($data['back'] && $data['back'] !='' ) {
                     $fp = fopen($data['back'], 'r');
                     $document_back = \Stripe\File::create([
                       'purpose' => 'identity_document',
@@ -379,7 +379,7 @@ class LaundressController extends Controller
             try {
 
                 //create file
-                if($data['front'] && $data['front'] !='' && ($data['document_front_id'] == '' || !$data['document_front_id'])) {
+                if($data['front'] && $data['front'] !='') {
                     $fp = fopen($data['front'], 'r');
                     $document_front = \Stripe\File::create([
                       'purpose' => 'identity_document',
@@ -390,7 +390,7 @@ class LaundressController extends Controller
                 } else  {
                     $document_front_id = $data['document_front_id'];
                 }
-                if($data['back'] && $data['back'] !='' && ($data['document_back_id'] == '' || !$data['document_back_id'])) {
+                if($data['back'] && $data['back'] !='') {
                     $fp = fopen($data['back'], 'r');
                     $document_back = \Stripe\File::create([
                       'purpose' => 'identity_document',
@@ -486,6 +486,33 @@ class LaundressController extends Controller
 
     public function getAccount(Request $request) {
         $details = PaymentDetails::where(['user_id' => Auth::user()->id])->first();
+        $request_data = array('account_type' => '',
+                                'name' => '',
+                                'routing_number' => '',
+                                'account_number' => '',
+                                'day' => '',
+                                'month' => '',
+                                'year' => '',
+                                'line1' => '',
+                                'line2' => '',
+                                'phone' => '',
+                                'city' => '',
+                                'state' => '',
+                                'country' => '',
+                                'postal_code' => '',
+                                'mcc' => '',
+                                'url' => '',
+                                'id_number' => '',
+                                'ssn_last_4' => '',
+                                'front_pic' => '',
+                                'back_pic' => '',
+                                'front' => '',
+                                'back' => '',
+                                'document_front_id' => '',
+                                'document_back_id' => '');
+        if($details) {
+            $request_data = unserialize($details->request_data);
+        }
         $bookings = DB::table('bookings')
             ->where('bookings.service_laundress', Auth::user()->id)
             ->whereIn('bookings.status', ['completed'])
@@ -493,7 +520,7 @@ class LaundressController extends Controller
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
             ->orderBy('bookings.id', 'desc')
             ->get();
-        return response()->json(['message' => $details, "status" => true, 'bookings' => $bookings, 'extra_data' => unserialize($details->request_data)]);
+        return response()->json(['message' => $details, "status" => true, 'bookings' => $bookings, 'extra_data' => $request_data]);
     }
 
     public function requestPayment(Request $request) {

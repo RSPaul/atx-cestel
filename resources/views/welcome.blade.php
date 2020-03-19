@@ -20,7 +20,7 @@
 
 <p>We are the Innovators of laundry solutions. We bring a 5 star laundry service into a customers home and not just to their doorstep. We remove the stress from outsourcing your laundry offsite and provided customers with a hassle free and cost effective solution!</p>
                 <div class="user_bx">
-                   <a href="#" class="btn">SCHEDULE A BOOKING</a>
+                   <a href="/book" class="btn">SCHEDULE A BOOKING</a>
                 </div>
               </div>
             </div>
@@ -126,7 +126,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-10 col-md-offset-1 text-center">
-                <a href="#" class="btn btn-book">Book Your <span>Laundress</span> <b>TODAY!<b/></a>
+                <a href="/book" class="btn btn-book">Book Your <span>Laundress</span> <b>TODAY!<b/></a>
                
               </div>
             </div>
