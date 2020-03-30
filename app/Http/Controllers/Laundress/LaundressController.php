@@ -114,6 +114,8 @@ class LaundressController extends Controller
 
         $past_bookings = Bookings::where(['service_laundress' => Auth::user()->id])
                     ->where('bookings.service_day', '<', date('m/d/Y'))
+                    ->orWhere('bookings.status', 'canceled')
+                    ->orWhere('bookings.status', 'declined')
                     ->join('users', 'users.id', '=', 'bookings.user_id')
                     ->select(DB::raw('bookings.*, users.first_name, users.last_name, users.address, users.city_state'))
                     ->get();
