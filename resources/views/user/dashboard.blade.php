@@ -273,7 +273,7 @@
                                           <td>Service Type</td>
                                           <td>Payment Type</td>
                                           <td>Service Package</td>
-                                          <td>Service Amount</td>
+                                          <td>Total Amount</td>
                                           <td>Action</td>
                                        </tr>
                                        <tr ng-repeat="booking in schedulebookings.today_bookings" ng-if="!showTodBookings">
