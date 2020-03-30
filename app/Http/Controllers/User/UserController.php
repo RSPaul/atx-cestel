@@ -227,6 +227,7 @@ class UserController extends Controller
             ->first();
 
         $data = array();
+        
         if($booking) {
 
             $start = $booking->created_at;
@@ -246,11 +247,11 @@ class UserController extends Controller
             }else if(strtotime($now) > strtotime($hoursAddedthree) && strtotime($combinedDT) > strtotime($now) ){
 
               // To Deduct Full Amount as booking is cancelled less than 3 hours of schedule
-                $amount = $booking->price;
+                $amount = $booking->service_amount;
 
             }else if(strtotime($hoursAddedthree) > strtotime($now)  && strtotime($combinedDT) > strtotime($now)){
 
-                $amount = round($booking->price / 2, 2);
+                $amount = round($booking->service_amount / 2, 2);
             } 
                 
             return response()->json(['response' => "Booking is canceled!", "amount" => $amount]);           
@@ -264,18 +265,21 @@ class UserController extends Controller
         $booking = DB::table('bookings')
             ->where('bookings.id', $id)
             ->where('bookings.user_id', Auth::user()->id)
-            ->first();
+            ->join('users', 'users.id', '=', 'bookings.user_id')
+             ->select(DB::raw('bookings.*, users.customer_id'))
+            ->get();
 
         $data = array();
-        if($booking) {
-            $laundress = User::where(['id' => $booking->service_laundress])->first();
+        //print_r($booking[0]);
+        if(isset($booking[0]) && $booking[0]) {
+            $laundress = User::where(['id' => $booking[0]->service_laundress])->first();
             $data["status"] = 'canceled';
-            Bookings::where(['id' => $booking->id ])
+            Bookings::where(['id' => $booking[0]->id ])
                     ->update($data);
 
-            $start = $booking->created_at;
-            $scheduledate = $booking->service_day;
-            //$scheduletime = $booking->booking_time;
+            $start = $booking[0]->created_at;
+            $scheduledate = $booking[0]->service_day;
+            //$scheduletime = $booking[0]->booking_time;
             $combinedDT = date('Y-m-d H:i:s', strtotime("$scheduledate")); 
             $now   = date('Y-m-d H:i:s');
             $hoursAdded = date('Y-m-d H:i:s',strtotime('+3 hour',strtotime($start)));
@@ -290,20 +294,20 @@ class UserController extends Controller
             }else if(strtotime($now) > strtotime($hoursAddedthree) && strtotime($combinedDT) > strtotime($now) ){
 
               // To Deduct Full Amount as booking is cancelled less than 3 hours of schedule
-                $amount = $booking->price;
+                $amount = $booking[0]->service_amount;
 
             }else if(strtotime($hoursAddedthree) > strtotime($now)  && strtotime($combinedDT) > strtotime($now)){
 
-                $amount = round($booking->price / 2, 2);
+                $amount = round($booking[0]->service_amount / 2, 2);
             } 
 
             if($amount != 0) {
                 try {
                     $charge = \Stripe\Charge::create([
                         'currency' => 'USD',
-                        'customer' => $booking->customer,
-                        'amount' =>  $amounttobecharged,
-                        "transfer_group" => $booking->transfer_group,
+                        'customer' => $booking[0]->customer_id,
+                        'amount' =>  $amount,
+                        "transfer_group" => $booking[0]->transfer_group,
                     ]);
                 } catch (\Stripe\Error\RateLimit $e) {
                     $error = $e->getMessage();                  
@@ -322,14 +326,14 @@ class UserController extends Controller
             /*
             * TODO: SEND EMAILS
             */
-            $laundress = User::where(['id' => $booking->service_laundress])->first();
+            $laundress = User::where(['id' => $booking[0]->service_laundress])->first();
             if(!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'localhost'))){
                 //TO Laundress
                 Mail::to($laundress->email)
-                    ->send(new BookingCanceledLaundress(Auth::user(), $laundress, $booking));
+                    ->send(new BookingCanceledLaundress(Auth::user(), $laundress, $booking[0]));
                 //TO User
                 Mail::to(Auth::user()->email)
-                    ->send(new BookingCanceledUser(Auth::user(), $laundress, $booking));
+                    ->send(new BookingCanceledUser(Auth::user(), $laundress, $booking[0]));
             }
 
             return response()->json(['response' => "Booking is canceled!", "status" => true]); 

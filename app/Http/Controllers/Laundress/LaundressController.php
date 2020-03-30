@@ -190,6 +190,7 @@ class LaundressController extends Controller
         $weekEndDate = $now->endOfWeek()->format('m/d/Y');
 
         $bookings = Bookings::where(['service_laundress' => Auth::user()->id])
+                        //->orWhere('status', 'completed')
                         ->whereBetween('service_day', [$weekStartDate, $weekEndDate])
                             ->get();
         $washing = array();
@@ -200,22 +201,24 @@ class LaundressController extends Controller
         
         //get earnings by service type
         foreach($bookings as $booking) {
-            $categories = unserialize($booking->service_categories);
-            if(in_array('Washing', $categories)) {
-                array_push($washing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
-            }
-            if(in_array('Ironing', $categories)) {
-                array_push($iorning, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
-            }
-            if(in_array('BedMaking', $categories)) {
-                array_push($bedMaking, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
-            }
-            if(in_array('Organizing', $categories)) {
-                array_push($organizing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
-            }
-            if(in_array('Packing', $categories)) {
-                array_push($packing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
-            }
+            if($booking->status == 'new' || $booking->status == 'completed' ){
+                $categories = unserialize($booking->service_categories);
+                if(in_array('Washing', $categories)) {
+                    array_push($washing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
+                }
+                if(in_array('Ironing', $categories)) {
+                    array_push($iorning, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
+                }
+                if(in_array('BedMaking', $categories)) {
+                    array_push($bedMaking, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
+                }
+                if(in_array('Organizing', $categories)) {
+                    array_push($organizing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
+                }
+                if(in_array('Packing', $categories)) {
+                    array_push($packing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
+                }
+            }    
         }
         $weekEarnings = array(
                             array('name'=> 'Washing', 'amount' => array_sum($washing)),

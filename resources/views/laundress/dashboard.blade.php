@@ -296,7 +296,7 @@
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
-                                          <td>@{{booking.service_amount | currency}}</td>
+                                          <td>@{{(booking.service_amount - booking.service_tax ) | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-if="!schedulebookings.today_bookings.length && !showTodBookings">
@@ -308,7 +308,7 @@
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
-                                          <td>@{{booking.service_amount | currency}}</td>
+                                          <td>@{{(booking.service_amount - booking.service_tax ) | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-if="!schedulebookings.tom_bookings.length && !showTomBookings">
@@ -320,7 +320,7 @@
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
-                                          <td>@{{booking.service_amount | currency}}</td>
+                                          <td>@{{(booking.service_amount - booking.service_tax ) | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-if="!schedulebookings.week_bookings.length && !showWeekBookings">
@@ -332,7 +332,7 @@
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
-                                          <td>@{{booking.service_amount | currency}}</td>
+                                          <td>@{{(booking.service_amount - booking.service_tax ) | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-if="!schedulebookings.month_bookings.length && !showMonthBookings">
@@ -344,7 +344,7 @@
                                           <td>@{{booking.service_type}}</td>
                                           <td>@{{booking.service_payment_type}}</td>
                                           <td>@{{booking.service_package}}</td>
-                                          <td>@{{booking.service_amount | currency}}</td>
+                                          <td>@{{(booking.service_amount - booking.service_tax ) | currency}}</td>
                                           <td><a href="javascript:void(0);" ng-click="viewBooking(booking)" title="View Booking"><i class="fa fa-eye"></i></a> <a href="javascript:void(0);" ng-click="cancelBooking(booking)" title="Decline Booking"><i class="fa fa-trash"></i> </a> </td>
                                        </tr>
                                        <tr ng-if="!customresultbookings.length && !showCustomBookings">
