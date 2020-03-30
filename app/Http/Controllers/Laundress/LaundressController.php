@@ -200,22 +200,33 @@ class LaundressController extends Controller
         $bedMaking = array();
         $organizing = array();
         $packing = array();
+
+
         
         //get earnings by service type
         foreach($bookings as $booking) {
+
+
             if($booking->status == 'new' || $booking->status == 'completed' ){
+                $allquantity = unserialize($booking->service_quantity);
                 $categories = unserialize($booking->service_categories);
                 if(in_array('Washing', $categories)) {
-                    array_push($washing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
+                    $pricewashing = env('WASHING_PRICE');
+                    array_push($washing, round(($pricewashing) * 90 / 100, 2));
                 }
                 if(in_array('Ironing', $categories)) {
-                    array_push($iorning, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
+                    $pricewashing = env('IRONING_PRICE');
+                    $ironingamount = $pricewashing * $allquantity['ironing'];
+                    array_push($iorning, round(($ironingamount) * 90 / 100, 2));
                 }
                 if(in_array('BedMaking', $categories)) {
-                    array_push($bedMaking, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
+                    $pricebedmaking = env('BEDMAKING_PRICE');
+                    $bedmakingamount = $pricebedmaking * $allquantity['beds'];
+                    array_push($bedMaking, round(($bedmakingamount) * 90 / 100, 2));
                 }
                 if(in_array('Organizing', $categories)) {
-                    array_push($organizing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
+                    $priceorganising = env('ORGANIZING_PRICE');
+                    array_push($organizing, round(($priceorganising) * 90 / 100, 2));
                 }
                 if(in_array('Packing', $categories)) {
                     array_push($packing, round(($booking->service_amount - $booking->service_tax) * 90 / 100, 2));
